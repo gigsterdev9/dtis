@@ -126,7 +126,7 @@
 	
 	<div class="alert alert-danger" id="base-url-notif" >
 		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-		<strong>Alert!</strong> Set base url.
+		<strong>Alert!</strong> Set base url. | Remove PW assist.
 	</div>
 	
 </div>
