@@ -25,37 +25,30 @@
 	</div>
 	-->
 	<div class="row">
-	<div class="col-md-12">
+	    <div class="col-md-12">
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<strong><span class="glyphicon glyphicon-stats"></span> Charts</strong>
 				</div>
 				<div class="panel-body">
 					<div class="row">
-						<div class="col-md-4" id="pie_rvnv" style="text-align: center"></div>
-						<div class="col-md-4" id="pie_type" style="text-align: center"></div>
-						<div class="col-md-4" id="pie_barangay" style="text-align: center"></div>
+						<div class="col-md-6" id="pie_age" style="text-align: center"></div>
+						<div class="col-md-6" id="pie_nationality" style="text-align: center"></div>
 					</div>
-					
+                    <div class="row">
+                        <div class="col-md-6">
+                            <canvas id="visitorsByMonth" width="400" height="200"></canvas>
+                        </div>
+                        <div class="col-md-6">
+                            <canvas id="revenueByMonth" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+                    <small>*All values in the charts above are for demo purposes.</a>
 				</div>
 			</div>
-			
-			<!--
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<strong><span class="glyphicon glyphicon-stats"></span> Quick Stats</strong>
-				</div>
-				<div class="panel-body">
-					<p><strong><span class="glyphicon glyphicon-folder-open"></span>&nbsp; Demographics</strong></p>
-					
-					
-				</div>
-			</div>
-			-->
-
 		</div>
 	</div>
-	<div class="row">
+    <div class="row">
 		<div class="col-md-8">
 			<div class="panel panel-default">
 				<div class="panel-heading">
@@ -65,20 +58,20 @@
 				<div class="panel-body">
 					<div class="row">
 						<div class="col-md-6">
-							<p><strong><span class="glyphicon glyphicon-folder-open"></span>&nbsp; Recent Scholarship Grantees</strong></p>
+							<p><strong><span class="glyphicon glyphicon-folder-open"></span>&nbsp; Latest Visitors</strong></p>
 							<ul class="list-group">
 							<?php
-
-								if ($recent_scholars == NULL)
+                                $latest_visitors = NULL;
+								if ($latest_visitors == NULL)
 								{
-									echo '<li class="list-group-item">There are currently no projects nearing completion.</li>';
+									echo '<li class="list-group-item">There are currently no visitors on record.</li>';
 								}
 								else
 								{
-									foreach ($recent_scholars as $recent_scholar) 
+									foreach ($latest_visitors as $latest_visitor) 
 									{
-										$link = base_url('scholarships/view/'.$recent_scholar['scholarship_id']);
-										$display = strtoupper($recent_scholar['fname'].' '.$recent_scholar['lname']).', '.$recent_scholar['age'].'<br />('.$recent_scholar['course'].')';
+										$link = base_url('visitors/view/'.$latest_visitor['visitor_id']);
+										$display = strtoupper($latest_visitor['fname'].' '.$latest_visitor['lname']).', '.$latest_visitor['age'].'<br />('.$latest_visitor['nationality'].')';
 										echo '<li class="list-group-item"><a href="'.$link.'">'.$display.'</a></li>';
 									}
 								}
@@ -86,23 +79,21 @@
 							</ul>
 						</div>
 						<div class="col-md-6">
-							<p><strong><span class="glyphicon glyphicon-folder-open"></span>&nbsp; Recent Service Recipients</strong></p>
+							<p><strong><span class="glyphicon glyphicon-folder-open"></span>&nbsp; Recent Visits</strong></p>
 							<ul class="list-group">
-								<?php 
-									foreach ($recent_service_availments['r'] as $rsa) 
-									{
-										$link = base_url('services/view/'.$rsa['service_id']);
-										$display = strtoupper($rsa['fname'].' '.$rsa['lname']).'<br /> VID: '.$rsa['id_no_comelec'].'<br />'.
-													'('.ucfirst($rsa['service_type']).' Assistance)';
-										echo '<li class="list-group-item"><a href="'.$link.'">'.$display.'</a></li>';
-									}
-								
-									foreach ($recent_service_availments['n'] as $rsa) 
-									{
-										$link = base_url('services/view/'.$rsa['service_id']);
-										$display = strtoupper($rsa['fname'].' '.$rsa['lname']).'<br />('.ucfirst($rsa['service_type']).' Assistance)';
-										echo '<li class="list-group-item"><a href="'.$link.'">'.$display.'</a></li>';
-									}
+                                <?php 
+                                    $recent_visits = NULL;
+                                    if ($recent_visits == NULL) {
+                                        echo '<li class="list-group-item">There are currently no visits on record.</li>';
+                                    }
+                                    else{
+                                        foreach ($recent_visits['r'] as $rsa) 
+                                        {
+                                            $link = base_url('visits/view/'.$rsa['visit_id']);
+                                            $display = strtoupper($rsa['fname'].' '.$rsa['lname']).'<br /> VID: '.$rsa['visit_date'].'<br />';
+                                            echo '<li class="list-group-item"><a href="'.$link.'">'.$display.'</a></li>';
+                                        }
+                                    }
 								?>
 							</ul>
 						</div>
@@ -118,34 +109,7 @@
 					<strong><span class="glyphicon glyphicon-th-list"></span> Figures</strong>
 				</div>
 				<div class="panel-body">
-					Total Beneficiaries: <?php echo $total_ben ?> <br />
-					<br />
-					&nbsp; &nbsp; By Barangay:<br />
-					&nbsp; &nbsp; Barangka: <?php echo $barangka_count ?><br />
-					&nbsp; &nbsp; Concepcion Uno <?php echo $con_uno_count ?><br />
-					&nbsp; &nbsp; Concepcion Dos <?php echo $con_dos_count ?><br />
-					&nbsp; &nbsp; Fortune <?php echo $fortune_count ?><br />
-					&nbsp; &nbsp; Industrial Valley Complex <?php echo $ivc_count ?><br />
-					&nbsp; &nbsp; Jesus Dela Peña <?php echo $jdp_count ?><br />
-					&nbsp; &nbsp; Kalumpang <?php echo $kalumpang_count ?><br />
-					&nbsp; &nbsp; Malanday <?php echo $malanday_count ?><br />
-					&nbsp; &nbsp; Marikina Heights <?php echo $heights_count ?><br />
-					&nbsp; &nbsp; Nangka <?php echo $nangka_count ?><br />
-					&nbsp; &nbsp; Parang <?php echo $parang_count ?><br />
-					&nbsp; &nbsp; Santo Niño <?php echo $santonino_count ?><br />
-					&nbsp; &nbsp; San Roque <?php echo $sanroque_count ?><br /> 
-					&nbsp; &nbsp; Santa Elena <?php echo $santaelena_count ?><br />
-					&nbsp; &nbsp; Tañong <?php echo $tanong_count ?><br />
-					&nbsp; &nbsp; Tumana <?php echo $tumana_count ?><br />
-					<br /><br />
-					Total Services Rendered: <?php echo $total_services ?> <br />
-					&nbsp; &nbsp; Services to Registered Voters: <?php echo count($r_services) - 1 ?> <br />
-					&nbsp; &nbsp; Services to Non-Voters: <?php echo count($n_services) - 1 ?> <br />
-					&nbsp; &nbsp; Total amount released: <?php echo number_format($total_services_amount,2).' (Php)' ?> <br />
-					<br />
-					Total Scholarship Grants: <?php echo $total_scholarships ?> <br />
-					&nbsp; &nbsp; Grants to Registered Voters: <?php echo count($r_scholarships) ?> <br />
-					&nbsp; &nbsp; Grants to Non-Voters: <?php echo count($n_scholarships) ?> <br />
+					&nbsp;
 				</div>
 			</div>
 			<div class="panel panel-default">
@@ -155,9 +119,6 @@
 				<div class="panel-body">
 					<p>
 					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eget mauris eu urna congue tempus. Aliquam erat volutpat. Sed hendrerit posuere felis, eu tempus sem euismod ac. Phasellus dapibus ipsum erat, vitae consequat arcu tempus sed. Etiam eget dictum arcu. Nunc sed odio eget metus tristique pharetra eget a ex. Fusce euismod nec urna consectetur scelerisque. Etiam cursus eros non dui facilisis, sagittis sagittis odio placerat. Aliquam sed auctor orci. Vestibulum vel mi vitae metus ultricies mollis.
-					</p>
-					<p>
-					Vivamus in arcu ac tortor suscipit sodales. Curabitur sit amet nibh malesuada nulla fermentum efficitur. Sed a porttitor dolor. Pellentesque fermentum hendrerit erat, nec lobortis eros lobortis nec. Maecenas porttitor nulla ut sollicitudin efficitur. Sed sed elit finibus, commodo mi a, ullamcorper turpis. Phasellus condimentum justo dolor, et dignissim tortor porttitor non. Sed malesuada a enim id aliquet. Nulla vehicula, velit in varius dictum, quam massa hendrerit est, non hendrerit dui magna et nisl. Nam ante sapien, pretium non sagittis vel, sagittis sit amet turpis.
 					</p>
 				</div>
 			</div>
@@ -183,11 +144,11 @@ $(function() {
     //Target indicator percentage chart
 	//$("#bar_indicators").jChart();
 	
-	//Distribution by Barangay
-	var pie = new d3pie("pie_barangay", {
+	//Visitors grouping by Nationality
+	var pie = new d3pie("pie_nationality", {
 	"header": {
 			"title": {
-				"text": "Beneficiaries by Barangay",
+				"text": "Visitors by Nationality",
 				"fontSize": 12,
 				"font": "verdana"
 			},
@@ -212,83 +173,28 @@ $(function() {
 		"data": {
 			"content": [
 				{
-					"label": "Barangka",
-					"value": <?php echo $barangka_count ?>,
+					"label": "American",
+					"value": <?php echo '25' //$barangka_count ?>,
 					"color": "#094b83"
 				},
 				{
-					"label": "Conc Uno",
-					"value": <?php echo $con_uno_count ?>,
+					"label": "British",
+					"value": <?php echo '30' //$con_uno_count ?>,
 					"color": "#094b83"
 				},
 				{
-					"label": "Conc Dos",
-					"value": <?php echo $con_dos_count ?>,
+					"label": "Filipino",
+					"value": <?php echo '50' //$con_dos_count ?>,
 					"color": "#1266AB"
 				},
 				{
-					"label": "Fortune",
-					"value": <?php echo $fortune_count ?>,
+					"label": "Chinese",
+					"value": <?php echo '40' //$fortune_count ?>,
 					"color": "#094b83"
 				},
 				{
-					"label": "IVC",
-					"value": <?php echo $ivc_count ?>,
-					"color": "#094b83"
-				},
-				{
-					"label": "JDP",
-					"value": <?php echo $jdp_count ?>,
-					"color": "#094b83"
-				},
-				{
-					"label": "Kalumpang",
-					"value": <?php echo $kalumpang_count ?>,
-					"color": "#094b83"
-				},
-				{
-					"label": "Malanday",
-					"value": <?php echo $malanday_count ?>,
-					"color": "#094b83"
-				},
-				{
-					"label": "Mrkna\nHts",
-					"value": <?php echo $heights_count ?>,
-					"color": "#337BB7"
-				},
-				{
-					"label": "Nangka",
-					"value": <?php echo $nangka_count ?>,
-					"color": "#5393C8"
-				},
-				{
-					"label": "Parang",
-					"value": <?php echo $parang_count ?>,
-					"color": "#7EB1DC"
-				},
-				{
-					"label": "Sto Nino",
-					"value": <?php echo $santonino_count ?>,
-					"color": "#094b83"
-				},
-				{
-					"label": "San Roque",
-					"value": <?php echo $sanroque_count ?>,
-					"color": "#094b83"
-				},
-				{
-					"label": "Sta Elena",
-					"value": <?php echo $santaelena_count ?>,
-					"color": "#094b83"
-				},
-				{
-					"label": "Tanong",
-					"value": <?php echo $tanong_count ?>,
-					"color": "#094b83"
-				},
-				{
-					"label": "Tumana",
-					"value": <?php echo $tumana_count ?>,
+					"label": "Japanese",
+					"value": <?php echo '45' //$tumana_count ?>,
 					"color": "#337BB7"
 				}
 				]
@@ -329,11 +235,12 @@ $(function() {
 
 	
 	
-	//Distribution by service type
-	var pie = new d3pie("pie_type", {
+	
+	//Grouping by age
+	var pie = new d3pie("pie_age", {
 	"header": {
 			"title": {
-				"text": "Distribution by Service Type",
+				"text": "Visitors by Age Group",
 				"fontSize": 12,
 				"font": "verdana"
 			},
@@ -358,108 +265,28 @@ $(function() {
 		"data": {
 			"content": [
 				{
-					"label": "Burials",
-					"value": <?php echo count($burials) ?>,
+					"label": "Below 18",
+					"value": <?php echo 15//count($r_ben) ?>,
+					"color": "#094b83"
+				},
+                {
+					"label": "19-25",
+					"value": <?php echo 20//count($r_ben) ?>,
+					"color": "#094b83"
+				},
+                {
+					"label": "26-35",
+					"value": <?php echo 50//count($r_ben) ?>,
 					"color": "#094b83"
 				},
 				{
-					"label": "Endorsements",
-					"value": <?php echo count($endorsements) ?>,
-					"color": "#1266AB"
-				},
-				{
-					"label": "Financials",
-					"value": <?php echo count($financials) ?>,
+					"label": "35-50",
+					"value": <?php echo 40//count($n_ben) ?>,
 					"color": "#5393C8"
 				},
-				{
-					"label": "Legals",
-					"value": <?php echo count($legals) ?>,
-					"color": "#7EB1DC"
-				},
-				{
-					"label": "Medicals",
-					"value": <?php echo count($medicals) ?>,
-					"color": "#337BB7"
-				},
-				{
-					"label": "Referrals",
-					"value": <?php echo count($referrals) ?>,
-					"color": "#094b83"
-				}
-			]
-		},
-		"labels": {
-			"outer": {
-				"format": "label-value2",
-				"pieDistance": 0
-			},
-			"mainLabel": {
-				"font": "verdana"
-			},
-			"percentage": {
-				"color": "#e1e1e1",
-				"font": "verdana",
-				"decimalPlaces": 0
-			},
-			"value": {
-				"color": "#7e7a7a",
-				"font": "verdana"
-			},
-			"lines": {
-				"enabled": true,
-				"color": "#cccccc"
-			},
-			"truncation": {
-				"enabled": true
-			}
-		},
-		"effects": {
-			"pullOutSegmentOnClick": {
-				"effect": "linear",
-				"speed": 400,
-				"size": 8
-			}
-		}
-	});
-	
-	
-	//Distribution by registered voter and non voters
-	var pie = new d3pie("pie_rvnv", {
-	"header": {
-			"title": {
-				"text": "Beneficiaries by Type",
-				"fontSize": 12,
-				"font": "verdana"
-			},
-			"subtitle": {
-				"color": "#999999",
-				"fontSize": 10,
-				"font": "verdana"
-			},
-			"titleSubtitlePadding": 12
-		},
-		"footer": {
-			"color": "#999999",
-			"fontSize": 11,
-			"font": "open sans",
-			"location": "bottom-center"
-		},
-		"size": {
-			"canvasHeight": 250,
-			"canvasWidth": 300,
-			"pieOuterRadius": "80%"
-		},
-		"data": {
-			"content": [
-				{
-					"label": "Registered",
-					"value": <?php echo count($r_ben) ?>,
-					"color": "#094b83"
-				},
-				{
-					"label": "Non Voter",
-					"value": <?php echo count($n_ben) ?>,
+                {
+					"label": "50 and above",
+					"value": <?php echo 12//count($n_ben) ?>,
 					"color": "#5393C8"
 				}
 			]
@@ -500,7 +327,53 @@ $(function() {
 
 });
 </script>
+<script>
+var ctx = document.getElementById("visitorsByMonth").getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "July", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        datasets: [{
+            label: 'No. of Visitors per Month',
+            data: [400, 500, 450, 380, 150, 100, 90, 80, 100, 150, 350, 390],
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
 
-<?php
-//$this->output->enable_profiler(TRUE);
-?>
+var ctx = document.getElementById("revenueByMonth").getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "July", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        datasets: [{
+            label: 'Revenue per Month (in thousands of pesos)',
+            data: [860, 1200, 1000, 600, 300, 200, 180, 160, 200, 350, 800, 850],
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
+
+</script>

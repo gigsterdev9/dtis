@@ -38,7 +38,7 @@
 		<script src="<?php echo base_url('js/jchart.js') ?>"></script>
 		<script src="<?php echo base_url('js/d3pie.min.js') ?>"></script>
 		
-		<!-- for bootstrap-datepicker -->
+        <!-- for bootstrap-datepicker -->
 		<script src="<?php echo base_url('js/moment.min.js') ?>"></script>
 		<script src="<?php echo base_url('js/collapse.js') ?>"></script>
 		<script src="<?php echo base_url('js/transition.js') ?>"></script>
@@ -59,6 +59,8 @@
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
 
+         <!-- chart.js -->
+         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
   		
 	</head>
 
