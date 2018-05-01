@@ -6,6 +6,8 @@
 	</div>
 	<p>&nbsp;</p>
 	<div class="container-fluid text-right">
+        &nbsp;
+        <!--
 		<?php 
 			$attributes = array('class' => 'form-inline', 'role' => 'form');
 			echo form_open('users/', $attributes); 
@@ -16,6 +18,7 @@
 				<input type="submit" class="form-control" value="&raquo;" />
 			</div>
 		<?php echo form_close();?>
+        -->
 	</div>
 	<p>&nbsp;</p>
 	<div class="panel panel-default">
