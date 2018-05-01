@@ -100,8 +100,15 @@ $route['visitors'] = 'visitors';
 $route['visits/view/(:any)'] = 'visits/view/$1';
 $route['visits/edit/(:any)'] = 'visits/edit/$1';
 $route['visits/add'] = 'visits/add';
+$route['visits/add_exist'] = 'visits/add_exist';
 $route['visits/(:any)'] = 'visits';
 $route['visits'] = 'visits';
+
+$route['activities/butanding'] = 'activities/butanding';
+$route['activities/girawan'] = 'activities/girawan';
+$route['activities/firefly'] = 'activities/firefly';
+$route['activities/islandhop'] = 'activities/islandhop';
+$route['activities'] = 'visits';
 
 $route['login'] = 'auth/login';
 $route['logout'] = 'auth/logout';

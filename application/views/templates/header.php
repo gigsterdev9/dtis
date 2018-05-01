@@ -52,7 +52,8 @@
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
 		
 		<link href="https://fonts.googleapis.com/css?family=Muli:300,400,600,700" rel="stylesheet">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
 
 		<!--JQuery Confirm -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
@@ -79,20 +80,29 @@
 			<div class="collapse navbar-collapse" id="navBar">
 			  	<ul class="nav navbar-nav">
 					<li class="dropdown">
-						<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-blackboard"></span>&nbsp; Summaries<span class="caret"></span></a>
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fas fa-chart-bar"></i>&nbsp; Summaries<span class="caret"></span></a>
 						<ul class="dropdown-menu">
-							<li><a href="<?php echo base_url('visits/daily') ?>"><span class="glyphicon glyphicon-folder-open"></span>&nbsp; Daily</a></li>
-							<li><a href="<?php echo base_url('visits/weekly') ?>"><span class="glyphicon glyphicon-folder-open"></span>&nbsp; Weekly</a></li>
-							<li><a href="<?php echo base_url('visits/monthly') ?>"><span class="glyphicon glyphicon-folder-open"></span>&nbsp; Monthly</a></li>
-                            <li><a href="<?php echo base_url('visits/yearly') ?>"><span class="glyphicon glyphicon-folder-open"></span>&nbsp; Yearly</a></li>
+							<li><a href="<?php echo base_url('visits/daily') ?>"><i class="fas fa-folder-open"></i>&nbsp; Daily</a></li>
+							<li><a href="<?php echo base_url('visits/weekly') ?>"><i class="fas fa-folder-open"></i>&nbsp; Weekly</a></li>
+							<li><a href="<?php echo base_url('visits/monthly') ?>"><i class="fas fa-folder-open"></i>&nbsp; Monthly</a></li>
+                            <li><a href="<?php echo base_url('visits/yearly') ?>"><i class="fas fa-folder-open"></i>&nbsp; Yearly</a></li>
 						</ul>
 					</li>
-					<li><a href="<?php echo base_url('visitors') ?>"><span class="glyphicon glyphicon-king"></span> Visitors</a></li>
-					<li><a href="<?php echo base_url('visits') ?>"><span class="glyphicon glyphicon-camera"></span> Visits</a></li>
+					<li><a href="<?php echo base_url('visitors') ?>"><i class="fas fa-address-book"></i>&nbsp; Visitors</a></li>
+					<li><a href="<?php echo base_url('visits') ?>"><i class="fas fa-camera"></i>&nbsp; Visits</a></li>
+                    <li class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fas fa-ship"></i>&nbsp; Activities<span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="<?php echo base_url('activities/butanding') ?>"><i class="fas fa-folder-open"></i>&nbsp; Butanding Interaction</a></li>
+							<li><a href="<?php echo base_url('activities/girawan') ?>"><i class="fas fa-folder-open"></i>&nbsp; Girawan Tour</a></li>
+							<li><a href="<?php echo base_url('activities/firefly') ?>"><i class="fas fa-folder-open"></i>&nbsp; Firefly Watching</a></li>
+                            <li><a href="<?php echo base_url('activities/islandhop') ?>"><i class="fas fa-folder-open"></i>&nbsp; Island Hopping</a></li>
+						</ul>
+					</li>
 					<?php if ($this->ion_auth->in_group('admin'))
 					{
 					?>
-						<li><a href="<?php echo base_url('users') ?>"><span class="glyphicon glyphicon-user"></span> Users</a></li>
+						<li><a href="<?php echo base_url('users') ?>"><i class="fas fa-users"></i>&nbsp; Users</a></li>
                         <!--<li><a href="<?php echo base_url('users') ?>"><span class="glyphicon glyphicon-eye-open"></span> Audit Trail</a></li>-->
 					<?php
 					}

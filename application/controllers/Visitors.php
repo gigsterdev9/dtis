@@ -42,8 +42,7 @@ class Visitors extends CI_Controller {
 
 				if ($this->input->get('filter_by') != NULL) {
 					$filter_by = $this->input->get('filter_by');
-					switch ($filter_by) 
-					{
+					switch ($filter_by) {
 						case 'nationality': 
 							$nationality = $this->input->get('filter_by_nationality');
 							$data['filterval'] = array('nationality',$nationality,''); //the '' is to factor in the 3rd element introduced by the age filter
@@ -166,7 +165,7 @@ class Visitors extends CI_Controller {
 					$data['links'] = $this->pagination->create_links();
 				}
 				
-                $data['title'] = 'Master List';
+                $data['title'] = 'Tourist Registry';
 				//echo '<pre>'; print_r($data); echo '</pre>';
 				$this->load->view('templates/header', $data);
 				$this->load->view('visitors/index', $data);

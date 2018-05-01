@@ -25,98 +25,99 @@
 				}
 				?>
 				<div class="col-sm-6" >
-					<div class="col-sm-3 control-label">First Name</div>
-					<div class="col-sm-9 control-value"><?php echo $visitor['fname']; ?>&nbsp;</div>
+                    <div class="row">
+                        <div class="col-sm-3 control-label">First Name</div>
+                        <div class="col-sm-9 control-value"><?php echo $visitor['fname']; ?>&nbsp;</div>
 
-					<div class="col-sm-3 control-label">Middle Name</div>
-					<div class="col-sm-9 control-value"><?php echo $visitor['mname']; ?>&nbsp;</div>
+                        <div class="col-sm-3 control-label">Middle Name</div>
+                        <div class="col-sm-9 control-value"><?php echo $visitor['mname']; ?>&nbsp;</div>
 
-					<div class="col-sm-3 control-label">Last Name</div>
-					<div class="col-sm-9 control-value"><?php echo $visitor['lname']; ?>&nbsp;</div>
+                        <div class="col-sm-3 control-label">Last Name</div>
+                        <div class="col-sm-9 control-value"><?php echo $visitor['lname']; ?>&nbsp;</div>
 
-					<div class="col-sm-3 control-label">Birthdate</div>
-					<div class="col-sm-9 control-value"><?php echo $visitor['bdate'].' ('.$visitor['age'].')'; ?>&nbsp;</div>
+                        <div class="col-sm-3 control-label">Birthdate</div>
+                        <div class="col-sm-9 control-value"><?php echo $visitor['bdate'].' ('.$visitor['age'].')'; ?>&nbsp;</div>
 
-                    <div class="col-sm-3 control-label">Gender</div>
-					<div class="col-sm-9 control-value">
-						<?php 
-						switch ($visitor['gender']) {
-							case 'M': echo 'Male'; break;
-							case 'F': echo 'Female'; break;
-							default:
-						}
-						?>&nbsp;
-					</div>
+                        <div class="col-sm-3 control-label">Gender</div>
+                        <div class="col-sm-9 control-value">
+                            <?php 
+                            switch ($visitor['gender']) {
+                                case 'M': echo 'Male'; break;
+                                case 'F': echo 'Female'; break;
+                                default:
+                            }
+                            ?>&nbsp;
+                        </div>
 
-                    <div class="col-sm-3 control-label">Civil Status</div>
-					<div class="col-sm-9 control-value"><?php echo $visitor['civil_status']; ?>&nbsp;</div>
+                        <div class="col-sm-3 control-label">Civil Status</div>
+                        <div class="col-sm-9 control-value"><?php echo $visitor['civil_status']; ?>&nbsp;</div>
 
-                    <div class="col-sm-3 control-label" >Nationality</div>
-					<div class="col-sm-9 control-value" ><?php echo $visitor['nationality']; ?>&nbsp;</div>
+                        <div class="col-sm-3 control-label" >Nationality</div>
+                        <div class="col-sm-9 control-value" ><?php echo $visitor['nationality']; ?>&nbsp;</div>
 
-                    <div class="col-sm-12 buffer">&nbsp;</div>
+                        <div class="col-sm-12 buffer">&nbsp;</div>
 
-					<div class="col-sm-3 control-label">Home Address</div>
-					<div class="col-sm-9 control-value"><?php echo $visitor['h_address']; ?>&nbsp;</div>
+                        <div class="col-sm-3 control-label">Home Address</div>
+                        <div class="col-sm-9 control-value"><?php echo $visitor['h_address']; ?>&nbsp;</div>
 
-					<div class="col-sm-3 control-label">Occupation</div>
-					<div class="col-sm-9 control-value"><?php echo $visitor['occupation']; ?>&nbsp;</div>
+                        <div class="col-sm-3 control-label">Occupation</div>
+                        <div class="col-sm-9 control-value"><?php echo $visitor['occupation']; ?>&nbsp;</div>
 
-                    <div class="col-sm-3 control-label">Biz Address</div>
-					<div class="col-sm-9 control-value"><?php echo $visitor['b_address']; ?>&nbsp;</div>
-
+                        <div class="col-sm-3 control-label">Biz Address</div>
+                        <div class="col-sm-9 control-value"><?php echo $visitor['b_address']; ?>&nbsp;</div>
+                    </div>
 				</div>
 
 				<div class="col-sm-6">
-					
-					<div class="col-sm-3 control-label">Mobile No.</div>
-					<div class="col-sm-9 control-value"><?php echo $visitor['mobile_no']; ?>&nbsp;</div>
+					<div class="row">
+                        <div class="col-sm-3 control-label">Mobile No.</div>
+                        <div class="col-sm-9 control-value"><?php echo $visitor['mobile_no']; ?>&nbsp;</div>
 
-					<div class="col-sm-3 control-label">Email</div>
-					<div class="col-sm-9 control-value"><?php echo $visitor['email']; ?>&nbsp;</div>
+                        <div class="col-sm-3 control-label">Email</div>
+                        <div class="col-sm-9 control-value"><?php echo $visitor['email']; ?>&nbsp;</div>
 
-                    <div class="col-sm-3 control-label" >Biz Phone</div>
-					<div class="col-sm-9 control-value" ><?php echo $visitor['b_contact_no']; ?>&nbsp;</div>
+                        <div class="col-sm-3 control-label" >Biz Phone</div>
+                        <div class="col-sm-9 control-value" ><?php echo $visitor['b_contact_no']; ?>&nbsp;</div>
 
-                    <div class="col-sm-12 buffer">&nbsp;</div>
+                        <div class="col-sm-12 buffer">&nbsp;</div>
 
-                    <div class="col-sm-3 control-label">Diver?</div>
-					<div class="col-sm-3 control-value"><?php echo ($visitor['diver']==1) ? 'Yes' : 'No' ; ?>&nbsp;</div>
-                    <div class="col-sm-3 control-label">Swimmer?</div>
-					<div class="col-sm-3 control-value"><?php echo ($visitor['swimmer']==1) ? 'Yes' : 'No' ; ?>&nbsp;</div>
+                        <div class="col-sm-3 control-label">Diver?</div>
+                        <div class="col-sm-3 control-value"><?php echo ($visitor['diver']==1) ? 'Yes' : 'No' ; ?>&nbsp;</div>
+                        <div class="col-sm-3 control-label">Swimmer?</div>
+                        <div class="col-sm-3 control-value"><?php echo ($visitor['swimmer']==1) ? 'Yes' : 'No' ; ?>&nbsp;</div>
 
-                    <div class="col-sm-12 buffer">&nbsp;</div>
-                    <div class="col-sm-12 control-label"><b>Emergency Contact:</b></div>
-                    
-                    <div class="col-sm-3 control-label">Name</div>
-					<div class="col-sm-9 control-value"><?php echo $visitor['ice_fullname']; ?>&nbsp;</div>
-                    
-                    <div class="col-sm-3 control-label">Contact Nos.</div>
-					<div class="col-sm-9 control-value"><?php echo $visitor['ice_contact_nos']; ?>&nbsp;</div>
+                        <div class="col-sm-12 buffer">&nbsp;</div>
+                        <div class="col-sm-12 control-label"><b>Emergency Contact:</b></div>
+                        
+                        <div class="col-sm-3 control-label">Name</div>
+                        <div class="col-sm-9 control-value"><?php echo $visitor['ice_fullname']; ?>&nbsp;</div>
+                        
+                        <div class="col-sm-3 control-label">Contact Nos.</div>
+                        <div class="col-sm-9 control-value"><?php echo $visitor['ice_contact_nos']; ?>&nbsp;</div>
 
-                    <div class="col-sm-3 control-label">Address</div>
-					<div class="col-sm-9 control-value"><?php echo $visitor['ice_address']; ?>&nbsp;</div>
+                        <div class="col-sm-3 control-label">Address</div>
+                        <div class="col-sm-9 control-value"><?php echo $visitor['ice_address']; ?>&nbsp;</div>
 
-                    <div class="col-sm-3 control-label">Relationship to Contact</div>
-					<div class="col-sm-9 control-value"><?php echo $visitor['ice_contact_nos']; ?>&nbsp;</div>
+                        <div class="col-sm-3 control-label">Relationship to Contact</div>
+                        <div class="col-sm-9 control-value"><?php echo $visitor['ice_contact_nos']; ?>&nbsp;</div>
 
-                    <div class="col-sm-12 buffer">&nbsp;</div>
+                        <div class="col-sm-12 buffer">&nbsp;</div>
 
-					<div class="col-sm-3 control-label">Status Code</div>
-					<div class="col-sm-9 control-value">
-						<?php 
-						switch ($visitor['status']) {
-							case '0' : echo '(0) Undefined'; break;
-                            case '1' : echo '(1) Welcome'; break;
-                            case '2' : echo '(2) Conditional Entry'; break;
-							case '3' : echo '(3) Total Ban'; break;
-						} 
-						?>
-						&nbsp;
-					</div>
-					<div class="col-sm-3 control-label">Remarks</div>
-					<div class="col-sm-9 control-value"><?php echo $visitor['remarks']; ?>&nbsp;</div>
-
+                        <div class="col-sm-3 control-label">Status Code</div>
+                        <div class="col-sm-9 control-value">
+                            <?php 
+                            switch ($visitor['status']) {
+                                case '0' : echo '(0) Undefined'; break;
+                                case '1' : echo '(1) Welcome'; break;
+                                case '2' : echo '(2) Conditional Entry'; break;
+                                case '3' : echo '(3) Total Ban'; break;
+                            } 
+                            ?>
+                            &nbsp;
+                        </div>
+                        <div class="col-sm-3 control-label">Remarks</div>
+                        <div class="col-sm-9 control-value"><?php echo $visitor['remarks']; ?>&nbsp;</div>
+                    </div>
 				</div>
 
 			</div>

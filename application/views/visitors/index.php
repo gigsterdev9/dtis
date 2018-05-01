@@ -297,7 +297,8 @@
     </div>
 		
 	<h3>
-		<span class="glyphicon glyphicon-folder-open"></span>&nbsp; Visitors
+		<!-- <span class="glyphicon glyphicon-folder-open"></span>&nbsp; Visitors -->
+        <hr />
 	</h3>
 	<div class="container-fluid message"><?php echo $visitors['result_count'] ?> records found. 
 		<?php 
@@ -311,28 +312,8 @@
 			}
 		?>
 	</div> 
-	<div class="container-fluid">
-		<small>
-        <?php 
-            /*
-			if (isset($filterval)) { 
-				$url = 'visitors/filtered_to_excel/'.$filterval[0].'/'.$filterval[1];
-			} 
-			else if (isset($searchval)) {
-				$url = 'visitors/results_to_excel/'.$searchval;
-			}
-			else {
-				$url = 'visitors/all_to_excel';
-			}
-            */
-            $url = 'visitors/all_to_excel';
-            if ($visitors['result_count'] > 0) echo '<a href="'.$url.'" target="_blank">Export to Excel &raquo;</a>';	
-				//echo '<a href="#">Export to Excel &raquo;</a>';	
-		?>
-		</small>
-	</div>
 	
-	<div class="panel panel-default">
+    <div class="panel panel-default">
 		<div class="table-responsive show-records">
 		
 			<?php if ($visitors['result_count'] > 0) { ?>	
@@ -384,6 +365,28 @@
 
 		</div>
 	</div>
+
+    <div class="container-fluid">
+		<small>
+        <?php 
+            /*
+			if (isset($filterval)) { 
+				$url = 'visitors/filtered_to_excel/'.$filterval[0].'/'.$filterval[1];
+			} 
+			else if (isset($searchval)) {
+				$url = 'visitors/results_to_excel/'.$searchval;
+			}
+			else {
+				$url = 'visitors/all_to_excel';
+			}
+            */
+            $url = 'visitors/all_to_excel';
+            if ($visitors['result_count'] > 0) echo '<a href="'.$url.'" target="_blank"><i class="fas fa-file-excel"></i> Export to Excel &raquo;</a>';	
+				//echo '<a href="#">Export to Excel &raquo;</a>';	
+		?>
+		</small>
+	</div>
+
 </div>
 <script>
 	$('#filter_by').on('change', function(){
