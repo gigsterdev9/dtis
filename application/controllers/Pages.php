@@ -6,7 +6,8 @@ class Pages extends CI_Controller {
         {
 			parent::__construct();
 			$this->load->model('visits_model');
-			$this->load->model('visitors_model');
+            $this->load->model('visitors_model');
+            $this->load->model('activities_model');
 			$this->load->helper('url');
             $this->load->library('ion_auth');
             
@@ -17,19 +18,6 @@ class Pages extends CI_Controller {
 				redirect('auth/login');
 			}
 			
-			/**
-			//add users
-			$username = 'QDev';
-			$password = 'Afv!yzG#8h';
-			$email = 'pj@infragrey.com';
-			$additional_data = array(
-								'first_name' => 'Dev',
-								'last_name' => 'Q',
-								);
-			$group = array('2'); // Sets user to admin.
-			$this->ion_auth->register($username, $password, $email, $additional_data, $group);
-			
-			**/
         }
 		
         public function view($page = 'dashboard') {
@@ -42,6 +30,8 @@ class Pages extends CI_Controller {
 					
 		    if ($page == 'dashboard') {
                 
+                $data['latest_visitors'] = $this->visitors_model->get_visitors(20, 0);
+                $data['recent_visits'] = $this->visits_model->get_visits(20, 0);
                 /*
 				//total ben
 				$data['total_ben'] = $this->beneficiaries_model->record_count();

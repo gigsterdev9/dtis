@@ -61,17 +61,15 @@
 							<p><strong><span class="glyphicon glyphicon-folder-open"></span>&nbsp; Latest Visitors</strong></p>
 							<ul class="list-group">
 							<?php
-                                $latest_visitors = NULL;
-								if ($latest_visitors == NULL)
+                                if ($latest_visitors == NULL)
 								{
 									echo '<li class="list-group-item">There are currently no visitors on record.</li>';
 								}
-								else
-								{
+								else{
 									foreach ($latest_visitors as $latest_visitor) 
 									{
 										$link = base_url('visitors/view/'.$latest_visitor['visitor_id']);
-										$display = strtoupper($latest_visitor['fname'].' '.$latest_visitor['lname']).', '.$latest_visitor['age'].'<br />('.$latest_visitor['nationality'].')';
+										$display = strtoupper($latest_visitor['fname'].' '.$latest_visitor['lname']).', '.$latest_visitor['age'].' ('.$latest_visitor['nationality'].')';
 										echo '<li class="list-group-item"><a href="'.$link.'">'.$display.'</a></li>';
 									}
 								}
@@ -82,15 +80,14 @@
 							<p><strong><span class="glyphicon glyphicon-folder-open"></span>&nbsp; Recent Visits</strong></p>
 							<ul class="list-group">
                                 <?php 
-                                    $recent_visits = NULL;
                                     if ($recent_visits == NULL) {
                                         echo '<li class="list-group-item">There are currently no visits on record.</li>';
                                     }
                                     else{
-                                        foreach ($recent_visits['r'] as $rsa) 
+                                        foreach ($recent_visits as $rsa) 
                                         {
                                             $link = base_url('visits/view/'.$rsa['visit_id']);
-                                            $display = strtoupper($rsa['fname'].' '.$rsa['lname']).'<br /> VID: '.$rsa['visit_date'].'<br />';
+                                            $display = '('.$rsa['visit_date'].') &nbsp;'.strtoupper($rsa['fname'].' '.$rsa['lname']);
                                             echo '<li class="list-group-item"><a href="'.$link.'">'.$display.'</a></li>';
                                         }
                                     }
@@ -109,7 +106,8 @@
 					<strong><span class="glyphicon glyphicon-th-list"></span> Figures</strong>
 				</div>
 				<div class="panel-body">
-					&nbsp;
+                        <p>Total Visits-to-date: 860,030</p>
+                        <p>Total Visitors-to-date: 550,307</p>
 				</div>
 			</div>
 			<div class="panel panel-default">
