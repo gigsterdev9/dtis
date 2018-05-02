@@ -265,7 +265,7 @@
                 </div>
 
             </div>
-            <div class="col-sm-6" style="padding: 0">
+            <div class="col-sm-6" >
             
                 <div class="text-right">
                 <?php 
