@@ -59,14 +59,31 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
 
 		<style type="text/css">
-			body { 
-    			padding-top: 65px; 
-			}
 			#footer-div{
 				padding-bottom: 20px;
 			}
-			#logos img {
+			#logos-prime img {
 				height:100px;
+			}
+			#logos-alt img {
+				height: 150px;
+			}
+			
+			/* non-mobile */
+			@media screen and (min-width: 480px) {
+				body { 
+					padding-top: 65px; 
+				}
+				#logos-prime {display: block}
+				#logos-alt {display: none}
+			}
+			/* mobile */
+			@media screen and (max-width: 479px) {
+				body { 
+					padding-top: 20px; 
+				}
+				#logos-prime {display: none}
+				#logos-alt {display: block}
 			}
 		</style>
 	</head>

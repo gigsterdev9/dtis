@@ -1,10 +1,15 @@
 <?php include_once('templates/header.php') ?>
 
-    <div class="row" id="logos">
-        <div class="col-sm-2"><img src="<?php echo base_url('/images/donsol_seal.png') ?>" alt="donsol_seal" /></div>
-        <div class="col-sm-8">&nbsp;</div>
-        <div class="col-sm-2" style="text-align: right"><img src="<?php echo base_url('/images/wwf_logo.png') ?>" alt="wwf_logo" /></div>
+    <div class="row" id="logos-prime">
+        <div class="col-sm-6"><img src="<?php echo base_url('/images/donsol_seal.png') ?>" alt="donsol_seal" /></div>
+        <div class="col-sm-6" style="text-align: right"><img src="<?php echo base_url('/images/wwf_logo.png') ?>" alt="wwf_logo" /></div>
     </div>
+    <div class="row" id="logos-alt">
+        <div class="col-sm-12" style="text-align: center">
+            <img src="<?php echo base_url('/images/donsol_seal.png') ?>" alt="donsol_seal" />
+             <img src="<?php echo base_url('/images/wwf_logo.png') ?>" alt="wwf_logo" />
+        </div>
+    </div
     <div class="row">
         <div class="col-sm-12">
             <h1>Donsol Tourism Information System</h1>
