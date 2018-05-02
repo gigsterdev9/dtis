@@ -28,10 +28,10 @@ input[type="button"]:hover, input[type="submit"]:hover, button:hover, .btn:hover
 #search_in {margin-left: 85px}
 
 /*Service Availment History*/
-.service-history {font-size: 1em; padding: 5px 5px 5px 5px}
-.service-history-details {font-size: 1em; padding: 10px 10px 20px 10px; border-top: 1px solid #dddddd}
-.service-history-details h3 {font-size: 1.2em; font-weight: bold; margin-top: 10px } 
-.service-history-details h4 {font-size: 1.1em; font-weight: bold; margin-top: 10px } 
+.visit-history {font-size: 1em; padding: 5px 5px 5px 5px}
+.visit-history-details {font-size: 1em; padding: 10px 10px 20px 10px; border-top: 1px solid #dddddd}
+.visit-history-details h3 {font-size: 1.2em; font-weight: bold; margin-top: 10px } 
+.visit-history-details h4 {font-size: 1.1em; font-weight: bold; margin-top: 10px } 
 
 /*Data Mod History*/
 .mod-history {font-size: .8em; padding: 5px 5px 5px 5px}

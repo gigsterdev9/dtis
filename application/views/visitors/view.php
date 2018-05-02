@@ -1,5 +1,5 @@
 <div class="container">
-	<h2><span class="glyphicon glyphicon-folder-open"></span>&nbsp; Non-Voter Details</h2>
+	<h2><span class="glyphicon glyphicon-folder-open"></span>&nbsp; Visitor Details</h2>
 	<h3><?php echo ($visitor['trash'] == '1') ? '<i class="fa fa-recycle"></i> ' : '<span class="glyphicon glyphicon-file"></span> ' ?><?php echo strtoupper($visitor['fname'].' '.$visitor['lname'].' ('.$visitor['visitor_id'].')'); ?> 
 	<?php if ($this->ion_auth->in_group('admin'))
 	{
@@ -123,26 +123,34 @@
 			</div>
 		</div>
 		
-		<div class="service-history-details text-left">
+		<div class="visit-history-details text-left">
 			<h3>VISIT HISTORY</h3>
 			<div class="table-responsive show-records" >
-			<?php if (isset($services[0]['service_id'])) {  ?>
-			<div class="text-right"><a href="<?php echo base_url('visits/add_exist/'.$services[0]['ben_id']); ?>"><span class="glyphicon glyphicon-plus-sign"></span> New Entry </a></div>
-			<?php } ?>
-			<small>[ <a href="<?php echo base_url('visits/add_exist/'.$visitor['visitor_id']) ?>">New Entry</a> ]</small>
-			<?php if (isset($services[0]['service_id'])) {   //print_r($services); ?> 
+			<?php 
+			if (isset($visits[0]['visitor_id'])) {  
+			?>
+				<div class="text-right"><a href="<?php echo base_url('visits/add_exist/'.$visits[0]['visitor_id']); ?>">
+					<span class="glyphicon glyphicon-plus-sign"></span> New Entry </a>
+				</div>
+			<?php 
+			}
+			else{
+			?>
+				<small>[ <a href="<?php echo base_url('visits/add_exist/'.$visitor['visitor_id']) ?>">New Entry</a> ]</small>
+			<?php 
+			}
+			if (isset($visits[0]['visitor_id'])) { ?> 
 			<table class="table table-striped">
 				<thead>
 					<tr>
 						<th width="2%">&nbsp;</th>
-						<th width="10%">Request date</th>
-						<th width="10%">Type</th>
-						<th width="10%">Amount (Php)</th>
-						<th width="15%">Requested by</th>
-						<th width="10%">Relationship</th>
-						<th width="10%">Status</th>
-						<th width="28%">Remarks</th>
-						<th widht="5%">Action</th>
+						<th width="12%">Visit Date</th>
+						<th width="6%">Butanding</th>
+						<th width="6%">Girawan</th>
+						<th width="6%">Firefly</th>
+						<th width="6%">Island Hop</th>
+						<th width="6%">Waiver</th>
+						<th width="33%">Remarks</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -153,26 +161,22 @@
 						if (is_array($v)) { //do not display 'result_count' 
 					?>
 					<tr>
-						<td><a href="<?php echo base_url('services/view/'.$service['service_id']) ?>"><span class="glyphicon glyphicon-file"></span></a></td>
-						<td><?php echo $service['req_date']; ?></td>
-						<td><?php echo ucfirst($service['service_type']); ?></td>
-						<td class="text-right"><?php echo number_format($service['amount'], 2); ?></td>
 						<td>
-							<?php 
-								$req_link = base_url('beneficiaries/view/'.$service['req_ben_id']);
-								$req_fullname = strtoupper($service['req_lname'].', '.$service['req_fname']);
-								echo '<a href="'.$req_link.'">';
-								echo $req_fullname;
-								echo '</a>';
-							?>
+							<a href="<?php echo site_url('visits/view/'.$v['visit_id']); ?>">
+								<span class="glyphicon glyphicon-file"></span> 
+							</a>
 						</td>
-						<td><?php echo ucfirst($service['relationship']); ?></td>
-						<td><?php echo ucfirst($service['s_status']); ?></td>
-						<td><?php echo $service['s_remarks']; ?></td>
 						<td>
-							<a href="<?php echo base_url('services/edit/'.$service['service_id']); ?>"><span class="glyphicon glyphicon-edit"></span></a> &nbsp; 
-							<a href="<?php echo base_url('services/delete/'.$service['service_id'].'/'.$service['ben_id']); ?>"><span class="glyphicon glyphicon-remove-circle"></span></a>
+							<a href="<?php echo site_url('visits/view/'.$v['visit_id']); ?>">
+								<?php echo $v['visit_date'] ?>
+							</a>
 						</td>
+                        <td><?php echo ($v['butanding'] == 1) ? 'Yes' : 'No'; ?></td>
+                        <td><?php echo ($v['girawan'] == 1) ? 'Yes' : 'No'; ?></td>
+                        <td><?php echo ($v['firefly'] == 1) ? 'Yes' : 'No'; ?></td>
+                        <td><?php echo ($v['island_hop'] == 1) ? 'Yes' : 'No'; ?></td>
+                        <td><?php echo ($v['form_signed'] == 1) ? 'Yes' : 'No'; ?></td>
+                        <td><?php echo $v['visit_remarks']; ?></td>
 					</tr>
 					<?php 
 						}

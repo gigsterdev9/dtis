@@ -316,6 +316,7 @@
 			<table class="table table-striped">
 				<thead>
 					<tr>
+                        <th width="2%">&nbsp;</th>
 						<th width="12%">Visit Date</th>
                         <th width="15%">Visitor Name</th>
                         <th width="10%">Nationality</th>
@@ -334,9 +335,14 @@
 						if (is_array($v)) { //do not display 'result_count' 
 					?>
 					<tr>
+                        <td>
+							<a href="<?php echo site_url('visits/view/'.$v['visit_id']); ?>">
+								<span class="glyphicon glyphicon-file"></span> 
+							</a>
+						</td>
 						<td>
 							<a href="<?php echo site_url('visits/view/'.$v['visit_id']); ?>">
-								<span class="glyphicon glyphicon-file"></span> <?php echo $v['visit_date'] ?>
+								<?php echo $v['visit_date'] ?>
 							</a>
 						</td>
                         <td><?php echo '<a href="visitors/view/'.$v['visitor_id'].'">'.strtoupper($v['lname'].', '.$v['fname']).'</a>'; ?></td>

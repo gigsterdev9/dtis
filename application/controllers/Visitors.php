@@ -6,6 +6,7 @@ class Visitors extends CI_Controller {
         {
                 parent::__construct();
 				$this->load->model('visitors_model');
+				$this->load->model('visits_model');
 				$this->load->model('tracker_model');
                 $this->load->helper('url');
                 $this->load->helper('form');
@@ -178,7 +179,8 @@ class Visitors extends CI_Controller {
 				$data['visitor'] = $this->visitors_model->get_visitor_by_id($id);
 		        if (empty($data['visitor'])) {
 				    show_404();
-                }
+				}
+				$data['visits'] = $this->visits_model->get_visits_by_visitor_id($id);
                 $data['tracker'] = $this->tracker_model->get_activities($id, 'visitors');
 				
 				$this->load->view('templates/header', $data);

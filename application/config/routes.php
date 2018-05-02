@@ -53,43 +53,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
-/*
-$route['beneficiaries/match_find'] = 'beneficiaries/match_find';
-$route['beneficiaries/(:any)'] = 'beneficiaries';
-$route['beneficiaries'] = 'beneficiaries';
-
-$route['rvoters/view/(:any)'] = 'rvoters/view/$1';
-$route['rvoters/edit/(:any)'] = 'rvoters/edit/$1';
-$route['rvoters/add'] = 'rvoters/add';
-$route['rvoters/(:any)'] = 'rvoters';
-$route['rvoters'] = 'rvoters';
-
-$route['nonvoters/view/(:any)'] = 'nonvoters/view/$1';
-$route['nonvoters/edit/(:any)'] = 'nonvoters/edit/$1';
-$route['nonvoters/add'] = 'nonvoters/add';
-$route['nonvoters/(:any)'] = 'nonvoters';
-$route['nonvoters'] = 'nonvoters';
-
-$route['scholarships/view/(:any)'] = 'scholarships/view/$1';
-$route['scholarships/edit/(:any)'] = 'scholarships/edit/$1';
-$route['scholarships/add'] = 'scholarships/add';
-$route['scholarships/add_term'] = 'scholarships/add_term';
-$route['scholarships/edit_term'] = 'scholarships/edit_term';
-$route['scholarships/test'] = 'scholarships/test';
-$route['scholarships/(:any)'] = 'scholarships';
-$route['scholarships'] = 'scholarships';
-
-$route['services/view/(:any)'] = 'services/view/$1';
-$route['services/edit/(:any)'] = 'services/edit/$1';
-$route['services/add'] = 'services/add';
-$route['services/add_exist'] = 'services/add_exist';
-$route['services/edit_exist'] = 'services/edit_exist';
-$route['services/batch_import'] = 'services/batch_import';
-//$route['services/do_upload'] = 'services/do_upload';
-$route['services/(:any)'] = 'services';
-$route['services'] = 'services';
-*/
-
 $route['visitors/view/(:any)'] = 'visitors/view/$1';
 $route['visitors/edit/(:any)'] = 'visitors/edit/$1';
 $route['visitors/add'] = 'visitors/add';
@@ -101,6 +64,7 @@ $route['visits/view/(:any)'] = 'visits/view/$1';
 $route['visits/edit/(:any)'] = 'visits/edit/$1';
 $route['visits/add'] = 'visits/add';
 $route['visits/add_exist'] = 'visits/add_exist';
+$route['visits/match_find'] = 'visits/match_find';
 $route['visits/(:any)'] = 'visits';
 $route['visits'] = 'visits';
 

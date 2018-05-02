@@ -48,9 +48,9 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-sm-2" for="dob">Birthdate<span class="text-info">*</span></label>
+					<label class="control-label col-sm-2" for="bdate">Birthdate<span class="text-info">*</span></label>
 					<div class="col-sm-10">
-						<input type='text' class="form-control" name="dob" id='datetimepicker1' value="<?php echo set_value('dob'); ?>" required />
+						<input type='text' class="form-control" name="bdate" id='datetimepicker1' value="<?php echo set_value('bdate'); ?>" required />
 						<script type="text/javascript">
 							$(function () {
 								var end = new Date();
@@ -223,7 +223,7 @@ $(document).ready(function() {
 
 		$.ajax({
 			"type" : "POST",
-			"url" : "<?php echo base_url('beneficiaries/match_find/services'); ?>",
+			"url" : "<?php echo base_url('visits/match_find'); ?>",
 			"data" : $("#form-match-find").serialize(), // serializes the form's elements.
 			"success" : function(data) {
 				//console.log(data);

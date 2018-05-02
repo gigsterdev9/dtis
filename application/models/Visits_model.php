@@ -47,39 +47,18 @@ class visits_model extends CI_Model {
 
 	public function get_visits_by_visitor_id($id = FALSE) { //retrieve all records related to one visitor
 		
-		$this->db->select("*, floor((DATEDIFF(CURRENT_DATE, STR_TO_DATE(n.dob, '%Y-%m-%d'))/365)) as age");
-		$this->db->from('services s');
-		$this->db->join('beneficiaries b', 'b.ben_id = s.ben_id');
-		$this->db->join('non_voters n', 'n.nv_id = b.nv_id');
-		$this->db->where("b.nv_id = '$nv_id' and s.trash = '0'");
+		$this->db->select("*");
+		$this->db->from('visits');
+		$this->db->where("visitor_id = '$id' and trash = '0'");
 		$q = $this->db->get();
 				
-		$ns = $q->result_array();
+		$related_visits = $q->result_array();
 		
-		if (empty($ns)) {
+		if (empty($related_visits)) {
 			return 0;
-		}
-		//echo '<pre>'; print_r($ns); echo '</pre>'; die();
-
-		if (isset($ns)) {
-			foreach($ns as $n) {
-				
-				if ($n != '') {
-					
-					$x = $this->visits_model->get_beneficiary_by_id($n['req_ben_id']);
-						$n['req_fname'] = $x['fname'];
-						$n['req_mname'] = $x['mname'];
-						$n['req_lname'] = $x['lname'];
-					
-				}
-				$n_services[] = $n;
-			}
-
-			return $n_services; 
 		}
 		else{
-
-			return 0;
+			return $related_visits;
 		}
 
 	}
