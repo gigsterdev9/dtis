@@ -69,14 +69,12 @@
 			<table class="table table-striped">
 				<thead>
 					<tr>
+						<th width="2%">&nbsp;</th>
 						<th width="12%">Visit Date</th>
                         <th width="15%">Visitor Name</th>
                         <th width="10%">Nationality</th>
-						<th width="6%">Butanding</th>
-                        <th width="6%">Girawan</th>
-                        <th width="6%">Firefly</th>
-                        <th width="6%">Island Hop</th>
-                        <th width="6%">Waiver</th>
+						<th width="15%">Boarding Pass</th>
+                        <th width="15%">BIO</th>
                         <th width="33%">Remarks</th>
 					</tr>
 				</thead>
@@ -89,16 +87,18 @@
 					<tr>
 						<td>
 							<a href="<?php echo site_url('butanding/view/'.$v['visit_id']); ?>">
-								<span class="glyphicon glyphicon-file"></span> <?php echo $v['visit_date'] ?>
+								<span class="glyphicon glyphicon-file"></span>
+							</a>
+						</td>
+						<td>
+							<a href="<?php echo site_url('butanding/view/'.$v['visit_id']); ?>">
+								<?php echo $v['visit_date'] ?>
 							</a>
 						</td>
                         <td><?php echo '<a href="visitors/view/'.$v['visitor_id'].'">'.strtoupper($v['lname'].', '.$v['fname']).'</a>'; ?></td>
                         <td><?php echo $v['nationality']; ?></td>
-						<td><?php echo ($v['butanding'] == 1) ? 'Yes' : 'No'; ?></td>
-                        <td><?php echo ($v['girawan'] == 1) ? 'Yes' : 'No'; ?></td>
-                        <td><?php echo ($v['firefly'] == 1) ? 'Yes' : 'No'; ?></td>
-                        <td><?php echo ($v['island_hop'] == 1) ? 'Yes' : 'No'; ?></td>
-                        <td><?php echo ($v['form_signed'] == 1) ? 'Yes' : 'No'; ?></td>
+						<td><?php echo $v['boarding_pass']; ?></td>
+						<td><?php echo $v['bio_name']; ?></td>
                         <td><?php echo $v['visit_remarks']; ?></td>
 					</tr>
 					<?php 

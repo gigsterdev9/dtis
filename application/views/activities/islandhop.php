@@ -4,7 +4,7 @@
 	if ($this->ion_auth->in_group('admin'))
 	{
 	?>
-	<div class="container-fluid text-right"><a href="<?php echo base_url('activities/islandhop/add') ?>"><span class="glyphicon glyphicon-plus-sign"></span> New entry</a></div>
+	<div class="container-fluid text-right"><a href="<?php echo base_url('activities/butanding/add') ?>"><span class="glyphicon glyphicon-plus-sign"></span> New entry</a></div>
 	<?php
 	}
 	?>
@@ -16,7 +16,7 @@
                 <div class="text-left">
                 <?php 
                     $attributes = array('class' => 'form-inline', 'role' => 'form', 'method' => 'GET');
-                    echo form_open('activities/islandhop', $attributes); 
+                    echo form_open('activities/butanding', $attributes); 
                 ?>
                     <div class="form-group">
                         <label class="control-label" for="title">Filter by:</label> &nbsp; 
@@ -45,10 +45,10 @@
     </div>
 		
 	<h3>
-		<!-- <span class="glyphicon glyphicon-folder-open"></span>&nbsp; islandhop -->
+		<!-- <span class="glyphicon glyphicon-folder-open"></span>&nbsp; butanding -->
         <hr />
 	</h3>
-	<div class="container-fluid message"><?php echo $islandhop['result_count'] ?> records found. 
+	<div class="container-fluid message"><?php echo $butanding['result_count'] ?> records found. 
 		<?php 
 			if (isset($filterval)) {
 				$filter = (is_array($filterval)) ? '<br />Filter parameters: '. ucfirst($filterval[0]).' / '.$filterval[1] .' '. $filterval[2] : '' ; 
@@ -64,41 +64,41 @@
     <div class="panel panel-default">
 		<div class="table-responsive show-records">
 		
-			<?php if ($islandhop['result_count'] > 0) { ?>	
+			<?php if ($butanding['result_count'] > 0) { ?>	
 			<div class="page-links"><?php echo $links; ?></div>
 			<table class="table table-striped">
 				<thead>
 					<tr>
+						<th width="2%">&nbsp;</th>
 						<th width="12%">Visit Date</th>
                         <th width="15%">Visitor Name</th>
                         <th width="10%">Nationality</th>
-						<th width="6%">islandhop</th>
-                        <th width="6%">Girawan</th>
-                        <th width="6%">Firefly</th>
-                        <th width="6%">Island Hop</th>
-                        <th width="6%">Waiver</th>
+						<th width="15%">Boarding Pass</th>
+                        <th width="15%">BIO</th>
                         <th width="33%">Remarks</th>
 					</tr>
 				</thead>
 				<tbody>
 					<?php 
-						foreach ($islandhop as $v): 
+						foreach ($butanding as $v): 
 						//echo '<pre>'; print_r($v); echo '</pre>';
 						if (is_array($v)) { //do not display 'result_count' 
 					?>
 					<tr>
 						<td>
-							<a href="<?php echo site_url('islandhop/view/'.$v['visit_id']); ?>">
-								<span class="glyphicon glyphicon-file"></span> <?php echo $v['visit_date'] ?>
+							<a href="<?php echo site_url('butanding/view/'.$v['visit_id']); ?>">
+								<span class="glyphicon glyphicon-file"></span>
+							</a>
+						</td>
+						<td>
+							<a href="<?php echo site_url('butanding/view/'.$v['visit_id']); ?>">
+								<?php echo $v['visit_date'] ?>
 							</a>
 						</td>
                         <td><?php echo '<a href="visitors/view/'.$v['visitor_id'].'">'.strtoupper($v['lname'].', '.$v['fname']).'</a>'; ?></td>
                         <td><?php echo $v['nationality']; ?></td>
-						<td><?php echo ($v['islandhop'] == 1) ? 'Yes' : 'No'; ?></td>
-                        <td><?php echo ($v['girawan'] == 1) ? 'Yes' : 'No'; ?></td>
-                        <td><?php echo ($v['firefly'] == 1) ? 'Yes' : 'No'; ?></td>
-                        <td><?php echo ($v['island_hop'] == 1) ? 'Yes' : 'No'; ?></td>
-                        <td><?php echo ($v['form_signed'] == 1) ? 'Yes' : 'No'; ?></td>
+						<td><?php echo $v['boarding_pass']; ?></td>
+						<td><?php echo $v['bio_name']; ?></td>
                         <td><?php echo $v['visit_remarks']; ?></td>
 					</tr>
 					<?php 
@@ -119,17 +119,17 @@
         <?php 
             /*
 			if (isset($filterval)) { 
-				$url = 'islandhop/filtered_to_excel/'.$filterval[0].'/'.$filterval[1];
+				$url = 'butanding/filtered_to_excel/'.$filterval[0].'/'.$filterval[1];
 			} 
 			else if (isset($searchval)) {
-				$url = 'islandhop/results_to_excel/'.$searchval;
+				$url = 'butanding/results_to_excel/'.$searchval;
 			}
 			else {
-				$url = 'islandhop/all_to_excel';
+				$url = 'butanding/all_to_excel';
 			}
             */
-            $url = 'islandhop/all_to_excel';
-            if ($islandhop['result_count'] > 0) echo '<a href="'.$url.'" target="_blank"><i class="fas fa-file-excel"></i> Export to Excel &raquo;</a>';	
+            $url = 'butanding/all_to_excel';
+            if ($butanding['result_count'] > 0) echo '<a href="'.$url.'" target="_blank"><i class="fas fa-file-excel"></i> Export to Excel &raquo;</a>';	
 				//echo '<a href="#">Export to Excel &raquo;</a>';	
 		?>
 		</small>

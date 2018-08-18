@@ -48,6 +48,162 @@
 			</div>
 		</div>
 	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<strong><span class="glyphicon glyphicon-th-list"></span> Summaries</strong>
+				</div>
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-md-6 text-center">
+							<h5><b>Today</b></h5>
+							<div class="panel panel-default">
+								<div class="panel-body" >
+									<table class="table-bordered table-condensed">
+										<tr>
+											<td class="text-center" width="16%" valign="top">
+												<span style="font-size: 2em">100</span>
+												<br />New Visits
+											</td>
+											<td class="text-center" width="16%" valign="top">
+												<span style="font-size: 2em">90</span>
+												<br />New Visitors
+											</td>
+											<td class="text-center" width="16%" valign="top">
+												<span style="font-size: 2em">90</span>
+												<br />Butanding Interactions
+											</td>
+											<td class="text-center" width="16%" valign="top">
+												<span style="font-size: 2em">40</span>
+												<br />Girawan Tours
+											</td>
+											<td class="text-center" width="16%" valign="top">
+												<span style="font-size: 2em">80</span>
+												<br />River and Firefly Tours
+											</td>
+											<td class="text-center" width="16%" valign="top">
+												<span style="font-size: 2em">20</span>
+												<br />Island Hopping Trips
+											</td>
+										</tr>
+									</table>	
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6 text-center">
+							<h5><b>This Week</b></h5>
+							<div class="panel panel-default">
+								<div class="panel-body" >
+									<table class="table-bordered table-condensed">
+										<tr>
+											<td class="text-center" width="16%" valign="top">
+												<span style="font-size: 2em">520</span>
+												<br />New Visits
+											</td>
+											<td class="text-center" width="16%" valign="top">
+												<span style="font-size: 2em">430</span>
+												<br />New Visitors
+											</td>
+											<td class="text-center" width="16%" valign="top">
+												<span style="font-size: 2em">450</span>
+												<br />Butanding Interactions
+											</td>
+											<td class="text-center" width="16%" valign="top">
+												<span style="font-size: 2em">200</span>
+												<br />Girawan Tours
+											</td>
+											<td class="text-center" width="16%" valign="top">
+												<span style="font-size: 2em">390</span>
+												<br />River and Firefly Tours
+											</td>
+											<td class="text-center" width="16%" valign="top">
+												<span style="font-size: 2em">165</span>
+												<br />Island Hopping Trips
+											</td>
+										</tr>
+									</table>		
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6 text-center">
+							<h5><b>This Month</b></h5>
+							<div class="panel panel-default">
+								<div class="panel-body" >
+									<table class="table-bordered table-condensed">
+										<tr>
+											<td class="text-center" width="16%" valign="top">
+												<span style="font-size: 2em">2900</span>
+												<br />New Visits
+											</td>
+											<td class="text-center" width="16%" valign="top">
+												<span style="font-size: 2em">2680</span>
+												<br />New Visitors
+											</td>
+											<td class="text-center" width="16%" valign="top">
+												<span style="font-size: 2em">2850</span>
+												<br />Butanding Interactions
+											</td>
+											<td class="text-center" width="16%" valign="top">
+												<span style="font-size: 2em">1540</span>
+												<br />Girawan Tours
+											</td>
+											<td class="text-center" width="16%" valign="top">
+												<span style="font-size: 2em">2480</span>
+												<br />River and Firefly Tours
+											</td>
+											<td class="text-center" width="16%" valign="top">
+												<span style="font-size: 2em">620</span>
+												<br />Island Hopping Trips
+											</td>
+										</tr>
+									</table>		
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6 text-center">
+							<h5><b>This Year</b></h5>
+							<div class="panel panel-default">
+								<div class="panel-body" >
+									<table class="table-bordered table-condensed">
+										<tr>
+											<td class="text-center" width="16%" valign="top">
+												<span style="font-size: 2em">999999</span>
+												<br />New Visits
+											</td>
+											<td class="text-center" width="16%" valign="top">
+												<span style="font-size: 2em">999999</span>
+												<br />New Visitors
+											</td>
+											<td class="text-center" width="16%" valign="top">
+												<span style="font-size: 2em">999999</span>
+												<br />Butanding Interactions
+											</td>
+											<td class="text-center" width="16%" valign="top">
+												<span style="font-size: 2em">999999</span>
+												<br />Girawan Tours
+											</td>
+											<td class="text-center" width="16%" valign="top">
+												<span style="font-size: 2em">999999</span>
+												<br />River and Firefly Tours
+											</td>
+											<td class="text-center" width="16%" valign="top">
+												<span style="font-size: 2em">999999</span>
+												<br />Island Hopping Trips
+											</td>
+										</tr>
+									</table>		
+								</div>
+							</div>
+						</div>
+					</div>
+					<small>*All figures in the tables above are for demo purposes.</a>
+				</div>
+			</div>
+		</div>
+	</div>
     <div class="row">
 		<div class="col-md-8">
 			<div class="panel panel-default">
@@ -146,7 +302,7 @@ $(function() {
 	var pie = new d3pie("pie_nationality", {
 	"header": {
 			"title": {
-				"text": "Visitors by Nationality",
+				"text": "Local/Foreign",
 				"fontSize": 12,
 				"font": "verdana"
 			},
@@ -171,28 +327,13 @@ $(function() {
 		"data": {
 			"content": [
 				{
-					"label": "American",
-					"value": <?php echo '25' //$barangka_count ?>,
+					"label": "Local",
+					"value": <?php echo '25098' //$barangka_count ?>,
 					"color": "#094b83"
 				},
 				{
-					"label": "British",
-					"value": <?php echo '30' //$con_uno_count ?>,
-					"color": "#094b83"
-				},
-				{
-					"label": "Filipino",
-					"value": <?php echo '50' //$con_dos_count ?>,
-					"color": "#1266AB"
-				},
-				{
-					"label": "Chinese",
-					"value": <?php echo '40' //$fortune_count ?>,
-					"color": "#094b83"
-				},
-				{
-					"label": "Japanese",
-					"value": <?php echo '45' //$tumana_count ?>,
+					"label": "Foreign",
+					"value": <?php echo '45123' //$tumana_count ?>,
 					"color": "#337BB7"
 				}
 				]
@@ -238,7 +379,7 @@ $(function() {
 	var pie = new d3pie("pie_age", {
 	"header": {
 			"title": {
-				"text": "Visitors by Age Group",
+				"text": "Age Group",
 				"fontSize": 12,
 				"font": "verdana"
 			},

@@ -81,6 +81,7 @@
 				</div>
 			<div class="collapse navbar-collapse" id="navBar">
 			  	<ul class="nav navbar-nav">
+				  	<!--
 					<li class="dropdown">
 						<a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fas fa-chart-bar"></i>&nbsp; Summaries<span class="caret"></span></a>
 						<ul class="dropdown-menu">
@@ -90,6 +91,7 @@
                             <li><a href="<?php echo base_url('visits/yearly') ?>"><i class="fas fa-folder-open"></i>&nbsp; Yearly</a></li>
 						</ul>
 					</li>
+					-->
 					<li><a href="<?php echo base_url('visitors') ?>"><i class="fas fa-address-book"></i>&nbsp; Visitors</a></li>
 					<li><a href="<?php echo base_url('visits') ?>"><i class="fas fa-camera"></i>&nbsp; Visits</a></li>
                     <li class="dropdown">
