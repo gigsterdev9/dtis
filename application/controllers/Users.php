@@ -22,7 +22,41 @@ class Users extends CI_Controller {
 			
 			//delete user
 			//$this->ion_auth->delete_user('19');
-			
+            
+            //add group
+            $grp = $this->ion_auth->create_group('wwf', 'wwf user account');
+
+            if(!$grp) {
+                $view_errors = $this->ion_auth->messages();
+                echo $view_errors;
+            }
+            else{
+                $new_grp_id = $grp;
+                echo $new_grp_id;
+            }
+
+            $grp = $this->ion_auth->create_group('partner', 'partner account');
+
+            if(!$grp) {
+                $view_errors = $this->ion_auth->messages();
+                echo $view_errors;
+            }
+            else{
+                $new_grp_id = $grp;
+                echo $new_grp_id;
+            }
+
+            $grp = $this->ion_auth->create_group('supervisor', 'supervisory account');
+
+            if(!$grp) {
+                $view_errors = $this->ion_auth->messages();
+                echo $view_errors;
+            }
+            else{
+                $new_grp_id = $grp;
+                echo $new_grp_id;
+            }
+
 			//$this->output->enable_profiler(TRUE);
         }
 		
