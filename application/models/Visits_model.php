@@ -101,8 +101,8 @@ class visits_model extends CI_Model {
 		}
 		
 		$this->db->select("*, floor((DATEDIFF(CURRENT_DATE, STR_TO_DATE(rvoters.dob, '%Y-%m-%d'))/365)) as age");
-		$this->db->from('services');
-		$this->db->join('beneficiaries', 'beneficiaries.ben_id = services.ben_id');
+		$this->db->from('visits');
+		$this->db->join('beneficiaries', 'beneficiaries.ben_id = visits.ben_id');
 		$this->db->join('rvoters', 'beneficiaries.id_no_comelec = rvoters.id_no_comelec');
 		//$this->db->where("$filter_param1 = '$filter_param2' and beneficiaries.trash = 0");
 		$this->db->limit($limit, $start);
@@ -114,7 +114,7 @@ class visits_model extends CI_Model {
 		foreach ($result1 as $r) {
 			$ben_id = $r['ben_id'];
 			$this->db->select('*');
-			$this->db->from('services');
+			$this->db->from('visits');
 			$this->db->where("ben_id = '$ben_id'");
 			$this->db->limit(1);
 			$result2 = $this->db->get();
@@ -135,9 +135,9 @@ class visits_model extends CI_Model {
 						$r['req_mname'] = $x['mname'];
 						$r['req_lname'] = $x['lname'];
 				}
-				$r_services[] = $r;
+				$r_visits[] = $r;
 			}
-			return $r_services; 
+			return $r_visits; 
 		}
 		else{
 			return 0;
@@ -164,7 +164,7 @@ class visits_model extends CI_Model {
 		foreach ($result1 as $r) {
 			$ben_id = $r['ben_id'];
 			$this->db->select('*');
-			$this->db->from('services');
+			$this->db->from('visits');
 			$this->db->where("ben_id = '$ben_id'");
 			$this->db->limit(1);
 			$result2 = $this->db->get();
@@ -185,9 +185,9 @@ class visits_model extends CI_Model {
 						$r['req_mname'] = $x['mname'];
 						$r['req_lname'] = $x['lname'];
 				}
-				$r_services[] = $r;
+				$r_visits[] = $r;
 			}
-			return $r_services; 
+			return $r_visits; 
 		}
 		else{
 			return 0;
@@ -195,103 +195,81 @@ class visits_model extends CI_Model {
 
 	}
 	
-	public function set_service($data = NULL) { //new service
-		$this->load->helper('url');
-		
-		if ($data == NULL) {
+	public function set_visit($data = NULL) { //new visit
+        
+        $this->load->helper('url');
+        
+        if ($data == NULL) {
 			$data = array(
-					'req_date' => $this->input->post('req_date'),
-					'ben_id' => $this->input->post('ben_id'),
-					'req_ben_id' => $this->input->post('req_ben_id'),
-					'relationship' => $this->input->post('relationship'),
-					'service_type' => $this->input->post('service_type'),
-					'particulars' => $this->input->post('particulars'),
-					'amount' => $this->input->post('amount'),
-					's_status' => $this->input->post('s_status'),
-					'action_officer' => $this->input->post('action_officer'),
-					'recommendation' => $this->input->post('recommendation'),
-					's_remarks' => $this->input->post('s_remarks'),
-					'trash' => 0
+                    'visitor_id' => $this->input->post('visitor_id'),
+                    'visit_date' => $this->input->post('visit_date'),
+					'boarding_pass' => 'XXX',
+                    'or_no' => $this->input->post('or_no'),
+                    'form_signed' => $this->input->post('form_signed'),
+                    'butanding' => $this->input->post('butanding'),
+                    'girawan' => $this->input->post('girawan'),
+                    'firefly' => $this->input->post('firefly'),
+                    'island_hop' => $this->input->post('island_hop'),
+                    'visit_remarks' => $this->input->post('visit_remarks'),
+                    'trash' => 0
 			);
 		}
 		//insert new voter
-		$this->db->insert('services', $data);
+		$this->db->insert('visits', $data);
 		
-		$rvid = $this->db->insert_id();
-		//add audit trail
-		$user = $this->ion_auth->user()->row();
-		$data1 = array(
-					'ben_id' => $rvid,
-					'user' => $user->username,
-					'activity' => 'service availment created'
-		);
-		$this->db->insert('audit_trail', $data1);
-		
-		return;
+        $visit_id = $this->db->insert_id();
+        
+        return $visit_id; 
 	}
 	
 	//check for dupes
-	public function dupe_check($req_date = NULL, $ben_id = NULL, $service_type = NULL, $particulars = NULL, $amount = NULL) {
+	public function dupe_check($visitor_id = NULL, $visit_date = NULL, $or_no = NULL) {
 		
-		if ($req_date == NULL || $ben_id == NULL || $service_type == NULL) {
+		if ($visit_date == NULL || $visitor_id == NULL || $or_no == NULL) {
 			return 0;
 		}
 
-		$this->db->select("service_id");
-		$this->db->from('services');
-		$this->db->where("ben_id = '$ben_id' and req_date = '$req_date' and service_type = '$service_type' and particulars = '$particulars' and amount = '$amount' and trash = '0'");
+		$this->db->select("visit_id");
+		$this->db->from('visits');
+		$this->db->where("visitor_id = '$visitor_id' and visit_date = '$visit_date' and or_no = '$or_no' and trash = '0'");
 		$query = $this->db->get();
-		//echo $this->db->last_query();
+		//echo $this->db->last_query(); die();
 
 		return $query->row_array();
 
 	}
 	
-	//update service details
-	public function update_service() {
-		//echo '<pre>'; print_r($_POST); echo '</pre>'; die();
+	//update visit details
+	public function update_visit($data = NULL) {
+		
 		$this->load->helper('url');
 		
-		$service_id = $this->input->post('service_id');
-		$ben_id = $this->input->post('ben_id');		
-		
-		$data = array(
-				'req_date'=> $this->input->post('req_date'),
-				'ben_id' => $ben_id,
-				'req_ben_id' => $this->input->post('req_ben_id'),
-				'relationship' => $this->input->post('relationship'),
-				'service_type' => $this->input->post('service_type'),
-				'particulars' => $this->input->post('particulars'),
-				'amount' => $this->input->post('amount'),
-				's_status' => $this->input->post('s_status'),
-				'action_officer' => $this->input->post('action_officer'),
-				'recommendation' => $this->input->post('recommendation'),
-				's_remarks' => $this->input->post('s_remarks'),
-				//'trash' => $this->input->post('trash')
-		);
-		
-		$this->db->where('service_id', $service_id);
-		$this->db->update('services', $data);
-		
-		//add audit trail
-		$altered = $this->input->post('altered'); //hidden field that tracks form edits; see form
-		if (strlen($altered) > 0) 
-		{
-			$user = $this->ion_auth->user()->row();
-			$data3 = array(
-						'ben_id' => $ben_id,
-						'service_id' => $service_id,
-						'user' => $user->username,
-						'activity' => 'modified',
-						'mod_details' => $altered
+        $visit_id = $this->input->post('visit_id');
+        
+        if ($data == NULL) {
+			$data = array(
+                    'visitor_id' => $this->input->post('visitor_id'),
+                    'visit_date' => $this->input->post('visit_date'),
+					'boarding_pass' => 'XXX',
+                    'or_no' => $this->input->post('or_no'),
+                    'form_signed' => $this->input->post('form_signed'),
+                    'butanding' => $this->input->post('butanding'),
+                    'girawan' => $this->input->post('girawan'),
+                    'firefly' => $this->input->post('firefly'),
+                    'island_hop' => $this->input->post('island_hop'),
+                    'visit_remarks' => $this->input->post('visit_remarks'),
+                    'trash' => 0
 			);
-			$this->db->insert('audit_trail', $data3);
 		}
 		
+		
+		$this->db->where('visit_id', $visit_id);
+        $this->db->update('visits', $data);
+        
 		return;
 	}
 
-	public function trash_service($s_id = FALSE, $b_id = FALSE) {
+	public function trash_visit($s_id = FALSE, $b_id = FALSE) {
 
 		if ($s_id === FALSE || $b_id === FALSE) {
 			return 0;
@@ -301,17 +279,17 @@ class visits_model extends CI_Model {
 				'trash' => 1
 			);
 		
-		$this->db->where('service_id', $s_id);
-		$this->db->update('services', $data);
+		$this->db->where('visit_id', $s_id);
+		$this->db->update('visits', $data);
 
 		//add audit trail
 		$user = $this->ion_auth->user()->row();
 		$data = array(
-					'service_id' => $s_id,
+					'visit_id' => $s_id,
 					'ben_id' =>$b_id,
 					'user' => $user->username,
 					'activity' => 'modified',
-					'mod_details' => 'trashed service record with ID '.$s_id
+					'mod_details' => 'trashed visit record with ID '.$s_id
 				);
 		$this->db->insert('audit_trail', $data);
 		
@@ -322,12 +300,12 @@ class visits_model extends CI_Model {
 	public function get_by_servtype($type = false) {
 
 		$this->db->select('*');
-		$this->db->from('services');
+		$this->db->from('visits');
 		if ($type == false) {
 			$this->db->where('1');
 		}
 		else{
-			$this->db->where("service_type = '$type'");
+			$this->db->where("visit_type = '$type'");
 		}
 		$query = $this->db->get();
 
@@ -335,10 +313,10 @@ class visits_model extends CI_Model {
 
 	}
 
-	public function total_services_amount($year = null) {
+	public function total_visits_amount($year = null) {
 
 		$this->db->select('sum(amount) as total');
-		$this->db->from('services');
+		$this->db->from('visits');
 		if ($year == false) {
 			$this->db->where('trash = 0');
 		}

@@ -148,13 +148,14 @@ $visitor_id = sprintf("%'.05d\n", $visitor['visitor_id']);
 				<thead>
 					<tr>
 						<th width="2%">&nbsp;</th>
-						<th width="12%">Visit Date</th>
+						<th width="10%">Visit Date</th>
+                        <th width="10%">OR No.</th>
 						<th width="6%">Butanding</th>
 						<th width="6%">Girawan</th>
 						<th width="6%">Firefly</th>
 						<th width="6%">Island Hop</th>
 						<th width="6%">Waiver</th>
-						<th width="33%">Remarks</th>
+						<th width="25%">Remarks</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -175,6 +176,7 @@ $visitor_id = sprintf("%'.05d\n", $visitor['visitor_id']);
 								<?php echo $v['visit_date'] ?>
 							</a>
 						</td>
+                        <td><?php echo $v['or_no']; ?></td>
                         <td><?php echo ($v['butanding'] == 1) ? 'Yes' : 'No'; ?></td>
                         <td><?php echo ($v['girawan'] == 1) ? 'Yes' : 'No'; ?></td>
                         <td><?php echo ($v['firefly'] == 1) ? 'Yes' : 'No'; ?></td>

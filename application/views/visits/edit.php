@@ -14,7 +14,7 @@
 			?>
 				<div class="alert alert-success">
 					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-					<?php echo $alert_success; ?> <a href="<?php echo base_url('visitors') ?>">Return to Index.</a>
+					<?php echo $alert_success; ?> <a href="<?php echo base_url('visits/view/'.$visit_id) ?>">Return to Previous.</a>
 				</div>
 			<?php
 			}
@@ -23,211 +23,117 @@
 			?>
 				<div class="alert alert-danger">
 					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-					<?php echo $alert_trash; ?> <a href="<?php echo base_url('visitors') ?>">Return to Index.</a>
+					<?php echo $alert_trash; ?> <a href="<?php echo base_url('visitors/view/'.$visitor_id) ?>">Return to Visitor Entry.</a>
 				</div>
 			<?php
 			}
 			
 				//begin form
 				$attributes = array('class' => 'form-horizontal', 'role' => 'form', 'id' => 'main_form');
-				echo form_open('visitors/edit/'.$id, $attributes); 
+				echo form_open('visits/edit/'.$visit_id, $attributes); 
 			?>
 					<div class="form-group">
-                        <label class="control-label col-sm-2" for="fname">First Name<span class="text-info">*</span></label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" name="fname" value="<?php echo set_value('fname', $visitor['fname']); ?>" required />
-                        </div>
-					</div>
-					<div class="form-group">
-                        <label class="control-label col-sm-2" for="mname">Middle Name</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" name="mname" value="<?php echo set_value('mname', $visitor['mname']); ?>" />
-                        </div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-sm-2" for="lname">Last Name<span class="text-info">*</span></label>
+						<label class="control-label col-sm-2" for="visit_date">Visit date<span class="text-info">*</span></label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control" name="lname" value="<?php echo set_value('lname', $visitor['lname']); ?>" />
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-sm-2" for="bdate">Birthdate<span class="text-info">*</span></label>
-						<div class="col-sm-10">
-							<input type='text' class="form-control" name="bdate" id='datetimepicker1' value="<?php echo set_value('bdate', $visitor['bdate']); ?>" />
+							<input type='text' class="form-control" name="visit_date" id='datetimepicker1' value="<?php echo set_value('visit_date', $visit['visit_date']); ?>" />
 							<script type="text/javascript">
 								$(function () {
+                                    var end = new Date();
+
 									$('#datetimepicker1').datetimepicker({
 										format: 'YYYY-MM-DD',
-										viewMode: 'years'
+                                        viewMode: 'years',
+									    maxDate: end
 									});
 								});
 							</script>
 						</div>
 					</div>
-                    <div class="form-group">
-						<label class="control-label col-sm-2" for="gender">Gender<span class="text-info">*</span></label>
-						<div class="col-sm-10">
-							<select class="form-control select2-single" name="gender">
-								<option value="">Select</option>
-								<option value="M" <?php if (set_value('gender', $visitor['gender']) == 'M') echo 'selected' ?> >Male</option>
-								<option value="F" <?php if (set_value('gender', $visitor['gender']) == 'F') echo 'selected' ?> >Female</option>
-							</select>
-						</div>
-					</div>
-                    <div class="form-group">
-						<label class="control-label col-sm-2" for="civil_status">Civil Status</label>
-						<div class="col-sm-10">
-							<select class="form-control select2-single" name="civil_status">
-								<option value="">Select</option>
-								<option value="S" <?php if (set_value('civil_status', $visitor['civil_status']) == 'S') echo 'selected' ?> >Single</option>
-								<option value="M" <?php if (set_value('civil_status', $visitor['civil_status']) == 'M') echo 'selected' ?> >Married</option>
-                                <option value="W" <?php if (set_value('civil_status', $visitor['civil_status']) == 'W') echo 'selected' ?> >Widowed</option>
-                                <option value="O" <?php if (set_value('civil_status', $visitor['civil_status']) == 'O') echo 'selected' ?> >Other</option>
-							</select>
-						</div>
-					</div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2" for="nationality">Nationality<span class="text-info">*</span></label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" name="nationality" value="<?php echo set_value('nationality', $visitor['nationality']); ?>" />
-                        </div>
-					</div>
-                    
-                    <div class="form-group">
-                        <div class="col-sm-12"><hr /></div>
-                    </div>
-                    
-                    <div class="form-group">
-						<label class="control-label col-sm-2" for="h_address">Home Address<span class="text-info">*</span></label>
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="visitor_fullname">Visitor<span class="text-info">*</span></label>
 						<div class="col-sm-10">	
-							<input type="text" class="form-control" name="h_address" value="<?php echo set_value('h_address', $visitor['h_address']); ?>" />
+							<input type="text" class="form-control" name="visitor_fullname" id="visitor_fullname" 
+								value="<?php echo (isset($visitor_fullname)) ? $visitor_fullname : set_value('visitor_fullname') ?>" readonly />
 						</div>
 					</div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2" for="occupation">Occupation<span class="text-info">*</span></label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" name="occupation" value="<?php echo set_value('occupation', $visitor['occupation']); ?>" />
-                        </div>
-					</div>
-                    <div class="form-group">
-						<label class="control-label col-sm-2" for="h_address">Biz Address<span class="text-info">*</span></label>
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="or_no">OR Number<span class="text-info">*</span></label>
 						<div class="col-sm-10">	
-							<input type="text" class="form-control" name="b_address" value="<?php echo set_value('b_address', $visitor['b_address']); ?>" />
+							<input type="text" class="form-control" name="or_no" value="<?php echo set_value('or_no', $visit['or_no']); ?>" />
 						</div>
 					</div>
-                    
                     <div class="form-group">
-                        <div class="col-sm-12"><hr /></div>
-                    </div>
-
-					<div class="form-group">
-						<label class="control-label col-sm-2" for="mobile_no">Mobile No.</label>
-						<div class="col-sm-10">
-							<input type="text" class="form-control" name="mobile_no" value="<?php echo set_value('mobile_no', $visitor['mobile_no']); ?>" />
+						<label class="control-label col-sm-2" for="boarding_pass">Boarding Pass<span class="text-info">*</span></label>
+						<div class="col-sm-10">	
+							<input type="text" class="form-control" name="boarding_pass" value="<?php echo set_value('boarding_pass', $visit['boarding_pass']); ?>" />
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-sm-2" for="email">Email<span class="text-info">*</span></label>
-						<div class="col-sm-10">
-							<input type="email" class="form-control" name="email" value="<?php echo set_value('email', $visitor['email']); ?>" />
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-sm-2" for="b_contact_no">Biz Phone</label>
-						<div class="col-sm-10">
-							<input type="text" class="form-control" name="b_contact_no" value="<?php echo set_value('b_contact_no', $visitor['b_contact_no']); ?>" />
-						</div>
-					</div>
-
-                    <div class="form-group">
-                        <div class="col-sm-12"><hr /></div>
-                    </div>
-                    
-                    <div class="form-group">
-					<label class="control-label col-sm-2" for="diver">Diver</label>
-					<div class="col-sm-4">
-                        <select class="form-control select2-single" name="diver">
-							<option value="">Select</option>
-                            <option value="1" <?php if (set_value('diver', $visitor['diver']) == '1') echo 'selected' ?> >Yes</option>
-							<option value="0" <?php if (set_value('diver', $visitor['diver']) == '0') echo 'selected' ?> >No</option>
-						</select>
-					</div>
-                    <label class="control-label col-sm-2" for="swimmer">Swimmer</label>
-					<div class="col-sm-4">
-                        <select class="form-control select2-single" name="swimmer">
-							<option value="">Select</option>
-                            <option value="1" <?php if (set_value('swimmer', $visitor['swimmer']) == '1') echo 'selected' ?> >Yes</option>
-							<option value="0" <?php if (set_value('swimmer', $visitor['swimmer']) == '0') echo 'selected' ?> >No</option>
-						</select>
-					</div>
-				    </div>
-
-                    <div class="form-group">
-                        <div class="col-sm-12"><hr /></div>
-                        <label class="control-label col-sm-2">Emergency Contact</label>
-                    </div>
-
-                    <div class="form-group">
-					<label class="control-label col-sm-2" for="ice_fullname">Name<span class="text-info">*</span></label>
-					<div class="col-sm-10">
-						<input type="text" class="form-control" name="ice_fullname" value="<?php echo set_value('ice_fullname', $visitor['ice_fullname']); ?>" />
-					</div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2" for="ice_contact_nos">Contact Nos.<span class="text-info">*</span></label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" name="ice_contact_nos" value="<?php echo set_value('ice_contact_nos', $visitor['ice_contact_nos']); ?>" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2" for="ice_address">Address<span class="text-info">*</span></label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" name="ice_address" value="<?php echo set_value('ice_address', $visitor['ice_address']); ?>" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2" for="ice_relationship">Relationship<span class="text-info">*</span></label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" name="ice_relationship" value="<?php echo set_value('ice_relationship', $visitor['ice_relationship']); ?>" />
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="col-sm-12"><hr /></div>
-                    </div>
-
-					<div class="form-group">
-						<label class="control-label col-sm-2" for="status">Status Code<span class="text-info">*</span></label>
-						<div class="col-sm-10">
-							<select class="form-control select2-single" name="status">
+						<label class="control-label col-sm-2" for="form_signed">Form Signed<span class="text-info">*</span></label>
+						<div class="col-sm-10">	
+							<select name="form_signed" class="form-control select2-single">
 								<option value="">Select</option>
-								<option value="0" <?php if (set_value('status', $visitor['status']) == '0') echo 'selected' ?> >Undefined</option>
-								<option value="1" <?php if (set_value('status', $visitor['status']) == '1') echo 'selected' ?> >Welcome</option>
-								<option value="2" <?php if (set_value('status', $visitor['status']) == '2') echo 'selected' ?> >Conditional Entry</option>
-                                <option value="3" <?php if (set_value('status', $visitor['status']) == '3') echo 'selected' ?> >Total Ban</option>
+                                <option value="0" <?php $select = ($visit['form_signed'] == 0) ? TRUE : FALSE ; echo  set_select('form_signed', '0', $select ); ?> >No</option>
+                                <option value="1" <?php $select = ($visit['form_signed'] == 1) ? TRUE : FALSE ; echo  set_select('form_signed', '1', $select ); ?> >Yes</option>
 							</select>
 						</div>
 					</div>
-					<div class="form-group">
-						<label class="control-label col-sm-2" for="remarks">Remarks</label>
-						<div class="col-sm-10">
-							<textarea name="remarks" class="form-control" rows="5"><?php echo set_value('remarks', $visitor['remarks']); ?></textarea>
+                    <div class="form-group">
+						<label class="control-label col-sm-2" for="butanding">Butanding<span class="text-info">*</span></label>
+						<div class="col-sm-4">	
+							<select name="butanding" class="form-control select2-single">
+								<option value="">Select</option>
+                                <option value="0" <?php $select = ($visit['butanding'] == 0) ? TRUE : FALSE ; echo  set_select('butanding', '0', $select ); ?> >No</option>
+                                <option value="1" <?php $select = ($visit['butanding'] == 1) ? TRUE : FALSE ; echo  set_select('butanding', '1', $select ); ?> >Yes</option>
+							</select>
+						</div>
+                        <label class="control-label col-sm-2" for="girawan">Girawan<span class="text-info">*</span></label>
+						<div class="col-sm-4">	
+							<select name="girawan" class="form-control select2-single">
+								<option value="">Select</option>
+                                <option value="0" <?php $select = ($visit['girawan'] == 0) ? TRUE : FALSE ; echo  set_select('girawan', '0', $select ); ?> >No</option>
+                                <option value="1" <?php $select = ($visit['girawan'] == 1) ? TRUE : FALSE ; echo  set_select('girawan', '1', $select ); ?> >Yes</option>
+							</select>
 						</div>
 					</div>
-					<div class="form-group">
+                    <div class="form-group">
+						<label class="control-label col-sm-2" for="firefly">Firefly<span class="text-info">*</span></label>
+						<div class="col-sm-4">	
+							<select name="firefly" class="form-control select2-single">
+								<option value="">Select</option>
+                                <option value="0" <?php $select = ($visit['firefly'] == 0) ? TRUE : FALSE ; echo  set_select('firefly', '0', $select ); ?> >No</option>
+                                <option value="1" <?php $select = ($visit['firefly'] == 1) ? TRUE : FALSE ; echo  set_select('firefly', '1', $select ); ?> >Yes</option>
+							</select>
+						</div>
+                        <label class="control-label col-sm-2" for="island_hop">Island Hop<span class="text-info">*</span></label>
+						<div class="col-sm-4">	
+							<select name="island_hop" class="form-control select2-single">
+								<option value="">Select</option>
+                                <option value="0" <?php $select = ($visit['island_hop'] == 0) ? TRUE : FALSE ; echo  set_select('island_hop', '0', $select ); ?> >No</option>
+                                <option value="1" <?php $select = ($visit['island_hop'] == 1) ? TRUE : FALSE ; echo  set_select('island_hop', '1', $select ); ?> >Yes</option>
+							</select>
+						</div>
+					</div>
+                    <div class="form-group">
+						<label class="control-label col-sm-2" for="visit_remarks">Remarks</label>
+						<div class="col-sm-10">	
+							<input type="text" class="form-control" name="visit_remarks" value="<?php echo set_value('visit_remarks', $visit['visit_remarks']); ?>" />
+						</div>
+					</div>
+                    <div class="form-group">
 						<label class="control-label col-sm-2" for="delete">Delete</label>
 						<div class="col-sm-10">
-							<input type="checkbox" id="trash" name="trash" value="1" <?php if (set_value('trash', $visitor['trash']) == '1') echo 'checked' ?> />
+							<input type="checkbox" id="trash" name="trash" value="1" <?php if (set_value('trash', $visit['trash']) == '1') echo 'checked' ?> />
 						</div>
-					</div>		
-                    
+					</div>	
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-10">
 							<!-- audit trail temp values -->
 							<input type="hidden" id="altered" name="altered" value="" />
 							<!-- audit trail temp values -->
 							<input type="hidden" name="action" value="1" />
-							<input type="hidden" name="visitor_id" value="<?php echo $visitor['visitor_id'] ?>" />
+                            <input type="hidden" name="visitor_id" value="<?php echo $visitor_id ?>" />
+							<input type="hidden" name="visit_id" value="<?php echo $visit_id ?>" />
 							<button type="submit" class="btn btn-default">Submit</button>
 						</div>
 					</div>

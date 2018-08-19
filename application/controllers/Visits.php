@@ -18,6 +18,10 @@ class Visits extends CI_Controller {
 					redirect('auth/login');
 				}
 
+                $allowed_groups = array('encoder', 'supervisor', 'admin');
+                if (!$this->ion_auth->in_group($allowed_groups)) {
+                    show_error('Invalid access');
+                }
 				//debug
 				//$this->output->enable_profiler(TRUE);	
 				
@@ -75,7 +79,7 @@ class Visits extends CI_Controller {
 							break;
 
 					}
-					$r_count = (!empty($data['r_services'])) ? count($data['r_services']) : 0;
+					$r_count = (!empty($data['r_visits'])) ? count($data['r_visits']) : 0;
 					
 						$config['total_rows'] = $r_count;
 						$this->pagination->initialize($config);
@@ -141,11 +145,11 @@ class Visits extends CI_Controller {
 						
 						$page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
 						//$data['nonvoters'] = $this->beneficiaries_model->search_beneficiaries($config["per_page"], $page, $search_param, $search_key);
-						$data['r_services'] = $this->visits_model->search_r_services($config["per_page"], $page, $where_clause);
-						$data['n_services'] = $this->visits_model->search_n_services($config["per_page"], $page, $where_clause);
+						$data['r_visits'] = $this->visits_model->search_r_visits($config["per_page"], $page, $where_clause);
+						$data['n_visits'] = $this->visits_model->search_n_visits($config["per_page"], $page, $where_clause);
 						
-						$r_count = (!empty($data['r_services'])) ? count($data['r_services']) : 0;
-						$n_count = (!empty($data['n_services'])) ? count($data['n_services']) : 0;
+						$r_count = (!empty($data['r_visits'])) ? count($data['r_visits']) : 0;
+						$n_count = (!empty($data['n_visits'])) ? count($data['n_visits']) : 0;
 
 							$config['total_rows'] = $r_count + $n_count;
 							$this->pagination->initialize($config);
@@ -212,10 +216,7 @@ class Visits extends CI_Controller {
         
         
         public function add() {
-			if (!$this->ion_auth->in_group('admin')) {
-				redirect('services');
-			}
-
+			
 			$data['title'] = 'New visit';
 			
 			$this->load->view('templates/header', $data);
@@ -224,189 +225,187 @@ class Visits extends CI_Controller {
 
 		}
 		
-		
-		
-		public function edit($service_id = NULL) {
-			
-			if (!$this->ion_auth->in_group('admin')) {
-				redirect('services'); 
-			}
-
-			$this->load->helper('form');
+        
+        public function add_exist($visitor_id = FALSE) { 
+        
+            $this->load->helper('form');
 			$this->load->library('form_validation');
 
-			$data['title'] = 'Edit service';
-
-			//get all possible requestors from within the beneficiaries table 
-			$rv_req = $this->beneficiaries_model->get_rv_beneficiaries();
-			$nv_req = $this->beneficiaries_model->get_nv_beneficiaries();
-
-			$ctr = 0;
-			foreach ($rv_req as $rv) {
-				$data['requestors'][$ctr]['fullname'] = $rv['fname'].' '.$rv['mname'].' '.$rv['lname'];
-				$data['requestors'][$ctr]['ben_id'] = $rv['ben_id'];
-				$ctr++;
-			}
-			foreach ($nv_req as $nv) {
-				$data['requestors'][$ctr]['fullname'] = $nv['fname'].' '.$nv['mname'].' '.$nv['lname'];
-				$data['requestors'][$ctr]['ben_id'] = $nv['ben_id'];
-				$ctr++;
-			}
-
-			$data['service'] = $this->visits_model->get_service_by_id($service_id);
-			$data['service_id'] = $service_id;
+            $data['title'] = 'New visit';
+            $visitor_details = $this->visitors_model->get_visitor_by_id($visitor_id);
+            $data['visitor_id'] = $visitor_id;
+            $data['visitor_fullname'] = $visitor_details['fname'].' '.$visitor_details['mname'].' '.$visitor_details['lname'];
+            
+			//data validation
+			$this->form_validation->set_rules('visit_date','Visit Date','required');
+            $this->form_validation->set_rules('or_no','OR Number','required');
+            $this->form_validation->set_rules('form_signed','Form signature','required');
+            $this->form_validation->set_rules('butanding','Butanding','required');
+            $this->form_validation->set_rules('girawan','Girawan','required');
+            $this->form_validation->set_rules('firefly','Firefly','required');
+            $this->form_validation->set_rules('island_hop','Island Hop','required');
 			
-			//validation
-			$this->form_validation->set_rules('req_date','Request Date','required');
-			$this->form_validation->set_rules('ben_id','Recipient','required');
-			$this->form_validation->set_rules('req_ben_id','Requester','required');
-			$this->form_validation->set_rules('relationship','Relationship','required');
-			$this->form_validation->set_rules('service_type','Service Type','required');
-			$this->form_validation->set_rules('particulars','Request particulars','required');
-			$this->form_validation->set_rules('s_status','Service Status','required');
-			
-			//upon submission of edit action
-			if ($this->input->post('action') == 1) {
-				
-				if ($this->form_validation->run() === FALSE) {
-					
-					//$data['service'] = $this->visits_model->get_service_by_id($service_id);
-					
-					$this->load->view('templates/header', $data);
-					$this->load->view('services/edit');
-					$this->load->view('templates/footer');
-	
-				}
-				else {
-					//execute data update
-					$this->visits_model->update_service($service_id);
-					//retrieve updated data
-					$data['service'] = $this->visits_model->get_service_by_id($service_id);
-					
-					if ( $this->input->post('trash') == 1) {
-						$data['alert_trash'] = 'Marked for deletion. This is your last chance to undo by unchecking the "Delete this entry" box below and clicking submit.<br />';
-					}
-					else {
-						$data['alert_success'] = 'Entry updated.';
-					}
-					
-					$this->load->view('templates/header', $data);
-					$this->load->view('services/edit');
-					$this->load->view('templates/footer');
-				}
-				
-			}
-			else{
-				$data['service'] = $this->visits_model->get_service_by_id($service_id);
-				
-				if (empty($data['service'])) {
-					show_404();
-				}
-
-				$this->load->view('templates/header', $data);
-				$this->load->view('services/edit');
-				$this->load->view('templates/footer');
-			}
-		
-		}
-
-
-		public function add_exist($ben_id = FALSE) { 
-		
-			if (!$this->ion_auth->in_group('admin')) {
-				redirect('services'); 
-			}
-
-			$this->load->helper('form');
-			$this->load->library('form_validation');
-
-			$data['title'] = 'New availment';
-			$data['ben_id'] = $ben_id;
-		
-			//get all possible requestors from within the beneficiaries table 
-			$rv_req = $this->beneficiaries_model->get_rv_beneficiaries();
-			$nv_req = $this->beneficiaries_model->get_nv_beneficiaries();
-
-			$ctr = 0;
-			foreach ($rv_req as $rv) {
-				$data['requestors'][$ctr]['fullname'] = $rv['fname'].' '.$rv['mname'].' '.$rv['lname'];
-				$data['requestors'][$ctr]['ben_id'] = $rv['ben_id'];
-				$ctr++;
-			}
-			foreach ($nv_req as $nv) {
-				$data['requestors'][$ctr]['fullname'] = $nv['fname'].' '.$nv['mname'].' '.$nv['lname'];
-				$data['requestors'][$ctr]['ben_id'] = $nv['ben_id'];
-				$ctr++;
-			}
-
-				
-			$ben = $this->beneficiaries_model->get_beneficiary_by_id($ben_id);
-			
-			if (isset($ben['nv_id']) && $ben['nv_id'] != '') { //then entry must be a non voter
-				$nv_details = $this->nonvoters_model->get_nonvoter_by_id($ben['nv_id']); 
-				$data['recipient_fullname'] = $nv_details['fname'].' '.$nv_details['mname'].' '.$nv_details['lname'];
-			}
-
-			if (isset($ben['id_no_comelec']) && $ben['id_no_comelec']!= '') { //then entry must be a registered voter
-				$rv_details = $this->rvoters_model->get_rvoter_by_comelec_id($ben['id_no_comelec']);
-				$data['recipient_fullname'] = $rv_details['fname'].' '.$rv_details['mname'].' '.$rv_details['lname'];
-			}
-			
-			//availment data validation
-			$this->form_validation->set_rules('req_date','Request date','required');
-			$this->form_validation->set_rules('ben_id','Recipient ID','required');
-			$this->form_validation->set_rules('req_ben_id','Requestor','required');
-			$this->form_validation->set_rules('service_type','Type','required');
-			$this->form_validation->set_rules('particulars','Particulars','required');
-			$this->form_validation->set_rules('s_status','Request status','required');
-
 			if ($this->form_validation->run() === FALSE) {
 				$this->load->view('templates/header', $data);
-				$this->load->view('services/add_exist');
+				$this->load->view('visits/add_exist');
 				$this->load->view('templates/footer');
 
 			}
 			else {
 				
-				//check if service record already exists
-					//via similar_text and concat of date,servicetype and amount
-				$req_date =  $this->input->post('req_date');
-				$ben_id = $this->input->post('ben_id');	
-				$service_type = $this->input->post('service_type');
-				$particulars = $this->input->post('particulars');
-				$amount = $this->input->post('amount');
+                //check if visit has already been recorded
+                $visit_date =  $this->input->post('visit_date');
+				$or_no = $this->input->post('or_no');
+                
+                $dupe = $this->visits_model->dupe_check($visitor_id, $visit_date, $or_no);
 
-				$dupe = $this->visits_model->dupe_check($req_date, $ben_id, $service_type, $particulars, $amount);
+                if (empty($dupe)) {
+                    //generate boarding pass code
+                    $boarding_pass = 'XXXX';
+                    
+                    //prep data array
+                    $data = array(
+                            'visitor_id' => $visitor_id,
+                            'visit_date' => $visit_date,
+                            'boarding_pass' => $boarding_pass,
+                            'or_no' => $or_no,
+                            'form_signed' => $this->input->post('form_signed'),
+                            'butanding' => $this->input->post('butanding'),
+                            'girawan' => $this->input->post('girawan'),
+                            'firefly' => $this->input->post('firefly'),
+                            'island_hop' => $this->input->post('island_hop'),
+                            'visit_remarks' => $this->input->post('visit_remarks'),
+                            'trash' => 0
+                            );
 
-				if (empty($dupe)) {
-				
-					//insert into services table
-					$this->visits_model->set_service();
-					$data['alert_success'] = 'New entry created.';
-					$data['ben_id'] = $this->input->post('ben_id'); //for some reason $data['ben_id'] becomes null so need to reset the value
+					//execute insert
+                    $new_visit_id = $this->visits_model->set_visit($data);
+                    
+                    //audit trail
+                    $this->tracker_model->log_event('visit_id', $new_visit_id, 'created', '');
 
+                    $data['title'] = 'New entry';
+					$data['alert_success'] = 'Entry successful.';
+					
 					$this->load->view('templates/header', $data);
-					$this->load->view('services/add_exist');
+					$this->load->view('visits/add_exist');
 					$this->load->view('templates/footer');
 				}
 				else{
 
-					$data['errors'] = "Duplicate entry detected. If you are certain the entry you are about to create is not a duplicate, modifying the particulars will help.";
+					$data['errors'] = "Entry already exists.";
 
 					$this->load->view('templates/header', $data);
-					$this->load->view('services/add_exist');
+					$this->load->view('visits/add_exist');
 					$this->load->view('templates/footer');
 
 				}
 			}
 			
 		}
+        
+		
+		public function edit($visit_id = NULL) {
+			
+			$this->load->helper('form');
+			$this->load->library('form_validation');
 
-		public function delete($service_id = FALSE, $ben_id = FALSE) {
-			if (!$this->ion_auth->in_group('admin')) {
-				redirect('services'); 
+            $data['title'] = 'Edit visit';
+            
+            $data['visit_id'] = $visit_id;
+            $data['visit'] = $this->visits_model->get_visit_by_id($visit_id);
+
+            $data['visitor_id'] = $data['visit']['visitor_id'];
+            $data['visitor_fullname'] = $data['visit']['fname'].' '.$data['visit']['mname'].' '.$data['visit']['lname'];
+            
+            $visitor_id = $data['visit']['visitor_id'];
+
+            //data validation
+            $this->form_validation->set_rules('visit_date','Visit Date','required');
+            $this->form_validation->set_rules('or_no','OR Number','required');
+            $this->form_validation->set_rules('boarding_pass','Boarding Pass','required');
+            $this->form_validation->set_rules('form_signed','Form signature','required');
+            $this->form_validation->set_rules('butanding','Butanding','required');
+            $this->form_validation->set_rules('girawan','Girawan','required');
+            $this->form_validation->set_rules('firefly','Firefly','required');
+            $this->form_validation->set_rules('island_hop','Island Hop','required');
+			
+			//upon submission of edit action
+			if ($this->input->post('action') == 1) {
+				
+				if ($this->form_validation->run() === FALSE) {
+                    
+                    $this->load->view('templates/header', $data);
+					$this->load->view('visits/edit');
+					$this->load->view('templates/footer');
+	
+				}
+				else {
+
+                    //echo '<pre>'; print_r($_POST); echo '</pre>'; die();
+
+                    //prep data array
+                    $data = array(
+                        'visit_date' => $this->input->post('visit_date'),
+                        'boarding_pass' => $this->input->post('boarding_pass'),
+                        'or_no' => $this->input->post('or_no'),
+                        'form_signed' => $this->input->post('form_signed'),
+                        'butanding' => $this->input->post('butanding'),
+                        'girawan' => $this->input->post('girawan'),
+                        'firefly' => $this->input->post('firefly'),
+                        'island_hop' => $this->input->post('island_hop'),
+                        'visit_remarks' => $this->input->post('visit_remarks'),
+                        'trash' => $this->input->post('trash')
+                    );
+
+
+                    //execute data update
+					$this->visits_model->update_visit($data);
+                    
+                    //add audit trail
+                    $altered = $this->input->post('altered'); //hidden field that tracks form edits; see form
+                    if (strlen($altered) > 0) {
+                        $this->tracker_model->log_event('visit_id', $visit_id, 'modified', $altered);
+                    }
+
+                    //retrieve updated data
+                    $data['visit'] = $this->visits_model->get_visit_by_id($visit_id);
+                    
+					if ( $this->input->post('trash') == 1) {
+                        $data['alert_trash'] = 'Marked for deletion. This is your last chance to undo by unchecking the "Delete" box below and clicking submit.<br />';
+                        $this->tracker_model->log_event('visit_id', $visit_id, 'modified', 'entry marked as deleted');
+					}
+					else {
+						$data['alert_success'] = 'Entry updated.';
+					}
+                    
+                    $data['title'] = 'Edit visit';
+                    $data['visit_id'] = $visit_id;
+                    $data['visitor_id'] = $this->input->post('visitor_id');
+
+					$this->load->view('templates/header', $data);
+					$this->load->view('visits/edit');
+					$this->load->view('templates/footer');
+				}
+				
 			}
-			$this->visits_model->trash_service($service_id, $ben_id);
+			else{
+				
+                //echo '<pre>'; print_r($data); echo '</pre>'; die();
+
+				$this->load->view('templates/header', $data);
+				$this->load->view('visits/edit');
+				$this->load->view('templates/footer');
+			}
+		
+		}
+
+
+		public function delete($visit_id = FALSE, $ben_id = FALSE) {
+			if (!$this->ion_auth->in_group('admin')) {
+				redirect('visits'); 
+			}
+			$this->visits_model->trash_visit($visit_id, $ben_id);
 			redirect('beneficiaries/view/'.$ben_id);
 
 		}
@@ -453,384 +452,13 @@ class Visits extends CI_Controller {
 			
 		}
 		
-		public function batch_import() {
-
-			$data['title'] = 'Services data import';
-
-			if ($this->input->post('action') == 'upload') {
-
-				//print_r($_FILES);
-				
-				$config['upload_path'] 		= './tmp/';
-				$config['allowed_types']    = 'csv';
-                $config['max_size']         = 10240;
-                
-				$this->load->library('upload', $config);
-				
-				if ( ! $this->upload->do_upload('userfile')) {
-						
-						//$error = array('error' => $this->upload->display_errors());
-						//echo '<pre>'; print_r($error); echo '</pre>';
-
-						$data['error'] = array('error' => $this->upload->display_errors());
-						$this->load->view('templates/header', $data);
-						$this->load->view('services/batch_import');
-						$this->load->view('templates/footer');		
-                }
-                else{
-						
-						$dd = array('upload_data' => $this->upload->data());
-						//echo '<pre>'; print_r($dd); echo '</pre>';
-
-						if ($dd['upload_data']['file_size'] > 0) {
-							
-							$userfile = $dd['upload_data']['full_path'];
-							//echo $userfile;
-							$this->load->library('CSVReader');
-							$result =   $this->csvreader->parse_file($userfile);//path to csv file
-							//$data['flow'] = $result;
-							$data['csvData'] =  $result;
-							
-							//initiate system lockdown
-							$ctr = 0;
-							foreach ($result as $r) {
-								
-								$keys = array_keys($r);
-								$values = $r[$keys[0]];
-								$keys = explode(',', $keys[0]);
-								$values = explode(',', $values);	
-
-								for ($i = 0; $i < count($keys); $i++){
-									$keys[$i] = trim($keys[$i]);
-									$r[$keys[$i]] = $values[$i];
-								}
-								//echo '<pre>'; print_r($r); echo '</pre>'; die();
-								
-								$fname = $r['FNAME'];
-								$mname = $r['MNAME'];
-								$lname = $r['LNAME'];
-								$dob = $r['DOB'];
-								
-								$address = $r['ADDRESS'];
-								$barangay = $r['BARANGAY'];
-								$district = $r['DISTRICT'];
-								$sex = $r['SEX'];
-								$mobile_no = $r['MOBILE_NO'];
-								$email = $r['EMAIL'];
-
-								$req_date =  $r['REQUEST_DATE'];
-								$service_type = $r['SERVICE_TYPE'];
-								$particulars = $r['PARTICULARS'];
-								$amount = $r['AMOUNT'];
-								$service_status = $r['SERVICE_STATUS'];
-								$action_officer = $r['ACTION_OFFICER'];
-								$recommendation = $r['RECOMMENDATION'];
-								$remarks = $r['REMARKS'];
-								
-								
-
-								$data['flow'][$ctr]['fullname'] = $fname.' '.$mname.' '.$lname;
-								
-								//check if record exists in rvoter
-								$rvoter_match = $this->rvoters_model->find_rvoter_match($fname, $mname, $lname, $dob);
-								//check if record exists in nvoter
-								$nvoter_match = $this->nonvoters_model->find_nvoter_match($fname, $mname, $lname, $dob);
-
-								$rmatch = FALSE;
-								$nmatch = FALSE;
-
-								if (isset($rvoter_match) && !empty($rvoter_match)) {
-									$rmatch = TRUE;
-									$id_no_comelec = $rvoter_match[0]['id_no_comelec'];
-									
-									$data['flow'][$ctr]['rmatch'] = TRUE;
-									$data['flow'][$ctr]['id_no_comelec'] = $id_no_comelec;
-
-								}
-								if (isset($nvoter_match) && !empty($nvoter_match)) {
-									$nmatch = TRUE;
-									$nv_id = $nvoter_match[0]['nv_id'];
-									
-									$data['flow'][$ctr]['nmatch'] = TRUE;
-									$data['flow'][$ctr]['nv_id'] = $nv_id;
-
-								}
-
-								//true in both rvoter and nvoter
-								if ($rmatch == TRUE && $nmatch == TRUE) {
-									$data['flow'][$ctr]['match_condition'] = 'both are true';
-									//rvoter supersedes nvoter
-									$ben_match = $this->beneficiaries_model->get_ben_by_comid($id_no_comelec);
-
-									if (!empty($ben_match)) {
-										
-										//check if service record already exists
-										$ben_id = $ben_match['ben_id']; 
-										$dupe = $this->visits_model->dupe_check($req_date, $ben_id, $service_type, $particulars, $amount);
-
-										if (empty($dupe)) {
-										
-											$service_data = array(
-													'req_date' => $req_date,
-													'ben_id' => $ben_id,
-													'req_ben_id' => $ben_id, //defaulting to self
-													'relationship' => 'self',
-													'service_type' => $service_type,
-													'particulars' => $particulars,
-													'amount' => $amount,
-													's_status' => $service_status,
-													'action_officer' => $action_officer,
-													'recommendation' => $recommendation,
-													's_remarks' => $remarks.' (batch upload)',
-													'trash' => 0
-											);
-											$this->visits_model->set_service($service_data);
-										}
-										else{
-
-											$data['notice'][] = 'Entry exists for:  ('.$id_no_comelec.') '.$fname.' '.$mname.' '.$lname.' / '.$req_date.' '.$service_type.' '.$particulars.' '.$amount;
-
-										}
-										
-									}
-									else{
-										//create new ben via id_no_comelec
-										$this->beneficiaries_model->set_beneficiary($id_no_comelec, 'rv');
-										//create new service with new ben id
-										$new_ben_id = $this->beneficiaries_model->get_ben_by_comid($id_no_comelec);
-										
-										$service_data = array(
-											'req_date' => $req_date,
-											'ben_id' => $new_ben_id,
-											'req_ben_id' => $new_ben_id, //defaulting to self
-											'relationship' => 'self',
-											'service_type' => $service_type,
-											'particulars' => $particulars,
-											'amount' => $amount,
-											's_status' => $service_status,
-											'action_officer' => $action_officer,
-											'recommendation' => $recommendation,
-											's_remarks' => $remarks.' (batch upload)',
-											'trash' => 0
-										);
-										$this->visits_model->set_service($service_data);
-
-									}
-								}
-								//true for rvoter
-								elseif ($rmatch == TRUE && $nmatch == FALSE) {
-									
-									$data['flow'][$ctr]['match_condition'] = 'rmatch is true';
-									
-									$ben_match = $this->beneficiaries_model->get_ben_by_comid($id_no_comelec);
-									
-									if (!empty($ben_match)) {
-										
-										//check if service record already exists
-										$ben_id = $ben_match['ben_id'];
-										$dupe = $this->visits_model->dupe_check($req_date, $ben_id, $service_type, $particulars, $amount);
-
-										if (empty($dupe)) {
-										
-											$service_data = array(
-													'req_date' => $req_date,
-													'ben_id' => $ben_id,
-													'req_ben_id' => $ben_id, //defaulting to self
-													'relationship' => 'self',
-													'service_type' => $service_type,
-													'particulars' => $particulars,
-													'amount' => $amount,
-													's_status' => $service_status,
-													'action_officer' => $action_officer,
-													'recommendation' => $recommendation,
-													's_remarks' => $remarks.' (batch upload)',
-													'trash' => 0
-											);
-											$this->visits_model->set_service($service_data);
-										}
-										else{
-											
-											$data['notice'][] = 'Entry exists for:  ('.$id_no_comelec.') '.$fname.' '.$mname.' '.$lname.' / '.$req_date.' '.$service_type.' '.$particulars.' '.$amount;
-
-										}
-
-									}
-									else{
-										
-										//create new ben via id_no_comelec
-										$this->beneficiaries_model->set_beneficiary($id_no_comelec, 'rv');
-										//create new service with new ben id
-										$new_ben_id = $this->beneficiaries_model->get_ben_by_comid($id_no_comelec);
-										$service_data = array(
-											'req_date' => $req_date,
-											'ben_id' => $new_ben_id,
-											'req_ben_id' => $new_ben_id, //defaulting to self
-											'relationship' => 'self',
-											'service_type' => $service_type,
-											'particulars' => $particulars,
-											'amount' => $amount,
-											's_status' => $service_status,
-											'action_officer' => $action_officer,
-											'recommendation' => $recommendation,
-											's_remarks' => $remarks.' (batch upload)',
-											'trash' => 0
-										);
-										$this->visits_model->set_service($service_data);
-
-									}
-
-								}
-								//true for nvoter
-								elseif ($rmatch == FALSE && $nmatch == TRUE) {
-									
-									$data['flow'][$ctr]['match_condition'] = 'nmatch is true';
-									
-									$ben_match = $this->beneficiaries_model->get_ben_by_nvid($nv_id);
-
-									if (!empty($ben_match)) {
-										
-										//check if service record already exists
-										$ben_id = $ben_match['ben_id'];
-										$dupe = $this->visits_model->dupe_check($req_date, $ben_id, $service_type, $particulars, $amount);
-
-										if (empty($dupe)) {
-										
-											$service_data = array(
-													'req_date' => $req_date,
-													'ben_id' => $ben_id,
-													'req_ben_id' => $ben_id, //defaulting to self
-													'relationship' => 'self',
-													'service_type' => $service_type,
-													'particulars' => $particulars,
-													'amount' => $amount,
-													's_status' => $service_status,
-													'action_officer' => $action_officer,
-													'recommendation' => $recommendation,
-													's_remarks' => $remarks.' (batch upload)',
-													'trash' => 0
-											);
-											$this->visits_model->set_service($service_data);
-										}
-										else{
-											
-											$data['notice'][] = 'Entry exists for:  '.$fname.' '.$mname.' '.$lname.' / '.$req_date.' '.$service_type.' '.$particulars.' '.$amount;
-
-										}
-
-									}
-									else{
-										
-										//create new ben via nv_id
-										$this->beneficiaries_model->set_beneficiary($nv_id, 'nv');
-										//create new service with new ben id
-										$new_ben_id = $this->beneficiaries_model->get_ben_by_nvid($nv_id);
-										$service_data = array(
-											'req_date' => $req_date,
-											'ben_id' => $new_ben_id,
-											'req_ben_id' => $new_ben_id, //defaulting to self
-											'relationship' => 'self',
-											'service_type' => $service_type,
-											'particulars' => $particulars,
-											'amount' => $amount,
-											's_status' => $service_status,
-											'action_officer' => $action_officer,
-											'recommendation' => $recommendation,
-											's_remarks' => $remarks.' (batch upload)',
-											'trash' => 0
-										);
-										$this->visits_model->set_service($service_data);
-									}
-								}
-								elseif ($rmatch == FALSE && $nmatch == FALSE) {
-								//if not exist in nvoter or rvoter (both are false)
-									$data['flow'][$ctr]['match_condition'] = 'both are false';
-																	
-									//create new nvoter entry, this creates new ben entry as well
-										//default status to active, referee to null
-									$nv_data = array(
-										'code' => NULL,
-										'id_no' => NULL,
-										'fname' => strtoupper($fname),
-										'mname' => strtoupper($mname),
-										'lname' => strtoupper($lname),
-										'dob' => $dob,
-										'address' => $address,
-										'barangay' => $barangay,
-										'district' => $district,
-										'sex' => $sex,
-										'mobile_no' => $mobile_no,
-										'email' => $email,
-										'referee' => NULL,
-										'nv_status' => 1,
-										'nv_remarks' => $remarks.' (batch upload)',
-										'trash' => 0
-										);	
-									$this->nonvoters_model->set_nonvoter($nv_data);
-									
-									//retrieve new ben id
-									$nvoter_match = $this->nonvoters_model->find_nvoter_match($fname, $mname, $lname, $dob);
-									$nv_id = $nvoter_match[0]['nv_id'];
-									$ben_details = $this->beneficiaries_model->get_ben_by_nvid($nv_id);
-									$new_ben_id = $ben_details['ben_id'];
-									
-									//create new service entry, 
-									//preset values for s_remarks .= 'batch upload', req_ben_id = ben_id, relationship = 'self'
-									$service_data = array(
-										'req_date' => $req_date,
-										'ben_id' => $new_ben_id,
-										'req_ben_id' => $new_ben_id, //defaulting to self
-										'relationship' => 'self',
-										'service_type' => $service_type,
-										'particulars' => $particulars,
-										'amount' => $amount,
-										's_status' => $service_status,
-										'action_officer' => $action_officer,
-										'recommendation' => $recommendation,
-										's_remarks' => $remarks.' (batch upload)',
-										'trash' => 0
-									);
-									$this->visits_model->set_service($service_data);
-									
-
-								}
-								else {
-									$data['flow'][$ctr]['match_condition'] = 'Invalid';
-
-								}
-								
-								$ctr++;
-							}
-							//release system lockdown
-						}
-
-						$this->tracker_model->log_event('completed','completed services data import. '.$ctr.' records processed');
-
-						$data['import_success'] = TRUE;
-						//echo '<pre>'; print_r($data); echo '</pre>'; die();
-
-						$this->load->view('templates/header', $data);
-						$this->load->view('services/batch_import', $data);
-						$this->load->view('templates/footer');
-                }
-			
-			}
-			else{
-				
-				$this->tracker_model->log_event('initiated','initiated services data import');
-
-				$this->load->view('templates/header', $data);
-				$this->load->view('services/batch_import', $data);
-				$this->load->view('templates/footer');
-			}
-		
-		}
-		
-		public function all_to_excel() {
+        
+        public function all_to_excel() {
         //export all data to Excel file
         
         	$this->load->library('export');
-			$sql = $this->visits_model->get_services();
-			$this->export->to_excel($sql, 'allservices'); 
+			$sql = $this->visits_model->get_visits();
+			$this->export->to_excel($sql, 'allvisits'); 
 	
 			//$this->output->enable_profiler(TRUE);	
         }
@@ -842,7 +470,7 @@ class Visits extends CI_Controller {
         	//echo '<pre>'; print_r($filter); echo '</pre>';
         	$field = key($filter);
         	$value = $filter[key($filter)];
-        	$sql = $this->visits_model->filter_services($field, $value);
+        	$sql = $this->visits_model->filter_visits($field, $value);
 			//echo '<pre>'; print_r($sql); echo '</pre>';
 			$filename = 'filtered_'.$field.'_'.$value.'_'.date('Y-m-d-Hi');
 			echo $filename;
@@ -856,7 +484,7 @@ class Visits extends CI_Controller {
         	
         	$search = $this->uri->segment(3);
 			//echo $search;
-        	$sql = $this->visits_model->search_services($search);
+        	$sql = $this->visits_model->search_visits($search);
 			$filename = 'results_'.$search.'_'.date('Y-m-d-Hi');
 			//echo $filename;
 			$this->export->to_excel($sql, $filename); 

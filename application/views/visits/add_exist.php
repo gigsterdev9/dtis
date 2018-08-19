@@ -15,116 +15,98 @@
 		?>
 			<div class="alert alert-success">
 				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-				<?php echo $alert_success ?> <a href="<?php echo base_url('beneficiaries/view/'.$ben_id) ?>">Return to service details.</a>
+				<?php echo $alert_success ?> <a href="<?php echo base_url('visitors/view/'.$visitor_id) ?>">Return to visit details.</a>
 			</div>
 		<?php
 		}
 
-			//begin main add scholarship form
-			$attributes = array('class' => 'form-horizontal', 'role' => 'form', 'id' => 'form-new-scholarship');
-			echo form_open('services/add_exist', $attributes); 
+			//begin main add visit form
+			$attributes = array('class' => 'form-horizontal', 'role' => 'form', 'id' => 'form-new-visit');
+			echo form_open('visits/add_exist/'.$visitor_id, $attributes); 
 		?>
 				<!-- begin: hidden div -->
 				<div class="with-match" id="with-match">
 					
 					<div class="form-group">
-						<label class="control-label col-sm-2" for="req_date">Request date<span class="text-info">*</span></label>
+						<label class="control-label col-sm-2" for="visit_date">Visit date<span class="text-info">*</span></label>
 						<div class="col-sm-10">
-							<input type='text' class="form-control" name="req_date" id='datetimepicker1' value="<?php echo set_value('req_date'); ?>" />
+							<input type='text' class="form-control" name="visit_date" id='datetimepicker1' value="<?php echo set_value('visit_date'); ?>" />
 							<script type="text/javascript">
 								$(function () {
+                                    var end = new Date();
+
 									$('#datetimepicker1').datetimepicker({
 										format: 'YYYY-MM-DD',
+                                        viewMode: 'years',
+									    maxDate: end
 									});
 								});
 							</script>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-sm-2" for="recipient_fullname">Recipient<span class="text-info">*</span></label>
+						<label class="control-label col-sm-2" for="visitor_fullname">Visitor<span class="text-info">*</span></label>
 						<div class="col-sm-10">	
-							<input type="text" class="form-control" name="recipient_fullname" id="recipient_fullname" 
-								value="<?php echo (isset($recipient_fullname)) ? $recipient_fullname : set_value('recipient_fullname') ?>" readonly />
+							<input type="text" class="form-control" name="visitor_fullname" id="visitor_fullname" 
+								value="<?php echo (isset($visitor_fullname)) ? $visitor_fullname : set_value('visitor_fullname') ?>" readonly />
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-sm-2" for="req_id">Requested by<span class="text-info">*</span></label>
+						<label class="control-label col-sm-2" for="or_no">OR Number<span class="text-info">*</span></label>
 						<div class="col-sm-10">	
-							<select name="req_ben_id" class="form-control select2-single">
+							<input type="text" class="form-control" name="or_no" value="<?php echo set_value('or_no'); ?>" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="form_signed">Form Signed<span class="text-info">*</span></label>
+						<div class="col-sm-10">	
+							<select name="form_signed" class="form-control select2-single">
 								<option value="">Select</option>
-								<?php
-								foreach ($requestors as $r) {
-									echo '<option value="'.$r['ben_id'].'">'.$r['fullname'].'</option>';
-								}
-								?>
+                                <option value="0" <?php echo  set_select('form_signed', '0'); ?> >No</option>
+                                <option value="1" <?php echo  set_select('form_signed', '1'); ?> >Yes</option>
 							</select>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-sm-2" for="relationship">Relationship<span class="text-info">*</span></label>
-						<div class="col-sm-10">	
-							<input type="text" class="form-control" name="relationship" value="<?php echo set_value('relationship'); ?>" placeholder="e.g. self, mother, uncle, guardian"/>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-sm-2" for="service_type">Type<span class="text-info">*</span></label>
-						<div class="col-sm-10">	
-							<select name="service_type" class="form-control select2-single">
-								<option value="">Select</option>
-								<option value="burial" <?php if (set_value('service_type') == 'burial') echo 'selected'; ?> >Burial</option>
-								<option value="endorsement" <?php if (set_value('service_type') == 'endorsement') echo 'selected'; ?> >Endorsement</option>
-								<option value="financial" <?php if (set_value('service_type') == 'financial') echo 'selected'; ?> >Financial</option>
-								<option value="legal" <?php if (set_value('service_type') == 'legal') echo 'selected'; ?> >Legal</option>
-								<option value="medical" <?php if (set_value('service_type') == 'medical') echo 'selected'; ?> >Medical</option>
-							</select>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-sm-2" for="particulars">Particulars<span class="text-info">*</span></label>
-						<div class="col-sm-10">	
-							<input type="text" class="form-control" name="particulars" value="<?php echo set_value('particulars'); ?>" />
 						</div>
 					</div>
                     <div class="form-group">
-						<label class="control-label col-sm-2" for="institution">Institution</label>
-						<div class="col-sm-10">	
-							<input type="text" class="form-control" name="institution" value="<?php echo set_value('institution'); ?>" />
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-sm-2" for="amount">Amount (in Php)</label>
-						<div class="col-sm-10">	
-						<input type="text" class="form-control" name="amount" value="<?php echo set_value('amount'); ?>" />
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-sm-2" for="s_status">Status<span class="text-info">*</span></label>
-						<div class="col-sm-10">	
-							<select name="s_status" class="form-control select2-single">
+						<label class="control-label col-sm-2" for="butanding">Butanding<span class="text-info">*</span></label>
+						<div class="col-sm-4">	
+							<select name="butanding" class="form-control select2-single">
 								<option value="">Select</option>
-								<option value="pending" <?php if (set_value('s_status') == 'pending') echo 'selected'; ?> >Pending</option>
-								<option value="released" <?php if (set_value('s_status') == 'released') echo 'selected'; ?> >Released</option>
-								<option value="endorsed" <?php if (set_value('s_status') == 'endorsed') echo 'selected'; ?> >Endorsed</option>
-								<option value="cancelled" <?php if (set_value('s_status') == 'cancelled') echo 'selected'; ?> >Cancelled</option>
+                                <option value="0" <?php echo  set_select('butanding', '0'); ?> >No</option>
+                                <option value="1" <?php echo  set_select('butanding', '1'); ?> >Yes</option>
+							</select>
+						</div>
+                        <label class="control-label col-sm-2" for="girawan">Girawan<span class="text-info">*</span></label>
+						<div class="col-sm-4">	
+							<select name="girawan" class="form-control select2-single">
+								<option value="">Select</option>
+                                <option value="0" <?php echo  set_select('girawan', '0'); ?> >No</option>
+                                <option value="1" <?php echo  set_select('girawan', '1'); ?> >Yes</option>
 							</select>
 						</div>
 					</div>
-					<div class="form-group">
-						<label class="control-label col-sm-2" for="action_officer">Action Officer</label>
-						<div class="col-sm-10">	
-						<input type="text" class="form-control" name="action_officer" value="<?php echo set_value('action_officer'); ?>" />
+                    <div class="form-group">
+						<label class="control-label col-sm-2" for="firefly">Firefly<span class="text-info">*</span></label>
+						<div class="col-sm-4">	
+							<select name="firefly" class="form-control select2-single">
+								<option value="">Select</option>
+                                <option value="0" <?php echo  set_select('firefly', '0'); ?> >No</option>
+                                <option value="1" <?php echo  set_select('firefly', '1'); ?> >Yes</option>
+							</select>
+						</div>
+                        <label class="control-label col-sm-2" for="island_hop">Island Hop<span class="text-info">*</span></label>
+						<div class="col-sm-4">	
+							<select name="island_hop" class="form-control select2-single">
+								<option value="">Select</option>
+                                <option value="0" <?php echo  set_select('island_hop', '0'); ?> >No</option>
+                                <option value="1" <?php echo  set_select('island_hop', '1'); ?> >Yes</option>
+							</select>
 						</div>
 					</div>
-					<div class="form-group">
-						<label class="control-label col-sm-2" for="recommendation">Recommendation</label>
+                    <div class="form-group">
+						<label class="control-label col-sm-2" for="visit_remarks">Remarks</label>
 						<div class="col-sm-10">	
-							<input type="text" class="form-control" name="recommendation" value="<?php echo set_value('recommendation'); ?>" />
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-sm-2" for="s_remarks">Remarks</label>
-						<div class="col-sm-10">	
-							<input type="text" class="form-control" name="s_remarks" value="<?php echo set_value('s_remarks'); ?>" />
+							<input type="text" class="form-control" name="visit_remarks" value="<?php echo set_value('visit_remarks'); ?>" />
 						</div>
 					</div>
 
@@ -141,7 +123,7 @@
 
 				</div> <!-- end: hidden div -->
 			</form> 
-			<!--end: main add scholarship form -->				
+			<!--end: main add visit form -->				
 	</div>
 </div>
 </div>
