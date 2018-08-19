@@ -72,7 +72,12 @@ class Auth extends CI_Controller {
 		    	$headers = "From: DonsolTIS<no-reply@infragrey.com>"."\r\n";
 		    	mail('pj.villarta@gmail.com', 'DonsolTIS login alert', $msg, $headers);
 
-				redirect('/', 'refresh');
+                if ($this->ion_auth->in_group('partner')) {
+                    redirect('/visitors/add', 'refresh');
+                }
+                else{
+                    redirect('/', 'refresh');
+                }
 			}
 			else
 			{

@@ -1,3 +1,7 @@
+<?php
+//define viewing restrictions by user group
+$restricted_groups = array('wwf','partner'); 
+?>
 <!DOCTYPE html>
 <html lang="en">
 <!-- Development: PJ Villarta // Powered by Apache, PHP, Code Igniter, Bootstrap, Jquery, X-editable -->
@@ -75,9 +79,22 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span> 
 			  		</button>
+                    <?php 
+                    if (!$this->ion_auth->in_group($restricted_groups)) {  
+                    ?>
 			  		<a class="navbar-brand" href="<?php echo base_url('dashboard') ?>">
 			  			<span class="glyphicon glyphicon-home"></span> <small>Donsol TIS</small>
 			  		</a>
+                    <?php
+                    }
+                    else{
+                    ?>
+                    <a class="navbar-brand" href="#">
+                        <span class="glyphicon glyphicon-home"></span> <small>Donsol TIS</small> 
+                    </a>
+                    <?php    
+                    }
+                    ?>
 				</div>
 			<div class="collapse navbar-collapse" id="navBar">
 			  	<ul class="nav navbar-nav">
@@ -92,6 +109,9 @@
 						</ul>
 					</li>
 					-->
+                    <?php
+                    if (!$this->ion_auth->in_group($restricted_groups)) {  
+                    ?>
 					<li><a href="<?php echo base_url('visitors') ?>"><i class="fas fa-address-book"></i>&nbsp; Visitors</a></li>
 					<li><a href="<?php echo base_url('visits') ?>"><i class="fas fa-camera"></i>&nbsp; Visits</a></li>
                     <li class="dropdown">
@@ -103,7 +123,9 @@
                             <li><a href="<?php echo base_url('activities/islandhop') ?>"><i class="fas fa-folder-open"></i>&nbsp; Island Hopping</a></li>
 						</ul>
 					</li>
-					<?php if ($this->ion_auth->in_group('admin'))
+                    <?php 
+                    }
+                    if ($this->ion_auth->in_group('admin'))
 					{
 					?>
 						<li><a href="<?php echo base_url('users') ?>"><i class="fas fa-users"></i>&nbsp; Users</a></li>

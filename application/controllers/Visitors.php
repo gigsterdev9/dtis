@@ -191,7 +191,8 @@ class Visitors extends CI_Controller {
         
         
         public function add() {
-			if (!$this->ion_auth->in_group('admin')) {
+            $allowed_groups = array('admin','encoder','partner');
+			if (!$this->ion_auth->in_group($allowed_groups)) {
 				redirect('visitors');
 			}
 			

@@ -99,7 +99,7 @@
                         <div class="col-sm-9 control-value"><?php echo $visitor['ice_address']; ?>&nbsp;</div>
 
                         <div class="col-sm-3 control-label">Relationship to Contact</div>
-                        <div class="col-sm-9 control-value"><?php echo $visitor['ice_contact_nos']; ?>&nbsp;</div>
+                        <div class="col-sm-9 control-value"><?php echo $visitor['ice_relationship']; ?>&nbsp;</div>
 
                         <div class="col-sm-12 buffer">&nbsp;</div>
 

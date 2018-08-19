@@ -1,3 +1,8 @@
+<?php
+//define viewing restrictions by user group
+$restricted_groups = array('wwf','partner'); 
+?>
+
 <div class="container">
 <h2><?php echo $title; ?></h2>
 <p><a href="javascript:history.go(-1)" ><span class="glyphicon glyphicon-remove-sign"></span> Cancel</a></p>
@@ -14,7 +19,10 @@
 		?>
 			<div class="alert alert-success">
 				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-				Entry added. <a href="<?php echo base_url('visitors') ?>">Return to Index.</a>
+				Entry added. 
+                <?php if (!$this->ion_auth->in_group($restricted_groups)) { ?>
+                    <a href="<?php echo base_url('visitors') ?>">Return to Index.</a>
+                <?php } ?>
 			</div>
 		<?php
 		}
@@ -415,16 +423,23 @@
 				<div class="form-group">
 					<label class="control-label col-sm-2" for="status">Status Code<span class="text-info">*</span></label>
 					<div class="col-sm-10">
-						<select class="form-control select2-single" name="status">
+						<select class="form-control select2-single" name="status" >
 							<option value="">Select</option>
-							<option value="0" <?php if (set_value('status') == '0') echo 'selected' ?> >Undefined</option>
-							<option value="1" <?php if (set_value('status') == '1') echo 'selected' ?> >Welcome</option>
-							<option value="2" <?php if (set_value('status') == '2') echo 'selected' ?> >Conditional Entry</option>
-                            <option value="3" <?php if (set_value('status') == '3') echo 'selected' ?> >Total Ban</option>
+							<option value="0" <?php echo set_select('status', '0'); ?> >Undefined</option>
+							<option value="1" <?php echo set_select('status', '1', true); ?> >Welcome</option>
+                            <?php 
+                            if (!$this->ion_auth->in_group($restricted_groups)) {
+                            ?> 
+							<option value="2" <?php echo set_select('status', '2'); ?> >Conditional Entry</option>
+                            <option value="3" <?php echo set_select('status', '3'); ?> >Total Ban</option>
+                            <?php
+                            }
+                            ?>
 						</select>
 					</div>
 				</div>
-				<div class="form-group">
+
+                <div class="form-group">
 					<label class="control-label col-sm-2" for="remarks">Remarks</label>
 					<div class="col-sm-10">
 						<textarea name="remarks" class="form-control" rows="5"><?php echo set_value('remarks'); ?></textarea>

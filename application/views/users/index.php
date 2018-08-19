@@ -26,11 +26,11 @@
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th width="20%">Username</th>
+						<th width="15%">Username</th>
 						<th width="20%">Name</th>
 						<th width="20%">Email</th>
 						<th width="20%">Organization/Affiliation</th>
-						<th width="10%">User Group</th>
+						<th width="15%">User Group</th>
 						<th width="10%">Status</th>
 					</tr>
 				</thead>
@@ -49,7 +49,7 @@
 						<td><?php echo $user['first_name'].' '.$user['last_name']; ?></td>
 						<td><?php echo $user['email']; ?></td>
 						<td><?php echo $user['company']; ?></td>
-						<td><?php echo $user['description']; ?></td>
+						<td><?php echo $user['name']; ?></td>
 						<td><?php echo $status ?></td>
 					</tr>
 					<?php

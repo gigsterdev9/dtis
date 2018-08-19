@@ -9,7 +9,7 @@
             <img src="<?php echo base_url('/images/donsol_seal.png') ?>" alt="donsol_seal" />
              <img src="<?php echo base_url('/images/wwf_logo.png') ?>" alt="wwf_logo" />
         </div>
-    </div
+    </div>
     <div class="row">
         <div class="col-sm-12">
             <h1>Donsol Tourism Information System</h1>

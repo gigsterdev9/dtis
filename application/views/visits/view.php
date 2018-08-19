@@ -29,9 +29,18 @@
 				?>
 				<div class="col-sm-6" >
                     <div class="row">
+                        <div class="col-sm-4 control-label">Boarding Pass</div>
+                        <div class="col-sm-8 control-value"><?php echo ($visit['boarding_pass'])? $visit['boarding_pass'] : '--' ; ?>&nbsp;</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4 control-label">OR No.</div>
+                        <div class="col-sm-8 control-value"><?php echo ($visit['or_no'])? $visit['or_no'] : '--' ; ?>&nbsp;</div>
+                    </div>
+                    <div class="row">
                         <div class="col-sm-4 control-label">Waiver form signed?</div>
                         <div class="col-sm-8 control-value"><?php echo ($visit['form_signed'] == 1) ? 'Yes' : 'No' ; ?>&nbsp;</div>
                     </div>
+                    <!--
                     <div class="row">
                         <div class="col-sm-4 control-label">Butanding Interaction</div>
                         <div class="col-sm-8 control-value"><?php echo ($visit['butanding'] == 1) ? 'Yes' : 'No' ; ?>&nbsp;</div>
@@ -48,6 +57,7 @@
                         <div class="col-sm-4 control-label">Island Hopping</div>
                         <div class="col-sm-8 control-value"><?php echo ($visit['island_hop'] == 1) ? 'Yes' : 'No' ; ?>&nbsp;</div>
                     </div>
+                    -->
                     <div class="row">
                         <div class="col-sm-4 control-label">Remarks</div>
                         <div class="col-sm-8 control-value"><?php echo $visit['remarks']; ?>&nbsp;</div>
@@ -65,11 +75,8 @@
                     <div class="row">
                         <div class="col-sm-9 control-label">
                         <?php 
-                            echo 'Boarding pass: &nbsp;'. $visit_details['butanding']['boarding_pass'].'<br />';
                             echo 'Boat ID: &nbsp;'. $visit_details['butanding']['boat_id'].'<br />';
-                            echo 'BIO name: &nbsp;'. $visit_details['butanding']['bio_name'].'<br />';
-                            echo 'OR no.: &nbsp;'. $visit_details['butanding']['or_no'].'<br />';
-                            echo 'OR date: &nbsp;'. $visit_details['butanding']['or_date'].'<br /><br />';
+                            echo 'BIO name: &nbsp;'. $visit_details['butanding']['bio_name'].'<br /><br />';
                         ?>
                         </div>
                     </div>
@@ -78,15 +85,39 @@
                     <div class="row">
                         <div class="col-sm-9 control-label"><b>Girawan Backyard Tour</b></div>
                     </div>
+                    <div class="row">
+                        <div class="col-sm-9 control-label">
+                        <?php 
+                            echo 'Boat ID: &nbsp;'. $visit_details['girawan']['boat_id'].'<br />';
+                            echo 'BIO name: &nbsp;'. $visit_details['girawan']['bio_name'].'<br /><br />';
+                        ?>
+                        </div>
+                    </div>
                     <?php } ?>
                     <?php if ($visit['firefly'] == 1) { ?>
                     <div class="row">
                         <div class="col-sm-9 control-label"><b>River Cruise and Firefly Watching</b></div>
                     </div>
+                    <div class="row">
+                        <div class="col-sm-9 control-label">
+                        <?php 
+                            echo 'Boat ID: &nbsp;'. $visit_details['firefly']['boat_id'].'<br />';
+                            echo 'BIO name: &nbsp;'. $visit_details['firefly']['bio_name'].'<br /><br />';
+                        ?>
+                        </div>
+                    </div>
                     <?php } ?>
                     <?php if ($visit['island_hop'] == 1) { ?>
                     <div class="row">
-                        <div class="col-sm-9 control-label"><b>Butanding Interaction</b></div>
+                        <div class="col-sm-9 control-label"><b>Island Hopping</b></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-9 control-label">
+                        <?php 
+                            echo 'Boat ID: &nbsp;'. $visit_details['island_hop']['boat_id'].'<br />';
+                            echo 'BIO name: &nbsp;'. $visit_details['island_hop']['bio_name'].'<br /><br />';
+                        ?>
+                        </div>
                     </div>
                     <?php } ?>
 				</div>
