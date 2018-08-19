@@ -29,7 +29,7 @@
 				?>
 				<div class="col-sm-6" >
                     <div class="row">
-                        <div class="col-sm-4 control-label">Boarding Pass</div>
+                        <div class="col-sm-4 control-label">Boarding Pass Code </div>
                         <div class="col-sm-8 control-value"><?php echo ($visit['boarding_pass'])? $visit['boarding_pass'] : '--' ; ?>&nbsp;</div>
                     </div>
                     <div class="row">
@@ -62,6 +62,7 @@
                         <div class="col-sm-4 control-label">Remarks</div>
                         <div class="col-sm-8 control-value"><?php echo $visit['remarks']; ?>&nbsp;</div>
                     </div>
+
 				</div>
 
 				<div class="col-sm-6">
@@ -76,7 +77,9 @@
                         <div class="col-sm-9 control-label">
                         <?php 
                             echo 'Boat ID: &nbsp;'. $visit_details['butanding']['boat_id'].'<br />';
-                            echo 'BIO name: &nbsp;'. $visit_details['butanding']['bio_name'].'<br /><br />';
+                            echo '&nbsp; &nbsp; Accreditation No.: <br /><br />';
+                            echo 'BIO name: &nbsp;'. $visit_details['butanding']['bio_name'].'<br />';
+                            echo '&nbsp; &nbsp; Accreditation No.: <br /><br />';
                         ?>
                         </div>
                     </div>
@@ -89,7 +92,9 @@
                         <div class="col-sm-9 control-label">
                         <?php 
                             echo 'Boat ID: &nbsp;'. $visit_details['girawan']['boat_id'].'<br />';
-                            echo 'BIO name: &nbsp;'. $visit_details['girawan']['bio_name'].'<br /><br />';
+                            echo '&nbsp; &nbsp; Accreditation No.: <br /><br />';
+                            echo 'BIO name: &nbsp;'. $visit_details['girawan']['bio_name'].'<br />';
+                            echo '&nbsp; &nbsp; Accreditation No.: <br /><br />';
                         ?>
                         </div>
                     </div>
@@ -102,7 +107,9 @@
                         <div class="col-sm-9 control-label">
                         <?php 
                             echo 'Boat ID: &nbsp;'. $visit_details['firefly']['boat_id'].'<br />';
-                            echo 'BIO name: &nbsp;'. $visit_details['firefly']['bio_name'].'<br /><br />';
+                            echo '&nbsp; &nbsp; Accreditation No.: <br /><br />';
+                            echo 'BIO name: &nbsp;'. $visit_details['firefly']['bio_name'].'<br />';
+                            echo '&nbsp; &nbsp; Accreditation No.: <br /><br />';
                         ?>
                         </div>
                     </div>
@@ -115,11 +122,19 @@
                         <div class="col-sm-9 control-label">
                         <?php 
                             echo 'Boat ID: &nbsp;'. $visit_details['island_hop']['boat_id'].'<br />';
-                            echo 'BIO name: &nbsp;'. $visit_details['island_hop']['bio_name'].'<br /><br />';
+                            echo '&nbsp; &nbsp; Accreditation No.: <br /><br />';
+                            echo 'BIO name: &nbsp;'. $visit_details['island_hop']['bio_name'].'<br />';
+                            echo '&nbsp; &nbsp; Accreditation No.: <br /><br />';
                         ?>
                         </div>
                     </div>
                     <?php } ?>
+
+                    <div class="row">
+                        <div class="col-sm-12 control-label" style="text-align:right">
+                            <i class="fas fa-print"></i> &nbsp; <button type="button" class="btn btn-sm">Print Boarding Pass</button>
+                        </div>
+                    </div>
 				</div>
 
 			</div>

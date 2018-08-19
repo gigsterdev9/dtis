@@ -27,7 +27,7 @@ class Activities extends CI_Controller {
             
             //set general pagination config
 			$config = array();
-			$config['base_url'] = base_url('visitors');
+			$config['base_url'] = base_url('activities');
 			
 			$config['per_page'] = 100;
 			$config['uri_segment'] = 2;
@@ -40,7 +40,8 @@ class Activities extends CI_Controller {
 
             $page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
             $data['butanding'] = $this->activities_model->get_all_butanding($config["per_page"], $page);
-            $data['butanding']['result_count'] = count($data['butanding']);
+            
+            $data['butanding']['result_count'] = $data['butanding']['result_count'];
             $config['total_rows'] = $data['butanding']['result_count'];
 
             $this->pagination->initialize($config);
@@ -58,7 +59,7 @@ class Activities extends CI_Controller {
             
             //set general pagination config
 			$config = array();
-			$config['base_url'] = base_url('visitors');
+			$config['base_url'] = base_url('activities');
 			
 			$config['per_page'] = 100;
 			$config['uri_segment'] = 2;
@@ -89,7 +90,7 @@ class Activities extends CI_Controller {
             
             //set general pagination config
 			$config = array();
-			$config['base_url'] = base_url('visitors');
+			$config['base_url'] = base_url('activities');
 			
 			$config['per_page'] = 100;
 			$config['uri_segment'] = 2;
@@ -120,7 +121,7 @@ class Activities extends CI_Controller {
             
             //set general pagination config
 			$config = array();
-			$config['base_url'] = base_url('visitors');
+			$config['base_url'] = base_url('activities');
 			
 			$config['per_page'] = 100;
 			$config['uri_segment'] = 2;
