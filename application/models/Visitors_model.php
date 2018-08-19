@@ -99,10 +99,10 @@ class visitors_model extends CI_Model {
 		return $result_array;
 		
 	}
-	
-	public function search_visitors($limit, $start, $where_clause = false) {
-		
-		//total possible results
+    
+    public function search_visitors($limit, $start, $where_clause = false) {
+        
+        //total possible results
 		$this->db->select('*');
 		$this->db->from('visitors');
 
@@ -114,8 +114,8 @@ class visitors_model extends CI_Model {
 		}
 		$query = $this->db->get();
 		$result_count = $query->num_rows();
-		
-		//results bounded by limits
+        
+        //results bounded by limits
 		$this->db->select("*, floor((DATEDIFF(CURRENT_DATE, STR_TO_DATE(bdate, '%Y-%m-%d'))/365)) as age");
 		$this->db->from('visitors');
 		
@@ -128,8 +128,8 @@ class visitors_model extends CI_Model {
 		$this->db->limit($limit, $start);
 		$this->db->order_by('lname', 'ASC');
 		$query = $this->db->get();		
-		
-		$result_array = $query->result_array();
+        
+        $result_array = $query->result_array();
 		$result_array['result_count'] = $result_count;
 
 		return $result_array;

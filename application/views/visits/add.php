@@ -27,7 +27,7 @@
 		if ( $this->input->POST('action') === NULL) {
 			//begin match find form
 			$attributes = array('class' => 'form-horizontal', 'role' => 'form', 'id' => 'form-match-find');
-			echo form_open('services/add', $attributes); 
+			echo form_open('visits/add', $attributes); 
 		?>
 				<div class="form-group">
 					<label class="control-label col-sm-2" for="fname">First Name<span class="text-info">*</span></label>
@@ -54,7 +54,7 @@
 						<script type="text/javascript">
 							$(function () {
 								var end = new Date();
-								end.setFullYear(end.getFullYear() - 12);
+								//end.setFullYear(end.getFullYear() - 12);
 
 								$('#datetimepicker1').datetimepicker({
 									format: 'YYYY-MM-DD',
@@ -74,9 +74,6 @@
 			<!-- end: match find form -->
 		<?php
 			}
-			//begin main add services form
-			$attributes = array('class' => 'form-horizontal', 'role' => 'form', 'id' => 'form-new-scholarship');
-			echo form_open('services/add', $attributes); 
 		?>
 		<!-- display the remainder of the form only if no match is found -->
 				<div class="match-found alert alert-warning collapse" id="match-found"></div> 
@@ -226,7 +223,7 @@ $(document).ready(function() {
 			"url" : "<?php echo base_url('visits/match_find'); ?>",
 			"data" : $("#form-match-find").serialize(), // serializes the form's elements.
 			"success" : function(data) {
-				//console.log(data);
+				console.log(data);
 				$("#match-found").html(data);
 			},
 			"error" : function(jqXHR, status, error) {
