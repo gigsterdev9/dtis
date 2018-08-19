@@ -143,6 +143,7 @@ class visitors_model extends CI_Model {
 		
 		if ($data == NULL) {
 			$data = array(
+                    'first_visit_year' => date('Y'),
                     'fname' => $this->input->post('fname'),
                     'mname' => $this->input->post('mname'),
                     'lname' => $this->input->post('lname'),
@@ -183,6 +184,7 @@ class visitors_model extends CI_Model {
 				
 		
 		$data = array(
+                'first_visit_year' => $this->input->post('first_visit_year'),
                 'fname' => $this->input->post('fname'),
                 'mname' => $this->input->post('mname'),
                 'lname' => $this->input->post('lname'),

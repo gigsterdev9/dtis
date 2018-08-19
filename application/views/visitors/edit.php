@@ -33,6 +33,12 @@
 				echo form_open('visitors/edit/'.$id, $attributes); 
 			?>
 					<div class="form-group">
+                        <label class="control-label col-sm-2" for="first_visit_year">Year of First Visit<span class="text-info">*</span></label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="first_visit_year" value="<?php echo set_value('first_visit_year', $visitor['first_visit_year']); ?>" required />
+                        </div>
+					</div>
+                    <div class="form-group">
                         <label class="control-label col-sm-2" for="fname">First Name<span class="text-info">*</span></label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" name="fname" value="<?php echo set_value('fname', $visitor['fname']); ?>" required />
