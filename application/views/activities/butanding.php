@@ -86,12 +86,12 @@
 					?>
 					<tr>
 						<td>
-							<a href="<?php echo site_url('butanding/view/'.$v['visit_id']); ?>">
+							<a href="<?php echo site_url('visits/view/'.$v['visit_id']); ?>">
 								<span class="glyphicon glyphicon-file"></span>
 							</a>
 						</td>
 						<td>
-							<a href="<?php echo site_url('butanding/view/'.$v['visit_id']); ?>">
+							<a href="<?php echo site_url('visits/view/'.$v['visit_id']); ?>">
 								<?php echo $v['visit_date'] ?>
 							</a>
 						</td>

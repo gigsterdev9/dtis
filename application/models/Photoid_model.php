@@ -95,7 +95,7 @@ class photoid_model extends CI_Model {
                     'new_sighting_count' => $this->input->post('new_sighting_count'),
                     'resighting_count' => $this->input->post('resighting_count'),
                     'ws_remarks' => $this->input->post('ws_remarks'),
-                    'trash_flag' => $this->input->post('trash')
+                    'trash_flag' => $this->input->post('trash_flag')
             );
         }
 		

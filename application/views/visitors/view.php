@@ -1,6 +1,10 @@
+<?php
+$visitor_id = sprintf("%'.05d\n", $visitor['visitor_id']);
+?>
 <div class="container">
 	<h2><span class="glyphicon glyphicon-folder-open"></span>&nbsp; Visitor Details</h2>
-	<h3><?php echo ($visitor['trash'] == '1') ? '<i class="fa fa-recycle"></i> ' : '<span class="glyphicon glyphicon-file"></span> ' ?><?php echo strtoupper($visitor['fname'].' '.$visitor['lname'].' ('.$visitor['visitor_id'].')'); ?> 
+	<h3><?php echo ($visitor['trash'] == '1') ? '<i class="fa fa-recycle"></i> ' : '<span class="glyphicon glyphicon-file"></span> ' ?>
+        <?php echo strtoupper($visitor['fname'].' '.$visitor['lname'].' ('.$visitor['first_visit_year'].'-'.$visitor_id.')'); ?> 
 	<?php if ($this->ion_auth->in_group('admin'))
 	{
 	?>
@@ -19,7 +23,7 @@
 				?>
 					<div class="alert alert-success">
 						<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-						<?php echo $alert_success; ?> <a href="<?php echo base_url('grants') ?>">Return to Index.</a>
+						<?php echo $alert_success; ?> <a href="<?php echo base_url('visitors') ?>">Return to Index.</a>
 					</div>
 				<?php
 				}
