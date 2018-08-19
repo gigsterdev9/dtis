@@ -24,7 +24,7 @@
 		</div>
 	</div>
 	-->
-	<div class="row">
+    <div class="row">
 	    <div class="col-md-12">
 			<div class="panel panel-default">
 				<div class="panel-heading">
@@ -64,7 +64,7 @@
 										<tr>
 											<td class="text-center" width="16%" valign="top">
 												<span style="font-size: 2em">100</span>
-												<br />New Visits
+												<br />Total Visits
 											</td>
 											<td class="text-center" width="16%" valign="top">
 												<span style="font-size: 2em">90</span>
@@ -99,7 +99,7 @@
 										<tr>
 											<td class="text-center" width="16%" valign="top">
 												<span style="font-size: 2em">520</span>
-												<br />New Visits
+												<br />Total Visits
 											</td>
 											<td class="text-center" width="16%" valign="top">
 												<span style="font-size: 2em">430</span>
@@ -136,7 +136,7 @@
 										<tr>
 											<td class="text-center" width="16%" valign="top">
 												<span style="font-size: 2em">2900</span>
-												<br />New Visits
+												<br />Total Visits
 											</td>
 											<td class="text-center" width="16%" valign="top">
 												<span style="font-size: 2em">2680</span>
@@ -171,7 +171,7 @@
 										<tr>
 											<td class="text-center" width="16%" valign="top">
 												<span style="font-size: 2em">999999</span>
-												<br />New Visits
+												<br />Total Visits
 											</td>
 											<td class="text-center" width="16%" valign="top">
 												<span style="font-size: 2em">999999</span>
@@ -257,13 +257,55 @@
 		</div>
 		
 		<div class="col-md-4">
+            <div class="panel panel-default">
+				<div class="panel-heading">
+					<strong><span class="glyphicon glyphicon-th-list"></span> WS Photo ID: Season Data</strong>
+				</div>
+				<div class="panel-body">
+                    <table class="table-bordered table-condensed">
+						<tr>
+							<td class="text-center" width="16%" valign="top" colspan="5">
+							    Report Date:<br /><span style="font-size: 2em"><?php echo $ws_pid['report_date'] ?></span>
+							</td>
+                        </tr>
+                        <tr>
+							<td class="text-center" width="16%" valign="top">
+							    <span style="font-size: 2em"><?php echo $ws_pid['total_ph_ws'] ?></span>
+							    <br />Total Ph WS
+							</td>
+							<td class="text-center" width="16%" valign="top">
+							    <span style="font-size: 2em"><?php echo $ws_pid['total_donsol_ws'] ?></span>
+							    <br />Total Donsol WS
+							</td>
+					    	<td class="text-center" width="16%" valign="top">
+							    <span style="font-size: 2em"><?php echo $ws_pid['season_total'] ?></span>
+							    <br />Season Total
+							</td>
+							<td class="text-center" width="16%" valign="top">
+							    <span style="font-size: 2em"><?php echo $ws_pid['new_sighting_count'] ?></span>
+							    <br />New Sightings
+							</td>
+                            <td class="text-center" width="16%" valign="top">
+							    <span style="font-size: 2em"><?php echo $ws_pid['resighting_count'] ?></span>
+							    <br />Repeat Sightings
+							</td>
+					    </tr>
+                        <tr>
+                            <td class="text-center" width="100%" valign="top" colspan="5">
+                                <div style="text-left">Notes:</div>
+							    <?php echo $ws_pid['ws_remarks'] ?>
+							</td>
+                        </tr>
+					</table>
+				</div>
+			</div>
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<strong><span class="glyphicon glyphicon-th-list"></span> Figures</strong>
 				</div>
 				<div class="panel-body">
-                        <p>Total Visits-to-date: 860,030</p>
-                        <p>Total Visitors-to-date: 550,307</p>
+                        <p>Total Visits-to-date: <?php echo $total_visitors ?></p>
+                        <p>Total Visitors-to-date: <?php echo $total_visits ?></p>
 				</div>
 			</div>
 			<div class="panel panel-default">

@@ -72,7 +72,11 @@ $route['activities/butanding'] = 'activities/butanding';
 $route['activities/girawan'] = 'activities/girawan';
 $route['activities/firefly'] = 'activities/firefly';
 $route['activities/islandhop'] = 'activities/islandhop';
-$route['activities'] = 'visits';
+$route['activities'] = 'activities';
+
+$route['photoid/edit/(:any)'] = 'photoid/edit/$1';
+$route['photoid/add'] = 'photoid/add';
+$route['photoid'] = 'photoid';
 
 $route['login'] = 'auth/login';
 $route['logout'] = 'auth/logout';

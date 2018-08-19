@@ -128,6 +128,7 @@ $restricted_groups = array('wwf','partner');
                     if ($this->ion_auth->in_group('admin'))
 					{
 					?>
+                        <li><a href="<?php echo base_url('photoid') ?>"><i class="fas fa-camera"></i>&nbsp; PhotoID</a></li>
 						<li><a href="<?php echo base_url('users') ?>"><i class="fas fa-users"></i>&nbsp; Users</a></li>
                         <!--<li><a href="<?php echo base_url('users') ?>"><span class="glyphicon glyphicon-eye-open"></span> Audit Trail</a></li>-->
 					<?php
