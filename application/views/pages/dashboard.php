@@ -63,27 +63,27 @@
 									<table class="table-bordered table-condensed">
 										<tr>
 											<td class="text-center" width="16%" valign="top">
-												<span style="font-size: 2em">100</span>
+												<span style="font-size: 2em"><?php echo $today['total_visits']['result_count']?></span>
 												<br />Total Visits
 											</td>
 											<td class="text-center" width="16%" valign="top">
-												<span style="font-size: 2em">90</span>
+												<span style="font-size: 2em">2</span>
 												<br />New Visitors
 											</td>
 											<td class="text-center" width="16%" valign="top">
-												<span style="font-size: 2em">90</span>
+												<span style="font-size: 2em">3</span>
 												<br />Butanding Interactions
 											</td>
 											<td class="text-center" width="16%" valign="top">
-												<span style="font-size: 2em">40</span>
+												<span style="font-size: 2em">3</span>
 												<br />Girawan Tours
 											</td>
 											<td class="text-center" width="16%" valign="top">
-												<span style="font-size: 2em">80</span>
+												<span style="font-size: 2em">3</span>
 												<br />River and Firefly Tours
 											</td>
 											<td class="text-center" width="16%" valign="top">
-												<span style="font-size: 2em">20</span>
+												<span style="font-size: 2em">3</span>
 												<br />Island Hopping Trips
 											</td>
 										</tr>
@@ -98,27 +98,27 @@
 									<table class="table-bordered table-condensed">
 										<tr>
 											<td class="text-center" width="16%" valign="top">
-												<span style="font-size: 2em">520</span>
+												<span style="font-size: 2em"><?php echo $week['total_visits']['result_count']?></span>
 												<br />Total Visits
 											</td>
 											<td class="text-center" width="16%" valign="top">
-												<span style="font-size: 2em">430</span>
+												<span style="font-size: 2em">2</span>
 												<br />New Visitors
 											</td>
 											<td class="text-center" width="16%" valign="top">
-												<span style="font-size: 2em">450</span>
+												<span style="font-size: 2em">3</span>
 												<br />Butanding Interactions
 											</td>
 											<td class="text-center" width="16%" valign="top">
-												<span style="font-size: 2em">200</span>
+												<span style="font-size: 2em">3</span>
 												<br />Girawan Tours
 											</td>
 											<td class="text-center" width="16%" valign="top">
-												<span style="font-size: 2em">390</span>
+												<span style="font-size: 2em">3</span>
 												<br />River and Firefly Tours
 											</td>
 											<td class="text-center" width="16%" valign="top">
-												<span style="font-size: 2em">165</span>
+												<span style="font-size: 2em">3</span>
 												<br />Island Hopping Trips
 											</td>
 										</tr>
@@ -135,27 +135,27 @@
 									<table class="table-bordered table-condensed">
 										<tr>
 											<td class="text-center" width="16%" valign="top">
-												<span style="font-size: 2em">2900</span>
+												<span style="font-size: 2em"><?php echo $month['total_visits']['result_count']?></span>
 												<br />Total Visits
 											</td>
 											<td class="text-center" width="16%" valign="top">
-												<span style="font-size: 2em">2680</span>
+												<span style="font-size: 2em">40</span>
 												<br />New Visitors
 											</td>
 											<td class="text-center" width="16%" valign="top">
-												<span style="font-size: 2em">2850</span>
+												<span style="font-size: 2em">39</span>
 												<br />Butanding Interactions
 											</td>
 											<td class="text-center" width="16%" valign="top">
-												<span style="font-size: 2em">1540</span>
+												<span style="font-size: 2em">29</span>
 												<br />Girawan Tours
 											</td>
 											<td class="text-center" width="16%" valign="top">
-												<span style="font-size: 2em">2480</span>
+												<span style="font-size: 2em">26</span>
 												<br />River and Firefly Tours
 											</td>
 											<td class="text-center" width="16%" valign="top">
-												<span style="font-size: 2em">620</span>
+												<span style="font-size: 2em">21</span>
 												<br />Island Hopping Trips
 											</td>
 										</tr>
@@ -170,27 +170,27 @@
 									<table class="table-bordered table-condensed">
 										<tr>
 											<td class="text-center" width="16%" valign="top">
-												<span style="font-size: 2em">999999</span>
+												<span style="font-size: 2em"><?php echo $year['total_visits']['result_count']?></span>
 												<br />Total Visits
 											</td>
 											<td class="text-center" width="16%" valign="top">
-												<span style="font-size: 2em">999999</span>
+												<span style="font-size: 2em">460</span>
 												<br />New Visitors
 											</td>
 											<td class="text-center" width="16%" valign="top">
-												<span style="font-size: 2em">999999</span>
+												<span style="font-size: 2em">450</span>
 												<br />Butanding Interactions
 											</td>
 											<td class="text-center" width="16%" valign="top">
-												<span style="font-size: 2em">999999</span>
+												<span style="font-size: 2em">310</span>
 												<br />Girawan Tours
 											</td>
 											<td class="text-center" width="16%" valign="top">
-												<span style="font-size: 2em">999999</span>
+												<span style="font-size: 2em">411</span>
 												<br />River and Firefly Tours
 											</td>
 											<td class="text-center" width="16%" valign="top">
-												<span style="font-size: 2em">999999</span>
+												<span style="font-size: 2em">290</span>
 												<br />Island Hopping Trips
 											</td>
 										</tr>
@@ -259,6 +259,23 @@
 		<div class="col-md-4">
             <div class="panel panel-default">
 				<div class="panel-heading">
+					<strong><span class="glyphicon glyphicon-th-list"></span> Figures</strong>
+				</div>
+				<div class="panel-body">
+                    <table class="table-bordered table-condensed" style="width: 100%">
+						<tr>
+                            <td class="text-center"  valign="top">
+                                Total Visitors to-date <br /> <span style="font-size: 2em"><?php echo $total_visitors ?></span>
+        					</td>
+							<td class="text-center"  valign="top">
+                                Total Visits to-date <br /> <span style="font-size: 2em"><?php echo $total_visits ?></span><br />
+							</td>
+                        </tr>
+                    </table>
+				</div>
+			</div>
+            <div class="panel panel-default">
+				<div class="panel-heading">
 					<strong><span class="glyphicon glyphicon-th-list"></span> WS Photo ID: Season Data</strong>
 				</div>
 				<div class="panel-body">
@@ -299,15 +316,7 @@
 					</table>
 				</div>
 			</div>
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<strong><span class="glyphicon glyphicon-th-list"></span> Figures</strong>
-				</div>
-				<div class="panel-body">
-                        <p>Total Visits-to-date: <?php echo $total_visitors ?></p>
-                        <p>Total Visitors-to-date: <?php echo $total_visits ?></p>
-				</div>
-			</div>
+			
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<strong><span class="glyphicon glyphicon-th-list"></span> Reminders</strong>
@@ -370,12 +379,12 @@ $(function() {
 			"content": [
 				{
 					"label": "Local",
-					"value": <?php echo '25098' //$barangka_count ?>,
+					"value": <?php echo $local_visitors['result_count']; ?>,
 					"color": "#094b83"
 				},
 				{
 					"label": "Foreign",
-					"value": <?php echo '45123' //$tumana_count ?>,
+					"value": <?php echo $foreign_visitors['result_count']; ?>,
 					"color": "#337BB7"
 				}
 				]
@@ -447,27 +456,27 @@ $(function() {
 			"content": [
 				{
 					"label": "Below 18",
-					"value": <?php echo 15//count($r_ben) ?>,
+					"value": <?php echo $below_18['result_count'] ?>,
 					"color": "#094b83"
 				},
                 {
 					"label": "19-25",
-					"value": <?php echo 20//count($r_ben) ?>,
+					"value": <?php echo $a19_25['result_count']  ?>,
 					"color": "#094b83"
 				},
                 {
 					"label": "26-35",
-					"value": <?php echo 50//count($r_ben) ?>,
+					"value": <?php echo $a26_35['result_count'] ?>,
 					"color": "#094b83"
 				},
 				{
-					"label": "35-50",
-					"value": <?php echo 40//count($n_ben) ?>,
+					"label": "36-50",
+					"value": <?php echo $a36_50['result_count'] ?>,
 					"color": "#5393C8"
 				},
                 {
 					"label": "50 and above",
-					"value": <?php echo 12//count($n_ben) ?>,
+					"value": <?php echo $above_50['result_count'] ?>,
 					"color": "#5393C8"
 				}
 			]
@@ -517,6 +526,10 @@ var myChart = new Chart(ctx, {
         datasets: [{
             label: 'No. of Visitors per Month',
             data: [400, 500, 450, 380, 150, 100, 90, 80, 100, 150, 350, 390],
+            /*data: [<?php echo $v_jan['result_count']?>, <?php echo $v_feb['result_count']?>, <?php echo $v_mar['result_count']?>, 
+                    <?php echo $v_apr['result_count']?>, <?php echo $v_may['result_count']?>, <?php echo $v_jun['result_count']?>, 
+                    <?php echo $v_jul['result_count']?>, <?php echo $v_aug['result_count']?>, <?php echo $v_sep['result_count']?>, 
+                    <?php echo $v_oct['result_count']?>, <?php echo $v_nov['result_count']?>, <?php echo $v_dec['result_count']?>],*/
             backgroundColor: 'rgba(54, 162, 235, 0.2)',
             borderColor: 'rgba(54, 162, 235, 1)',
             borderWidth: 1
@@ -540,6 +553,7 @@ var myChart = new Chart(ctx, {
         labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "July", "Aug", "Sep", "Oct", "Nov", "Dec"],
         datasets: [{
             label: 'Revenue per Month (in thousands of pesos)',
+            //data: [860, 1200, 1000, 600, 300, 200, 180, 160, 200, 350, 800, 850],
             data: [860, 1200, 1000, 600, 300, 200, 180, 160, 200, 350, 800, 850],
             backgroundColor: 'rgba(54, 162, 235, 0.2)',
             borderColor: 'rgba(54, 162, 235, 1)',

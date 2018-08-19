@@ -146,52 +146,38 @@ class visits_model extends CI_Model {
 	}
 
 	public function search_visits($limit, $start, $where_clause = FALSE) { 
-		if ($where_clause === FALSE) {
-			return 0;
-		}
-		$where_clause .= ' and (r.trash = 0 and b.trash = 0) ';
-		//die($where_clause);
-		
-		$this->db->select("*, floor((DATEDIFF(CURRENT_DATE, STR_TO_DATE(dob, '%Y-%m-%d'))/365)) as age");
-		$this->db->from('rvoters r');
-		$this->db->join('beneficiaries b', 'r.id_no_comelec = b.id_no_comelec');
-		$this->db->where($where_clause);
-		$this->db->limit($limit, $start);
-		$this->db->order_by('lname', 'ASC');
-		$query = $this->db->get();		
-		$result1 = $query->result_array();
-		
-		foreach ($result1 as $r) {
-			$ben_id = $r['ben_id'];
-			$this->db->select('*');
-			$this->db->from('visits');
-			$this->db->where("ben_id = '$ben_id'");
-			$this->db->limit(1);
-			$result2 = $this->db->get();
-			
-			if ($result2->num_rows() == 1) {
-				$rs[] = array_merge($r, $result2->row_array());
-			}
-		}
+        
+        //total possible results
+		$this->db->select('*');
+		$this->db->from('visits');
 
-		if (isset($rs)) {
-			
-			foreach($rs as $r) {
-				
-				if ($r != '') {
-	
-					$x = $this->visits_model->get_beneficiary_by_id($r['req_ben_id']);
-						$r['req_fname'] = $x['fname'];
-						$r['req_mname'] = $x['mname'];
-						$r['req_lname'] = $x['lname'];
-				}
-				$r_visits[] = $r;
-			}
-			return $r_visits; 
+		if ($where_clause === false) {
+			$this->db->where('trash = 0');
 		}
 		else{
-			return 0;
+			$this->db->where($where_clause);
 		}
+		$query = $this->db->get();
+		$result_count = $query->num_rows();
+        
+        //results bounded by limits
+		$this->db->select("*");
+		$this->db->from('visits');
+		
+		if ($where_clause === false) {
+			$this->db->where('trash = 0');
+		}
+		else{
+			$this->db->where($where_clause);
+		}
+		$this->db->limit($limit, $start);
+		$this->db->order_by('visit_id', 'DESC');
+		$query = $this->db->get();		
+        
+        $result_array = $query->result_array();
+		$result_array['result_count'] = $result_count;
+
+		return $result_array;
 
 	}
 	
