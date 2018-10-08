@@ -24,8 +24,12 @@ class Visitors extends CI_Controller {
         }
 
         public function index() {		
-		
-			//if ($_SERVER['REMOTE_ADDR'] <> '125.212.122.21') die('Undergoing maintenance.');
+		    //if ($_SERVER['REMOTE_ADDR'] <> '125.212.122.21') die('Undergoing maintenance.');
+            
+            $allowed_groups = array('admin','encoder');
+			if (!$this->ion_auth->in_group($allowed_groups)) {
+				show_404();
+			}
 
 			//set general pagination config
 			$config = array();
@@ -191,9 +195,9 @@ class Visitors extends CI_Controller {
         
         
         public function add() {
-            $allowed_groups = array('admin','encoder','partner');
+            $allowed_groups = array('admin','encoder');
 			if (!$this->ion_auth->in_group($allowed_groups)) {
-				redirect('visitors');
+				show_404();
 			}
 			
 			$this->load->helper('form');
@@ -233,9 +237,8 @@ class Visitors extends CI_Controller {
 			}
 		}
 		
-		
-		
-		public function edit($id = NULL) {
+        
+        public function edit($id = NULL) {
 
 			if (!$this->ion_auth->in_group('admin')) {
 				redirect('visitors');
@@ -323,8 +326,171 @@ class Visitors extends CI_Controller {
 			}
 			
 		}
-		
-		
+        
+        public function match_find() {
+			//echo '<pre>'; print_r($_POST); echo '</pre>'; die();
+			$fname = $this->input->post('fname');
+			$mname = $this->input->post('mname');
+			$lname = $this->input->post('lname');
+			$bdate = $this->input->post('bdate');
+
+			$where_clause = "fname = '$fname' and lname = '$lname' and mname = '$mname' and bdate = '$bdate' and trash = 0";
+            $visitor_match = $this->visitors_model->search_visitors('200', '0', $where_clause) ;
+            //echo count($visitor_match); die();
+
+            if (isset($visitor_match) && $visitor_match != NULL) {  
+                if (count($visitor_match) > 1) {
+                    echo '<br />Possible visitor data match.';
+                    foreach($visitor_match as $vmatch) {
+                        
+                        if ($vmatch['visitor_id'] != NULL) {
+                            echo '<div class="radio"><label>';
+                            echo '<a href="'.base_url('visitors/view/'.$vmatch['visitor_id']).'" target="_blank">';
+                            echo 'ID No. '.$vmatch['visitor_id'].'  &nbsp; | &nbsp; Address: '.$vmatch['h_address'].'  &nbsp; | &nbsp; Nationality: '.$vmatch['nationality'].'  &nbsp; | &nbsp; Email: '.$vmatch['email'];
+                            echo '</a></label></div>';
+                        
+                            $v_ids[] = $vmatch['visitor_id'];
+                        }
+                    }
+                    $show_last_radio = true;
+                }
+			}
+
+			if (isset($show_last_radio)) {	
+				echo '<br /><br />';
+				echo 'If the above do not suffice, proceed to ' .
+						'<a href="'.base_url('visitors/add').'?fname='.$fname.'&mname='.$mname.'&lname='.$lname.'&bdate='.$bdate.'">create a new visitor entry</a>. <br />';
+			}
+			else{
+				echo 'No match found. &nbsp; ';
+				echo '<a href="'.base_url('visitors/add').'?fname='.$fname.'&mname='.$mname.'&lname='.$lname.'&bdate='.$bdate.'">Create a new visitor entry</a>.';
+			
+			}
+			
+		}
+        
+        /** Partner entries */
+        public function view_p_entry($id = NULL) {
+
+            $data['visitor'] = $this->visitors_model->get_p_entry_by_id($id);
+            if (empty($data['visitor'])) {
+                show_404();
+            }
+            $data['visits'] = 0;
+            $data['tracker'] = NULL;
+            
+            //search for possible duplicates
+            //$where_clause = "fname = '$fname' and lname = '$lname' and mname = '$mname' and bdate = '$bdate' and trash = 0";
+            $where_clause = "fname = '".$data['visitor']['fname']."' and lname = '".$data['visitor']['lname']."' and mname = '".$data['visitor']['mname'].
+                            "' and bdate = '".$data['visitor']['bdate']."' and trash = 0";
+            $data['visitor_match'] = $this->visitors_model->search_visitors('200', '0', $where_clause) ;
+
+            $this->load->view('templates/header', $data);
+            $this->load->view('visitors/view_p_entry', $data);
+            $this->load->view('templates/footer');
+            
+        }
+
+        public function partner_add() {
+            $allowed_groups = array('admin','partner');
+			if (!$this->ion_auth->in_group($allowed_groups)) {
+				show_404();
+			}
+			
+			$this->load->helper('form');
+			$this->load->library('form_validation');
+
+			$data['title'] = 'New entry';
+
+			//validation rules
+			$this->form_validation->set_rules('fname', 'First Name', 'required');
+			$this->form_validation->set_rules('lname', 'Last Name', 'required');
+			$this->form_validation->set_rules('bdate', 'Birthdate', 'required');
+            $this->form_validation->set_rules('gender', 'Gender', 'required');
+            $this->form_validation->set_rules('h_address', 'Home Address', 'required');
+			$this->form_validation->set_rules('nationality', 'Nationality', 'required');
+			$this->form_validation->set_rules('email', 'Email', 'valid_email');
+			
+			if ($this->form_validation->run() === FALSE) {
+				$this->load->view('templates/header', $data);
+				$this->load->view('visitors/partner_add');
+				$this->load->view('templates/footer');
+
+			}
+			else
+			{
+				//execute insert
+                $temp_visitor_id = $this->visitors_model->set_partner_add();
+                
+                //audit trail
+                $this->tracker_model->log_event('temp_visitor_id', $temp_visitor_id, 'created', 'via partner');
+				
+				$data['title'] = 'New entry';
+				$data['alert_success'] = 'Entry successful.';
+				
+				$this->load->view('templates/header', $data);
+				$this->load->view('visitors/partner_add');
+				$this->load->view('templates/footer');
+			}
+		}
+        
+        public function partner_entries() {		
+		    $allowed_groups = array('admin','supervisor');
+			if (!$this->ion_auth->in_group($allowed_groups)) {
+				show_404();
+			}
+
+			//set general pagination config
+			$config = array();
+			$config['base_url'] = base_url('visitors');
+			
+			$config['per_page'] = 100;
+			$config['uri_segment'] = 2;
+			$config['cur_tag_open'] = '<span>';
+			$config['cur_tag_close'] = '</span>';
+			$config['prev_link'] = '&laquo;';
+			$config['next_link'] = '&raquo;';
+			$config['reuse_query_string'] = TRUE; 
+			$config["num_links"] = 9;
+            
+            //batch process
+            if ($this->input->post('process_now') == 'go') {
+                //echo '<pre>'; print_r($this->input->post()); echo '</pre>';    
+                $result = $this->visitors_model->update_p_entries();
+
+                $data['alert_success'] = 'Partner submitted entries processed.';
+
+                //audit trail
+                $this->tracker_model->log_event('', '', 'batch process', 'partner entries');
+
+                 
+            }
+            
+            //Display all
+            //implement pagination
+            $page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
+            $data['p_entries'] = $this->visitors_model->get_partner_entries($config["per_page"], $page);
+            /*
+            $where_clause = "fname = '".$data['p_entries']['fname']."' and lname = '".$data['p_entries']['lname']."' and mname = '".$data['p_entries']['mname'].
+                            "' and bdate = '".$data['p_entries']['bdate']."' and trash = 0";
+            $data['p_entries']['match_check']  = $this->visitors_model->search_visitors('200', '0', $where_clause) ;
+            */
+            $data['p_entries']['result_count'] = $this->visitors_model->partner_entries_count();
+                $config['total_rows'] = $data['p_entries']['result_count'];
+                $this->pagination->initialize($config);
+            $data['links'] = $this->pagination->create_links();
+            	
+            $data['title'] = 'Tourist Registry (Partner Entries)';
+			//echo '<pre>'; print_r($data); echo '</pre>';
+			$this->load->view('templates/header', $data);
+			$this->load->view('visitors/partner_entries', $data);
+			$this->load->view('templates/footer');
+				
+        }
+
+
+        /** Export functions */
+
 		public function all_to_excel() {
         //export all data to Excel file
             $this->load->library('export');

@@ -95,7 +95,9 @@
 								<?php echo $v['visit_date'] ?>
 							</a>
 						</td>
-                        <td><?php echo '<a href="visitors/view/'.$v['visitor_id'].'">'.strtoupper($v['lname'].', '.$v['fname']).'</a>'; ?></td>
+                        <td><a href="<?php echo site_url('visitors/view/'.$v['visitor_id']) ?>"> 
+                            <?php echo strtoupper($v['lname'].', '.$v['fname']); ?>
+                            </a></td>
                         <td><?php echo $v['nationality']; ?></td>
 						<td><?php echo $v['boarding_pass']; ?></td>
 						<td><?php echo $v['bio_name']; ?></td>

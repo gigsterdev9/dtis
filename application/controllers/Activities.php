@@ -71,9 +71,9 @@ class Activities extends CI_Controller {
 			$config["num_links"] = 9;
 
             $page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
-            $data['butanding'] = $this->activities_model->get_all_girawan($config["per_page"], $page);
-            $data['butanding']['result_count'] = count($data['butanding']);
-            $config['total_rows'] = $data['butanding']['result_count'];
+            $data['girawan'] = $this->activities_model->get_all_girawan($config["per_page"], $page);
+            $data['girawan']['result_count'] = count($data['girawan']);
+            $config['total_rows'] = $data['girawan']['result_count'];
 
             $this->pagination->initialize($config);
 			$data['links'] = $this->pagination->create_links();

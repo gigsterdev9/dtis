@@ -410,6 +410,7 @@ class Visits extends CI_Controller {
 
 		}
 
+        /* //moved this to visitors
 		public function match_find() {
 			//echo '<pre>'; print_r($_POST); echo '</pre>'; die();
 			$fname = $this->input->post('fname');
@@ -451,7 +452,7 @@ class Visits extends CI_Controller {
 			}
 			
 		}
-		
+		*/
         
         public function all_to_excel() {
         //export all data to Excel file

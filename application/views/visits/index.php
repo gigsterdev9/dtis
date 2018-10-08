@@ -345,7 +345,9 @@
 								<?php echo $v['visit_date'] ?>
 							</a>
 						</td>
-                        <td><?php echo '<a href="visitors/view/'.$v['visitor_id'].'">'.strtoupper($v['lname'].', '.$v['fname']).'</a>'; ?></td>
+                        <td><a href="<?php echo site_url('visitors/view/'.$v['visitor_id']) ?>"> 
+                            <?php echo strtoupper($v['lname'].', '.$v['fname']); ?>
+                            </a></td>
                         <td><?php echo $v['nationality']; ?></td>
 						<td><?php echo ($v['butanding'] == 1) ? 'Yes' : 'No'; ?></td>
                         <td><?php echo ($v['girawan'] == 1) ? 'Yes' : 'No'; ?></td>
@@ -390,7 +392,9 @@
 
 </div>
 <script>
-	$('#filter_by').on('change', function(){
+$(function() {
+    
+    $('#filter_by').on('change', function(){
 		var myval = $(this).val();
 		//alert(myval);
 		
@@ -412,7 +416,7 @@
 					$('#filter_by_date_value').prop('disabled', false);
 				break;
 			default:
-			
+                break;
 		}
 
 	});
@@ -426,4 +430,7 @@
 		}
 		
 	});
+
+
+});
 </script>

@@ -41,6 +41,9 @@ input[type="button"]:hover, input[type="submit"]:hover, button:hover, .btn:hover
 /*Dashboard*/
 .descriptive-text, .descriptive-text p, .descriptive-text ul, .descriptive-text li {font-size: .95em}
 .descriptive-text, .descriptive-text ul {margin: 0; padding-bottom: 5px}
+table.desktop-view {display: block}
+table.mobile-view {display:none}
+
 
 /*Pagination Links*/
 .page-links { padding: 10px 5px 5px 10px; text-align: center }
@@ -55,3 +58,12 @@ input[type="button"]:hover, input[type="submit"]:hover, button:hover, .btn:hover
 /* Modal Details */
 .match-found {font-size: 1em}
 .quick-view {font-size: 1.2em; color: #000000}
+
+/*mobile screens*/
+@media screen and (max-width: 479px) {
+
+    /*Dashboard*/
+    table.desktop-view {display:none}
+    table.mobile-view {display:block}
+
+}

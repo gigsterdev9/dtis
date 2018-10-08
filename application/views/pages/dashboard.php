@@ -60,7 +60,7 @@
 							<h5><b>Today</b></h5>
 							<div class="panel panel-default">
 								<div class="panel-body" >
-									<table class="table-bordered table-condensed">
+									<table class="table-bordered table-condensed desktop-view">
 										<tr>
 											<td class="text-center" width="16%" valign="top">
 												<span style="font-size: 2em"><?php echo $today['total_visits']['result_count']?></span>
@@ -87,6 +87,35 @@
 												<br />Island Hopping Trips
 											</td>
 										</tr>
+                                    </table>	
+                                    <table class="table-bordered table-condensed mobile-view">
+										<tr>
+											<td class="text-center" width="16%" valign="top">
+												<span style="font-size: 2em"><?php echo $today['total_visits']['result_count']?></span>
+												<br />Total Visits
+											</td>
+											<td class="text-center" width="16%" valign="top">
+												<span style="font-size: 2em">2</span>
+												<br />New Visitors
+											</td>
+											<td class="text-center" width="16%" valign="top">
+												<span style="font-size: 2em">3</span>
+												<br />Butanding Interactions
+                                            </td>
+                                        </tr><tr>
+											<td class="text-center" width="16%" valign="top">
+												<span style="font-size: 2em">3</span>
+												<br />Girawan Tours
+											</td>
+											<td class="text-center" width="16%" valign="top">
+												<span style="font-size: 2em">3</span>
+												<br />River and Firefly Tours
+											</td>
+											<td class="text-center" width="16%" valign="top">
+												<span style="font-size: 2em">3</span>
+												<br />Island Hopping Trips
+											</td>
+										</tr>
 									</table>	
 								</div>
 							</div>
@@ -95,7 +124,7 @@
 							<h5><b>This Week</b></h5>
 							<div class="panel panel-default">
 								<div class="panel-body" >
-									<table class="table-bordered table-condensed">
+									<table class="table-bordered table-condensed desktop-view">
 										<tr>
 											<td class="text-center" width="16%" valign="top">
 												<span style="font-size: 2em"><?php echo $week['total_visits']['result_count']?></span>
@@ -122,6 +151,35 @@
 												<br />Island Hopping Trips
 											</td>
 										</tr>
+                                    </table>		
+                                    <table class="table-bordered table-condensed mobile-view">
+										<tr>
+											<td class="text-center" width="16%" valign="top">
+												<span style="font-size: 2em"><?php echo $week['total_visits']['result_count']?></span>
+												<br />Total Visits
+											</td>
+											<td class="text-center" width="16%" valign="top">
+												<span style="font-size: 2em">2</span>
+												<br />New Visitors
+											</td>
+											<td class="text-center" width="16%" valign="top">
+												<span style="font-size: 2em">3</span>
+												<br />Butanding Interactions
+                                            </td>
+                                        </tr><tr>
+											<td class="text-center" width="16%" valign="top">
+												<span style="font-size: 2em">3</span>
+												<br />Girawan Tours
+											</td>
+											<td class="text-center" width="16%" valign="top">
+												<span style="font-size: 2em">3</span>
+												<br />River and Firefly Tours
+											</td>
+											<td class="text-center" width="16%" valign="top">
+												<span style="font-size: 2em">3</span>
+												<br />Island Hopping Trips
+											</td>
+										</tr>
 									</table>		
 								</div>
 							</div>
@@ -132,7 +190,7 @@
 							<h5><b>This Month</b></h5>
 							<div class="panel panel-default">
 								<div class="panel-body" >
-									<table class="table-bordered table-condensed">
+									<table class="table-bordered table-condensed desktop-view">
 										<tr>
 											<td class="text-center" width="16%" valign="top">
 												<span style="font-size: 2em"><?php echo $month['total_visits']['result_count']?></span>
@@ -159,6 +217,35 @@
 												<br />Island Hopping Trips
 											</td>
 										</tr>
+                                    </table>
+                                    <table class="table-bordered table-condensed mobile-view">
+										<tr>
+											<td class="text-center" width="16%" valign="top">
+												<span style="font-size: 2em"><?php echo $month['total_visits']['result_count']?></span>
+												<br />Total Visits
+											</td>
+											<td class="text-center" width="16%" valign="top">
+												<span style="font-size: 2em">40</span>
+												<br />New Visitors
+											</td>
+											<td class="text-center" width="16%" valign="top">
+												<span style="font-size: 2em">39</span>
+												<br />Butanding Interactions
+                                            </td>
+                                        </tr><tr>
+											<td class="text-center" width="16%" valign="top">
+												<span style="font-size: 2em">29</span>
+												<br />Girawan Tours
+											</td>
+											<td class="text-center" width="16%" valign="top">
+												<span style="font-size: 2em">26</span>
+												<br />River and Firefly Tours
+											</td>
+											<td class="text-center" width="16%" valign="top">
+												<span style="font-size: 2em">21</span>
+												<br />Island Hopping Trips
+											</td>
+										</tr>
 									</table>		
 								</div>
 							</div>
@@ -167,7 +254,7 @@
 							<h5><b>This Year</b></h5>
 							<div class="panel panel-default">
 								<div class="panel-body" >
-									<table class="table-bordered table-condensed">
+									<table class="table-bordered table-condensed desktop-view">
 										<tr>
 											<td class="text-center" width="16%" valign="top">
 												<span style="font-size: 2em"><?php echo $year['total_visits']['result_count']?></span>
@@ -194,7 +281,36 @@
 												<br />Island Hopping Trips
 											</td>
 										</tr>
-									</table>		
+                                    </table>
+                                    <table class="table-bordered table-condensed mobile-view">
+										<tr>
+											<td class="text-center" width="16%" valign="top">
+												<span style="font-size: 2em"><?php echo $year['total_visits']['result_count']?></span>
+												<br />Total Visits
+											</td>
+											<td class="text-center" width="16%" valign="top">
+												<span style="font-size: 2em">460</span>
+												<br />New Visitors
+											</td>
+											<td class="text-center" width="16%" valign="top">
+												<span style="font-size: 2em">450</span>
+												<br />Butanding Interactions
+                                            </td>
+                                        </tr><tr>
+											<td class="text-center" width="16%" valign="top">
+												<span style="font-size: 2em">310</span>
+												<br />Girawan Tours
+											</td>
+											<td class="text-center" width="16%" valign="top">
+												<span style="font-size: 2em">411</span>
+												<br />River and Firefly Tours
+											</td>
+											<td class="text-center" width="16%" valign="top">
+												<span style="font-size: 2em">290</span>
+												<br />Island Hopping Trips
+											</td>
+										</tr>
+									</table>			
 								</div>
 							</div>
 						</div>
@@ -214,7 +330,7 @@
 				<div class="panel-body">
 					<div class="row">
 						<div class="col-md-6">
-							<p><strong><span class="glyphicon glyphicon-folder-open"></span>&nbsp; Latest Visitors</strong></p>
+							<p><strong><span class="glyphicon glyphicon-folder-open"></span>&nbsp; Latest Addition to Visitors Table</strong></p>
 							<ul class="list-group">
 							<?php
                                 if ($latest_visitors == NULL)

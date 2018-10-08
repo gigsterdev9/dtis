@@ -88,8 +88,8 @@ class Pages extends CI_Controller {
                 $data['total_visits'] =  $this->visits_model->record_count();
 
                 /* updates section */
-                $data['latest_visitors'] = $this->visitors_model->get_visitors(20, 0);
-                $data['recent_visits'] = $this->visits_model->get_visits(20, 0);
+                $data['latest_visitors'] = $this->visitors_model->get_visitors(20, 0, 'DESC');
+                $data['recent_visits'] = $this->visits_model->get_visits(20, 0, 'DESC');
                 
 
 		    }

@@ -11,13 +11,13 @@ class visits_model extends CI_Model {
         return $this->db->count_all_results('visits');
     }
 
-	public function get_visits($limit = 0, $start = 0) {
+	public function get_visits($limit = 0, $start = 0, $ob = 'ASC') {
 		
 		$this->db->select("*");
         $this->db->from('visits a');
         $this->db->join('visitors b', 'a.visitor_id = b.visitor_id');
         $this->db->where('a.trash = 0 and b.trash = 0'); //both entries must not be trashed
-		$this->db->order_by('visit_date', 'ASC');
+		$this->db->order_by('visit_date', $ob);
 		$this->db->limit($limit, $start);
 		$query = $this->db->get();
 

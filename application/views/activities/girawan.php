@@ -4,7 +4,7 @@
 	if ($this->ion_auth->in_group('admin'))
 	{
 	?>
-	<div class="container-fluid text-right"><a href="<?php echo base_url('activities/butanding/add') ?>"><span class="glyphicon glyphicon-plus-sign"></span> New entry</a></div>
+	<div class="container-fluid text-right"><a href="<?php echo base_url('activities/girawan/add') ?>"><span class="glyphicon glyphicon-plus-sign"></span> New entry</a></div>
 	<?php
 	}
 	?>
@@ -16,7 +16,7 @@
                 <div class="text-left">
                 <?php 
                     $attributes = array('class' => 'form-inline', 'role' => 'form', 'method' => 'GET');
-                    echo form_open('activities/butanding', $attributes); 
+                    echo form_open('activities/girawan', $attributes); 
                 ?>
                     <div class="form-group">
                         <label class="control-label" for="title">Filter by:</label> &nbsp; 
@@ -45,10 +45,10 @@
     </div>
 		
 	<h3>
-		<!-- <span class="glyphicon glyphicon-folder-open"></span>&nbsp; butanding -->
+		<!-- <span class="glyphicon glyphicon-folder-open"></span>&nbsp; girawan -->
         <hr />
 	</h3>
-	<div class="container-fluid message"><?php echo $butanding['result_count'] ?> records found. 
+	<div class="container-fluid message"><?php echo $girawan['result_count'] ?> records found. 
 		<?php 
 			if (isset($filterval)) {
 				$filter = (is_array($filterval)) ? '<br />Filter parameters: '. ucfirst($filterval[0]).' / '.$filterval[1] .' '. $filterval[2] : '' ; 
@@ -64,7 +64,7 @@
     <div class="panel panel-default">
 		<div class="table-responsive show-records">
 		
-			<?php if ($butanding['result_count'] > 0) { ?>	
+			<?php if ($girawan['result_count'] > 0) { ?>	
 			<div class="page-links"><?php echo $links; ?></div>
 			<table class="table table-striped">
 				<thead>
@@ -80,18 +80,18 @@
 				</thead>
 				<tbody>
 					<?php 
-						foreach ($butanding as $v): 
+						foreach ($girawan as $v): 
 						//echo '<pre>'; print_r($v); echo '</pre>';
 						if (is_array($v)) { //do not display 'result_count' 
 					?>
 					<tr>
 						<td>
-							<a href="<?php echo site_url('butanding/view/'.$v['visit_id']); ?>">
+							<a href="<?php echo site_url('girawan/view/'.$v['visit_id']); ?>">
 								<span class="glyphicon glyphicon-file"></span>
 							</a>
 						</td>
 						<td>
-							<a href="<?php echo site_url('butanding/view/'.$v['visit_id']); ?>">
+							<a href="<?php echo site_url('girawan/view/'.$v['visit_id']); ?>">
 								<?php echo $v['visit_date'] ?>
 							</a>
 						</td>
@@ -119,17 +119,17 @@
         <?php 
             /*
 			if (isset($filterval)) { 
-				$url = 'butanding/filtered_to_excel/'.$filterval[0].'/'.$filterval[1];
+				$url = 'girawan/filtered_to_excel/'.$filterval[0].'/'.$filterval[1];
 			} 
 			else if (isset($searchval)) {
-				$url = 'butanding/results_to_excel/'.$searchval;
+				$url = 'girawan/results_to_excel/'.$searchval;
 			}
 			else {
-				$url = 'butanding/all_to_excel';
+				$url = 'girawan/all_to_excel';
 			}
             */
-            $url = 'butanding/all_to_excel';
-            if ($butanding['result_count'] > 0) echo '<a href="'.$url.'" target="_blank"><i class="fas fa-file-excel"></i> Export to Excel &raquo;</a>';	
+            $url = 'girawan/all_to_excel';
+            if ($girawan['result_count'] > 0) echo '<a href="'.$url.'" target="_blank"><i class="fas fa-file-excel"></i> Export to Excel &raquo;</a>';	
 				//echo '<a href="#">Export to Excel &raquo;</a>';	
 		?>
 		</small>
