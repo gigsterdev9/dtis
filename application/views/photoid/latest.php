@@ -1,12 +1,12 @@
 <div class="container">
-	<h2><span class="glyphicon glyphicon-user"></span>&nbsp; <?php echo $title; ?></h2>
+	<h2><i class="fas fa-camera"></i>&nbsp; <?php echo $title; ?></h2>
 	<p>&nbsp;</p>
 	<div class="panel panel-default">
     	<div class="panel-heading">
 	        <strong><span class="glyphicon glyphicon-th-list"></span> WS Photo ID: Season Data</strong>
 		</div>
 		<div class="panel-body">
-            <table class="table-bordered table-condensed">
+            <table class="table-bordered table-responsive table-condensed" width="100%">
 		    <tr>
 				<td class="text-center" width="16%" valign="top" colspan="5">
 				    Report Date:<br /><span style="font-size: 2em"><?php echo $ws_pid['report_date'] ?></span>
