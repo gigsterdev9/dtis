@@ -81,6 +81,7 @@ $route['activities'] = 'activities';
 
 $route['photoid/edit/(:any)'] = 'photoid/edit/$1';
 $route['photoid/add'] = 'photoid/add';
+$route['photoid/latest'] = 'photoid/latest';
 $route['photoid'] = 'photoid';
 
 $route['login'] = 'auth/login';

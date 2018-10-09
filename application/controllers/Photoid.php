@@ -15,10 +15,6 @@ class Photoid extends CI_Controller {
 					redirect('auth/login');
 				}
                 
-                $allowed_groups = array('wwf','admin');
-                if (!$this->ion_auth->in_group($allowed_groups)) {
-                    show_error('Invalid access');
-                }
                 //debug
 				//$this->output->enable_profiler(TRUE);
 								
@@ -27,6 +23,11 @@ class Photoid extends CI_Controller {
         //list reports
         public function index() {
             
+            $allowed_groups = array('wwf','admin');
+            if (!$this->ion_auth->in_group($allowed_groups)) {
+                show_error('Invalid access');
+            }
+
             $data['title'] = 'WS PhotoID Stats';
 			$data['ws_pid'] = $this->photoid_model->get_reports();
 			
@@ -38,6 +39,11 @@ class Photoid extends CI_Controller {
 
         //add report
         public function add() {
+
+            $allowed_groups = array('wwf','admin');
+            if (!$this->ion_auth->in_group($allowed_groups)) {
+                show_error('Invalid access');
+            }
 
             $this->load->helper('form');
 			$this->load->library('form_validation');
@@ -77,6 +83,11 @@ class Photoid extends CI_Controller {
         
         //edit report
         public function edit($id = NULL) {
+
+            $allowed_groups = array('wwf','admin');
+            if (!$this->ion_auth->in_group($allowed_groups)) {
+                show_error('Invalid access');
+            }
 
 			$this->load->helper('form');
 			$this->load->library('form_validation');
@@ -161,6 +172,17 @@ class Photoid extends CI_Controller {
 			
 		}
         
+        public function latest() {
+
+            $data['title'] = 'WS PhotoID Stats';
+            $data['ws_pid'] = $this->photoid_model->get_most_recent_report();
+            
+            $this->load->view('templates/header', $data);
+			$this->load->view('photoid/latest');
+            $this->load->view('templates/footer');
+            
+        }
+
         /** excel reports */
 
 		public function all_to_excel() {

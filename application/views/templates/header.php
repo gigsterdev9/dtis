@@ -131,17 +131,28 @@ $restricted_groups = array('wwf','partner');
 							<li><a href="<?php echo base_url('activities/firefly') ?>"><i class="fas fa-folder-open"></i>&nbsp; Firefly Watching</a></li>
                             <li><a href="<?php echo base_url('activities/islandhop') ?>"><i class="fas fa-folder-open"></i>&nbsp; Island Hopping</a></li>
 						</ul>
-					</li>
+                    </li>
                     <?php 
                     }
-                    if ($this->ion_auth->in_group('admin'))
-					{
+                    if ($this->ion_auth->in_group('admin')) {
 					?>
-                        <li><a href="<?php echo base_url('photoid') ?>"><i class="fas fa-camera"></i>&nbsp; PhotoID</a></li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fas fa-camera"></i>&nbsp; PhotoID<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="<?php echo base_url('photoid') ?>"><i class="fas fa-folder-open"></i>&nbsp; Reports</a></li>
+                                <li><a href="<?php echo base_url('photoid/latest') ?>"><i class="fas fa-folder-open"></i>&nbsp; Latest</a></li>
+                            </ul>
+                        </li>
 						<li><a href="<?php echo base_url('users') ?>"><i class="fas fa-users"></i>&nbsp; Users</a></li>
                         <!--<li><a href="<?php echo base_url('users') ?>"><span class="glyphicon glyphicon-eye-open"></span> Audit Trail</a></li>-->
 					<?php
-					}
+                    }
+                    if ($this->ion_auth->in_group('partner')) {
+                    ?>
+                    <li><a href="<?php echo base_url('photoid/latest') ?>"><i class="fas fa-camera"></i>&nbsp; PhotoID</a></li>
+                    <li><a href="<?php echo base_url('visitors/partner_add') ?>"><i class="fas fa-address-book"></i>&nbsp; Visitor Entry</a></li>
+                    <?php
+                    }
 					?>
 			  	</ul>
 			  	<ul class="nav navbar-nav navbar-right">

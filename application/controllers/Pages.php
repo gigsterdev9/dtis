@@ -11,6 +11,17 @@ class Pages extends CI_Controller {
 			$this->load->helper('url');
             $this->load->library('ion_auth');
             
+            if (!$this->ion_auth->logged_in()) {
+                redirect('auth/login');
+            }
+            
+            if ($this->ion_auth->in_group('wwf')) {
+                redirect('/photoid');
+            }
+            
+            if ($this->ion_auth->in_group('partner')) {
+                redirect('/photoid/latest');
+            }
             //$this->output->enable_profiler(TRUE);	
             
     }
@@ -24,18 +35,6 @@ class Pages extends CI_Controller {
 			$this->load->helper('email');
 					
 		    if ($page == 'dashboard') {
-
-                if (!$this->ion_auth->logged_in()) {
-                    redirect('auth/login');
-                }
-                
-                if ($this->ion_auth->in_group('wwf')) {
-                    redirect('/photoid');
-                }
-                
-                if ($this->ion_auth->in_group('partner')) {
-                    redirect('/visitors/add');
-                }
 
                 /* charts section */
                 /* age grouping */
@@ -91,30 +90,15 @@ class Pages extends CI_Controller {
 
                 /* new partner entries notice */
                 $data['partner_entries'] = $this->visitors_model->partner_entries_count();
-                
 
-                $data['title'] = ucfirst($page); // Capitalize the first letter
-                $this->load->view('templates/header', $data);
-                $this->load->view('pages/'.$page, $data);
-                $this->load->view('templates/footer', $data);
             }
-            /** photo id open view */
-            elseif ($page == 'openview') {
-                
-                $data['title'] = 'WS PhotoID Stats';
-                $data['ws_pid'] = $this->photoid_model->get_most_recent_report();
+            
+            $data['title'] = ucfirst($page); // Capitalize the first letter
 
-                $this->load->view('templates/pub_header', $data);
-                $this->load->view('pages/'.$page, $data);
-                $this->load->view('templates/pub_footer', $data);
-            }
-            else{
-                $data['title'] = ucfirst($page); // Capitalize the first letter
+            $this->load->view('templates/header', $data);
+            $this->load->view('pages/'.$page, $data);
+            $this->load->view('templates/footer', $data);
 
-                $this->load->view('templates/header', $data);
-                $this->load->view('pages/'.$page, $data);
-                $this->load->view('templates/footer', $data);
-            }
 		    
 		    //$this->output->enable_profiler(TRUE);
     }

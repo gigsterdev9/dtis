@@ -21,28 +21,5 @@
 				</div>
 			</div>
 		</div><!-- container -->
-
-		<!-- SCRIPTS -->
-
-		<script>
-			$(document).ready(function(){
-				
-				//nav menu script 
-				$('.dropdown-submenu a.test').on("click", function(e){
-					$(this).next('ul').toggle();
-					e.stopPropagation();
-					e.preventDefault();
-				});
-
-				//initialize enhanced select dropdown fields
-				$('.select2-single').select2({
-					placeholder: 'Select an option'
-				});
-
-
-			});
-		</script>
-
-
     </body>
 </html>
