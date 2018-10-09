@@ -89,7 +89,7 @@
             <?php
                 echo '<input type="hidden" name="process_now" value="go" />';
                 echo '<div style="text-align: center">';
-                echo '<input type="submit" class="form-control" value="Batch Process &raquo;" />';
+                echo '<input type="submit" id="batch_process" class="form-control" value="Batch Process &raquo;" />';
                 echo '</div>';
                 echo form_close();
             ?>
@@ -99,30 +99,21 @@
 
 		</div>
 	</div>
-
+    <!--
     <div class="container-fluid">
 		<small>
         <?php 
-            /*
-			if (isset($filterval)) { 
-				$url = 'visitors/filtered_to_excel/'.$filterval[0].'/'.$filterval[1];
-			} 
-			else if (isset($searchval)) {
-				$url = 'visitors/results_to_excel/'.$searchval;
-			}
-			else {
-				$url = 'visitors/all_to_excel';
-			}
-            */
             $url = 'visitors/all_to_excel';
             if ($p_entries['result_count'] > 0) echo '<a href="'.$url.'" target="_blank"><i class="fas fa-file-excel"></i> Export to Excel &raquo;</a>';	
-				//echo '<a href="#">Export to Excel &raquo;</a>';	
 		?>
 		</small>
 	</div>
-
+    -->
 </div>
+
 <script>
+$(function () {
+
 	$('#filter_by').on('change', function(){
 		var myval = $(this).val();
 		//alert(myval);
@@ -173,4 +164,25 @@
 		}
 		
 	});
+
+    $("#batch_process").click(function(event) {
+		
+		event.preventDefault();
+		
+		$.confirm({
+			title: 'Confirm batch process action.',
+			content: 'Are you sure?',
+			buttons: {
+				confirm: function () {
+                    $( "form:first" ).submit();
+				},
+				cancel: function () {
+					//nothing
+				}
+			}
+
+		});
+        
+	});
+});		
 </script>

@@ -160,7 +160,9 @@ class Photoid extends CI_Controller {
 			}
 			
 		}
-		
+        
+        /** excel reports */
+
 		public function all_to_excel() {
         //export all data to Excel file
             $this->load->library('export');

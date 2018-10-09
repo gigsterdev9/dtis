@@ -3,13 +3,26 @@
 	<p>&nbsp;</p>
 	<div class="alert alert-info" id="user-info-notif" >
 		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-		<!-- This page will show an overview of the system data. Current items on display are just mockups. -->
 		<?php		
 		$user = $this->ion_auth->user()->row();
 		$username = ucfirst($user->username);
 		echo 'You are logged in as user '.$username.'.';
 		?>
-	</div>
+    </div>
+    <?php if ($partner_entries > 0) { ?>
+    <div class="alert alert-warning" id="partner-entry-notif" >
+		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+		<?php		
+		if ($partner_entries == 1) {
+            echo $partner_entries . ' new entry entered by a partner. ';
+        }
+        else {
+            echo $partner_entries . ' new entries entered by partners. ';
+        }
+        ?>
+        <a href="<?php base_url('visitors/partner_entries') ?>">Click to manage entries now.</a>
+    </div>
+    <?php } ?>
 	<!--
 	<div class="row">
 		<div class="col-md-12">

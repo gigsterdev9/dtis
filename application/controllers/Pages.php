@@ -2,8 +2,7 @@
 
 class Pages extends CI_Controller {
 
-		public function __construct()
-        {
+	public function __construct() {
 			parent::__construct();
 			$this->load->model('visits_model');
             $this->load->model('visitors_model');
@@ -14,22 +13,9 @@ class Pages extends CI_Controller {
             
             //$this->output->enable_profiler(TRUE);	
             
-            if (!$this->ion_auth->logged_in())
-			{
-				redirect('auth/login');
-            }
-            
-            if ($this->ion_auth->in_group('wwf')) {
-                redirect('/photoid');
-            }
-            
-            if ($this->ion_auth->in_group('partner')) {
-                redirect('/visitors/add');
-            }
-
-        }
+    }
 		
-        public function view($page = 'dashboard') {
+    public function view($page = 'dashboard') {
 
         	if ( ! file_exists(APPPATH.'/views/pages/'.$page.'.php')) {
 				show_404();
@@ -38,6 +24,18 @@ class Pages extends CI_Controller {
 			$this->load->helper('email');
 					
 		    if ($page == 'dashboard') {
+
+                if (!$this->ion_auth->logged_in()) {
+                    redirect('auth/login');
+                }
+                
+                if ($this->ion_auth->in_group('wwf')) {
+                    redirect('/photoid');
+                }
+                
+                if ($this->ion_auth->in_group('partner')) {
+                    redirect('/visitors/add');
+                }
 
                 /* charts section */
                 /* age grouping */
@@ -90,17 +88,36 @@ class Pages extends CI_Controller {
                 /* updates section */
                 $data['latest_visitors'] = $this->visitors_model->get_visitors(20, 0, 'DESC');
                 $data['recent_visits'] = $this->visits_model->get_visits(20, 0, 'DESC');
+
+                /* new partner entries notice */
+                $data['partner_entries'] = $this->visitors_model->partner_entries_count();
                 
 
-		    }
-		    $data['title'] = ucfirst($page); // Capitalize the first letter
+                $data['title'] = ucfirst($page); // Capitalize the first letter
+                $this->load->view('templates/header', $data);
+                $this->load->view('pages/'.$page, $data);
+                $this->load->view('templates/footer', $data);
+            }
+            /** photo id open view */
+            elseif ($page == 'openview') {
+                
+                $data['title'] = 'WS PhotoID Stats';
+                $data['ws_pid'] = $this->photoid_model->get_most_recent_report();
 
-		    $this->load->view('templates/header', $data);
-		    $this->load->view('pages/'.$page, $data);
-		    $this->load->view('templates/footer', $data);
+                $this->load->view('templates/pub_header', $data);
+                $this->load->view('pages/'.$page, $data);
+                $this->load->view('templates/pub_footer', $data);
+            }
+            else{
+                $data['title'] = ucfirst($page); // Capitalize the first letter
+
+                $this->load->view('templates/header', $data);
+                $this->load->view('pages/'.$page, $data);
+                $this->load->view('templates/footer', $data);
+            }
 		    
 		    //$this->output->enable_profiler(TRUE);
-        }
+    }
         
         
 }

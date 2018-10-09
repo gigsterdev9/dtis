@@ -370,6 +370,60 @@ class Visitors extends CI_Controller {
 		}
         
         /** Partner entries */
+        public function partner_entries() {		
+		    $allowed_groups = array('admin','supervisor');
+			if (!$this->ion_auth->in_group($allowed_groups)) {
+				show_404();
+			}
+
+			//set general pagination config
+			$config = array();
+			$config['base_url'] = base_url('visitors');
+			
+			$config['per_page'] = 100;
+			$config['uri_segment'] = 2;
+			$config['cur_tag_open'] = '<span>';
+			$config['cur_tag_close'] = '</span>';
+			$config['prev_link'] = '&laquo;';
+			$config['next_link'] = '&raquo;';
+			$config['reuse_query_string'] = TRUE; 
+			$config["num_links"] = 9;
+            
+            //batch process
+            if ($this->input->post('process_now') == 'go') {
+                //echo '<pre>'; print_r($this->input->post()); echo '</pre>';    
+                $result = $this->update_p_entries();
+
+                $data['alert_success'] = 'Partner submitted entries processed.';
+
+                //audit trail
+                $this->tracker_model->log_event('', '', 'batch process', 'partner entries');
+
+                 
+            }
+            
+            //Display all
+            //implement pagination
+            $page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
+            $data['p_entries'] = $this->visitors_model->get_partner_entries($config["per_page"], $page);
+            /*
+            $where_clause = "fname = '".$data['p_entries']['fname']."' and lname = '".$data['p_entries']['lname']."' and mname = '".$data['p_entries']['mname'].
+                            "' and bdate = '".$data['p_entries']['bdate']."' and trash = 0";
+            $data['p_entries']['match_check']  = $this->visitors_model->search_visitors('200', '0', $where_clause) ;
+            */
+            $data['p_entries']['result_count'] = $this->visitors_model->partner_entries_count();
+                $config['total_rows'] = $data['p_entries']['result_count'];
+                $this->pagination->initialize($config);
+            $data['links'] = $this->pagination->create_links();
+            	
+            $data['title'] = 'Tourist Registry (Partner Entries)';
+			//echo '<pre>'; print_r($data); echo '</pre>';
+			$this->load->view('templates/header', $data);
+			$this->load->view('visitors/partner_entries', $data);
+			$this->load->view('templates/footer');
+				
+        }
+        
         public function view_p_entry($id = NULL) {
 
             $data['visitor'] = $this->visitors_model->get_p_entry_by_id($id);
@@ -434,58 +488,105 @@ class Visitors extends CI_Controller {
 			}
 		}
         
-        public function partner_entries() {		
-		    $allowed_groups = array('admin','supervisor');
-			if (!$this->ion_auth->in_group($allowed_groups)) {
-				show_404();
-			}
-
-			//set general pagination config
-			$config = array();
-			$config['base_url'] = base_url('visitors');
-			
-			$config['per_page'] = 100;
-			$config['uri_segment'] = 2;
-			$config['cur_tag_open'] = '<span>';
-			$config['cur_tag_close'] = '</span>';
-			$config['prev_link'] = '&laquo;';
-			$config['next_link'] = '&raquo;';
-			$config['reuse_query_string'] = TRUE; 
-			$config["num_links"] = 9;
+        //batch update partner entries
+        public function update_p_entries() {
+            //echo '<pre>'; print_r($_POST); echo '</pre>'; die();
+            $this->load->helper('url');
             
-            //batch process
-            if ($this->input->post('process_now') == 'go') {
-                //echo '<pre>'; print_r($this->input->post()); echo '</pre>';    
-                $result = $this->visitors_model->update_p_entries();
+            $add_ctr = 0;
+            $trash_ctr = 0;
+            foreach ($this->input->post('action') as $key => $a) {
+                //echo $key .'-'. $val.'<br />';
+                $visitor_id = $key;
 
-                $data['alert_success'] = 'Partner submitted entries processed.';
+                switch ($a) {
+                    case 1: //add
+                        $this->move_entry($visitor_id);
+                        $add_ctr++;
+                        break;
 
-                //audit trail
-                $this->tracker_model->log_event('', '', 'batch process', 'partner entries');
+                    case 2: //dupe, mark as trash
+                        $this->remove_entry($visitor_id);
+                        $trash_ctr++;
+                        break;
 
-                 
+                    default:
+                        //do nothing
+
+                }
             }
             
-            //Display all
-            //implement pagination
-            $page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
-            $data['p_entries'] = $this->visitors_model->get_partner_entries($config["per_page"], $page);
-            /*
-            $where_clause = "fname = '".$data['p_entries']['fname']."' and lname = '".$data['p_entries']['lname']."' and mname = '".$data['p_entries']['mname'].
-                            "' and bdate = '".$data['p_entries']['bdate']."' and trash = 0";
-            $data['p_entries']['match_check']  = $this->visitors_model->search_visitors('200', '0', $where_clause) ;
-            */
-            $data['p_entries']['result_count'] = $this->visitors_model->partner_entries_count();
-                $config['total_rows'] = $data['p_entries']['result_count'];
-                $this->pagination->initialize($config);
-            $data['links'] = $this->pagination->create_links();
-            	
-            $data['title'] = 'Tourist Registry (Partner Entries)';
-			//echo '<pre>'; print_r($data); echo '</pre>';
-			$this->load->view('templates/header', $data);
-			$this->load->view('visitors/partner_entries', $data);
-			$this->load->view('templates/footer');
-				
+            $proc_counts['additions'] = $add_ctr;
+            $proc_counts['removals'] = $trash_ctr;
+
+            return $proc_counts;
+        }
+
+        public function move_entry($id = NULL) {
+
+            //echo 'Moving entry...';
+
+            //select from visitors_viapartners
+            $entry = $this->visitors_model->get_p_entry_by_id($id);
+
+            //insert into visitors
+            $data = array(
+                'first_visit_year' => $entry['first_visit_year'],
+                'fname' => $entry['fname'],
+                'mname' => $entry['mname'],
+                'lname' => $entry['lname'],
+                'h_address' => $entry['h_address'],
+                'nationality' => $entry['nationality'],
+                'bdate' => $entry['bdate'],
+                'gender' => $entry['gender'],
+                'civil_status' => $entry['civil_status'],
+                'mobile_no' => $entry['mobile_no'],
+                'email' => $entry['email'],
+                'occupation' => $entry['occupation'],
+                'b_address' => $entry['b_address'],
+                'b_contact_no' => $entry['b_contact_no'],
+                'swimmer' => $entry['swimmer'],
+                'diver' => $entry['diver'],
+                'ice_fullname' => $entry['ice_fullname'],
+                'ice_address' => $entry['ice_address'],
+                'ice_relationship' => $entry['ice_relationship'],
+                'ice_contact_nos' => $entry['ice_contact_nos'],
+                'status' => $entry['status'],
+                'remarks' => $entry['remarks'].' (submitted by partner)',
+                'trash' => 0
+            );
+            //execute insert
+            $result = $this->visitors_model->set_visitor($data);
+
+            //tag as checked
+            $data1 = array(
+                'checked' => '1'
+            );
+            $this->visitors_model->update_p_entry($id, $data1);
+
+            //audit trail
+
+            $success_msg = 'Entry moved to main registry.';
+
+            return $success_msg;
+        }
+
+        public function remove_entry($id = NULL) {
+
+            //echo 'Clearing entry... ';
+
+            //update visitors_viapartners; set trash to 1
+            $data = array(
+                'checked' => 1,
+                'trash' => 1
+            );
+            $this->visitors_model->update_p_entry($id, $data);
+            
+            //audit trail
+
+            $success_msg = 'Entry cleared. ';
+
+            return $success_msg;
         }
 
 

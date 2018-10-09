@@ -1,5 +1,7 @@
 <?php
 $visitor_id = sprintf("%'.05d\n", $visitor['visitor_id']);
+$move_link = base_url('visitors/move_entry/'.$visitor['visitor_id']); //echo $move_link; die();
+$remove_link = base_url('visitors/remove_entry/'.$visitor['visitor_id']); //echo $move_link; die();
 ?>
 <div class="container">
 	<h2><span class="glyphicon glyphicon-folder-open"></span>&nbsp; Visitor Details (Partner Entry)</h2>
@@ -8,7 +10,7 @@ $visitor_id = sprintf("%'.05d\n", $visitor['visitor_id']);
 	<?php if ($this->ion_auth->in_group('admin'))
 	{
 	?>
-	<small>[&nbsp;<a href="#">Add</a >&nbsp;|&nbsp;<a href="#">Remove</a>&nbsp;]</small>
+	<small>[&nbsp;<a href="#" id="add_to_main">Add</a >&nbsp;|&nbsp;<a href="#" id="trash">Remove</a>&nbsp;]</small>
     <?php
 	}
 	?>
@@ -154,3 +156,48 @@ $visitor_id = sprintf("%'.05d\n", $visitor['visitor_id']);
 
 	</div>
 </div>
+
+<script>
+$(function () {
+	
+    $('#add_to_main').on('click', function () {
+		$.confirm({
+			title: 'Confirm ADD to registry',
+			content: 'Are you sure?',
+			buttons: {
+				confirm: function () {
+					
+                    $(".panel-body").load("<?php echo $move_link ?>");
+                    $(".visit-history-details").text(''); //clear status section
+                    
+                    
+				},
+				cancel: function () {
+					//nothing
+				}
+			}
+
+		});
+	});
+
+	$('#trash').on('click', function () {
+		$.confirm({
+			title: 'Confirm REMOVE',
+			content: 'Are you sure?',
+			buttons: {
+				confirm: function () {
+					
+                    $(".panel-body").load("<?php echo $remove_link ?>");
+                    $(".visit-history-details").text(''); //clear status section
+
+				},
+				cancel: function () {
+					//nothing
+				}
+			}
+
+		});
+	});
+
+});		
+</script>
