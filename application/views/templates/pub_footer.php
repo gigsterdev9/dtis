@@ -14,12 +14,6 @@
             
 			<p>&nbsp;</p>
 			<div id="footer-div" class="small text-right">
-				<?php		
-				$user = $this->ion_auth->user()->row();
-				$username = ucfirst($user->username);
-				echo '<i>Logged in as '.$username.'.</i><br />';
-				?>
-				<p>Page rendered in {elapsed_time} seconds using {memory_usage} of memory.</p>
 				Donsol Tourism Information System v.0.02.
 				&copy; <?php echo $year ?>. <br />
 				Office of the Mayor. Municipality of Donsol, Sorsogon. All Rights Reserved.<br />

@@ -63,8 +63,11 @@ $restricted_groups = array('wwf','partner');
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
 
-         <!-- chart.js -->
-         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
+        <!-- chart.js -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
+
+        <!-- printPreview.js -->
+        <script src="<?php echo base_url('js/printPreview.js') ?>"></script>
   		
 	</head>
 
@@ -112,7 +115,13 @@ $restricted_groups = array('wwf','partner');
                     <?php
                     if (!$this->ion_auth->in_group($restricted_groups)) {  
                     ?>
-					<li><a href="<?php echo base_url('visitors') ?>"><i class="fas fa-address-book"></i>&nbsp; Visitors</a></li>
+					<li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fas fa-address-book"></i>&nbsp; Visitors<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="<?php echo base_url('visitors') ?>"><i class="fas fa-folder-open"></i>&nbsp; Main Registry</a></li>
+                            <li><a href="<?php echo base_url('visitors/partner_entries') ?>"><i class="fas fa-folder-open"></i>&nbsp; Partner Entries</a></li>
+                        </ul>
+                    </li>
 					<li><a href="<?php echo base_url('visits') ?>"><i class="fas fa-camera"></i>&nbsp; Visits</a></li>
                     <li class="dropdown">
 						<a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fas fa-ship"></i>&nbsp; Activities<span class="caret"></span></a>
