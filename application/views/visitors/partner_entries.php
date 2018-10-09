@@ -172,6 +172,8 @@ $(function () {
 		$.confirm({
 			title: 'Confirm batch process action.',
 			content: 'Are you sure?',
+            type: 'red',
+            animation: 'top',
 			buttons: {
 				confirm: function () {
                     $( "form:first" ).submit();

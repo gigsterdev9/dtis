@@ -20,7 +20,7 @@
             echo $partner_entries . ' new entries entered by partners. ';
         }
         ?>
-        <a href="<?php base_url('visitors/partner_entries') ?>">Click to manage entries now.</a>
+        <a href="<?php echo base_url('visitors/partner_entries') ?>">Click to manage entries now.</a>
     </div>
     <?php } ?>
 	<!--

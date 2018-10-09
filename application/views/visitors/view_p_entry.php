@@ -164,6 +164,8 @@ $(function () {
 		$.confirm({
 			title: 'Confirm ADD to registry',
 			content: 'Are you sure?',
+            type: 'red',
+            animation: 'top',
 			buttons: {
 				confirm: function () {
 					
@@ -184,6 +186,8 @@ $(function () {
 		$.confirm({
 			title: 'Confirm REMOVE',
 			content: 'Are you sure?',
+            type: 'red',
+            animation: 'top',
 			buttons: {
 				confirm: function () {
 					
