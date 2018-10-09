@@ -60,7 +60,7 @@
                     -->
                     <div class="row">
                         <div class="col-sm-4 control-label">Remarks</div>
-                        <div class="col-sm-8 control-value"><?php echo $visit['remarks']; ?>&nbsp;</div>
+                        <div class="col-sm-8 control-value"><?php echo $visit['visit_remarks']; ?>&nbsp;</div>
                     </div>
 
 				</div>
@@ -70,61 +70,53 @@
                         <div class="col-sm-9 control-label"><b>ACTIVITY DETAILS</b></div>
                     </div>
                     <?php if ($visit['butanding'] == 1) { ?>
-                    <div class="row">
+                    <div class="row activity-details">
                         <div class="col-sm-9 control-label"><b>Butanding Interaction</b></div>
                     </div>
                     <div class="row">
                         <div class="col-sm-9 control-label">
                         <?php 
-                            echo 'Boat ID: &nbsp;'. $visit_details['butanding']['boat_id'].'<br />';
-                            echo '&nbsp; &nbsp; Accreditation No.: <br /><br />';
-                            echo 'BIO name: &nbsp;'. $visit_details['butanding']['bio_name'].'<br />';
-                            echo '&nbsp; &nbsp; Accreditation No.: <br /><br />';
+                            echo 'Boat name: &nbsp;'. $vd['butanding']['ab_name']. ' (Accreditation No. '. $vd['butanding']['ab_acc_no'] .')<br />';
+                            echo 'BIO name: &nbsp;'. $vd['butanding']['ag_name']. ' (Accreditation No. '. $vd['butanding']['ag_acc_no'] .')<br />';
                         ?>
                         </div>
                     </div>
                     <?php } ?>
                     <?php if ($visit['girawan'] == 1) { ?>
-                    <div class="row">
+                    <div class="row activity-details">
                         <div class="col-sm-9 control-label"><b>Girawan Backyard Tour</b></div>
                     </div>
                     <div class="row">
                         <div class="col-sm-9 control-label">
                         <?php 
-                            echo 'Boat ID: &nbsp;'. $visit_details['girawan']['boat_id'].'<br />';
-                            echo '&nbsp; &nbsp; Accreditation No.: <br /><br />';
-                            echo 'BIO name: &nbsp;'. $visit_details['girawan']['bio_name'].'<br />';
-                            echo '&nbsp; &nbsp; Accreditation No.: <br /><br />';
+                            echo 'Boat name: &nbsp;'. $vd['girawan']['ab_name']. ' (Accreditation No. '. $vd['girawan']['ab_acc_no'] .')<br />';
+                            echo 'Guide name: &nbsp;'. $vd['girawan']['ag_name']. ' (Accreditation No. '. $vd['girawan']['ag_acc_no'] .')<br />';
                         ?>
                         </div>
                     </div>
                     <?php } ?>
                     <?php if ($visit['firefly'] == 1) { ?>
-                    <div class="row">
+                    <div class="row activity-details">
                         <div class="col-sm-9 control-label"><b>River Cruise and Firefly Watching</b></div>
                     </div>
                     <div class="row">
                         <div class="col-sm-9 control-label">
                         <?php 
-                            echo 'Boat ID: &nbsp;'. $visit_details['firefly']['boat_id'].'<br />';
-                            echo '&nbsp; &nbsp; Accreditation No.: <br /><br />';
-                            echo 'BIO name: &nbsp;'. $visit_details['firefly']['bio_name'].'<br />';
-                            echo '&nbsp; &nbsp; Accreditation No.: <br /><br />';
+                            echo 'Boat name: &nbsp;'. $vd['firefly']['ab_name']. ' (Accreditation No. '. $vd['firefly']['ab_acc_no'] .')<br />';
+                            echo 'Guide name: &nbsp;'. $vd['firefly']['ag_name']. ' (Accreditation No. '. $vd['firefly']['ag_acc_no'] .')<br />';
                         ?>
                         </div>
                     </div>
                     <?php } ?>
                     <?php if ($visit['island_hop'] == 1) { ?>
-                    <div class="row">
+                    <div class="row activity-details">
                         <div class="col-sm-9 control-label"><b>Island Hopping</b></div>
                     </div>
                     <div class="row">
                         <div class="col-sm-9 control-label">
                         <?php 
-                            echo 'Boat ID: &nbsp;'. $visit_details['island_hop']['boat_id'].'<br />';
-                            echo '&nbsp; &nbsp; Accreditation No.: <br /><br />';
-                            echo 'BIO name: &nbsp;'. $visit_details['island_hop']['bio_name'].'<br />';
-                            echo '&nbsp; &nbsp; Accreditation No.: <br /><br />';
+                            echo 'Boat name: &nbsp;'. $vd['island_hop']['ab_name']. ' (Accreditation No. '. $vd['island_hop']['ab_acc_no'] .')<br />';
+                            echo 'Guide name: &nbsp;'. $vd['island_hop']['ag_name']. ' (Accreditation No. '. $vd['island_hop']['ag_acc_no'] .')<br />';
                         ?>
                         </div>
                     </div>

@@ -24,7 +24,7 @@
 			$attributes = array('class' => 'form-horizontal', 'role' => 'form', 'id' => 'form-new-visit');
 			echo form_open('visits/add_exist/'.$visitor_id, $attributes); 
 		?>
-				<!-- begin: hidden div -->
+		
 				<div class="with-match" id="with-match">
                     <div class="form-group">
 						<label class="control-label col-sm-2" for="visitor_fullname">Visitor<span class="text-info">*</span></label>
@@ -44,6 +44,7 @@
 									$('#datetimepicker1').datetimepicker({
 										format: 'YYYY-MM-DD',
                                         viewMode: 'years',
+                                        date: new Date(),
 									    maxDate: end
 									});
 								});
@@ -58,14 +59,7 @@
 					</div>
 					<div class="form-group">
 						<label class="control-label col-sm-2" for="form_signed">Form Signed<span class="text-info">*</span></label>
-						<div class="col-sm-10">	
-                            <!--
-							<select name="form_signed" class="form-control select2-single">
-								<option value="">Select</option>
-                                <option value="0" <?php echo  set_select('form_signed', '0'); ?> >No</option>
-                                <option value="1" <?php echo  set_select('form_signed', '1'); ?> >Yes</option>
-							</select>
-                            -->
+						<div class="col-sm-10 control-value-1">	
                             <input type="radio" id="form_signed" name="form_signed" value="1" <?php echo set_radio('form_signed', '1'); ?> /> Yes
                             <input type="radio" id="form_signed" name="form_signed" value="0" <?php echo set_radio('form_signed', '0'); ?> /> No
 						</div>
@@ -73,33 +67,138 @@
                     <div class="form-group">
                         <label class="control-label col-sm-2" >Activities<span class="text-info">*</span></label>
                         <div class="col-sm-10">
-                            <div class="row">
+                            <div class="row control-value-1">
                                 <div class="col-sm-3">
                                     <label class="control-label col-sm-auto" for="butanding">Butanding<span class="text-info">*</span></label>
-                                    <input type="radio" id="butanding" name="butanding" value="1" <?php echo set_radio('butanding', '1'); ?> /> Yes
-                                    <input type="radio" id="butanding" name="butanding" value="0" <?php echo set_radio('butanding', '0'); ?> /> No
+                                    <input type="radio" class="butanding" name="butanding" value="1" <?php echo set_radio('butanding', '1'); ?> /> Yes
+                                    <input type="radio" class="butanding" name="butanding" value="0" <?php echo set_radio('butanding', '0'); ?> /> No
+                                    <p>&nbsp;</p>
+                                    <div id="bi_details" style="display: none">
+                                        BIO/Guide: <br />
+                                        <select class="form-control select2-single" id="bi_guide" name="bi_guide" style="width: 100%">
+                                            <option value="">Select</option>
+                                            <?php 
+                                            foreach ($guides as $g) {
+                                            ?>
+                                                <option value="<?php echo $g['ag_id'] ?>" <?php echo set_select('bi_guide',$g['ag_id']) ?> ><?php echo $g['ag_name'] ?></option>
+                                            <?php
+                                            }
+                                            ?>
+                                        </select><br />
+                                        Boat: <br />
+                                        <select class="form-control select2-single" id="bi_boat" name="bi_boat" style="width: 100%">
+                                            <option value="">Select</option>
+                                            <?php 
+                                            foreach ($boats as $b) {
+                                            ?>
+                                                <option value="<?php echo $b['ab_id'] ?>" <?php echo set_select('bi_boat',$b['ab_id']) ?> ><?php echo $b['ab_name'] ?></option>
+                                            <?php
+                                            }
+                                            ?>
+                                        </select><br />
+                                    </div>
                                 </div>
                                 <div class="col-sm-3">
                                     <label class="control-label col-sm-auto" for="girawan">Girawan<span class="text-info">*</span></label>
-                                    <input type="radio" id="girawan" name="girawan" value="1" <?php echo set_radio('girawan', '1'); ?> /> Yes
-                                    <input type="radio" id="girawan" name="girawan" value="0" <?php echo set_radio('girawan', '0'); ?> /> No
+                                    <input type="radio" class="girawan" name="girawan" value="1" <?php echo set_radio('girawan', '1'); ?> /> Yes
+                                    <input type="radio" class="girawan" name="girawan" value="0" <?php echo set_radio('girawan', '0'); ?> /> No
+                                    <p>&nbsp;</p>
+                                    <div id="gt_details" style="display: none">
+                                        Guide: <br />
+                                        <select class="form-control select2-single" id="gt_guide" name="gt_guide" style="width: 100%">
+                                            <option value="">Select</option>
+                                            <?php 
+                                            foreach ($guides as $g) {
+                                            ?>
+                                                <option value="<?php echo $g['ag_id'] ?>" <?php echo set_select('gt_guide',$g['ag_id']) ?> ><?php echo $g['ag_name'] ?></option>
+                                            <?php
+                                            }
+                                            ?>
+                                        </select><br />
+                                        Boat: <br />
+                                        <select class="form-control select2-single" id="gt_boat" name="gt_boat" style="width: 100%">
+                                            <option value="">Select</option>
+                                            <?php 
+                                            foreach ($boats as $b) {
+                                            ?>
+                                                <option value="<?php echo $b['ab_id'] ?>" <?php echo set_select('gt_boat',$b['ab_id']) ?> ><?php echo $b['ab_name'] ?></option>
+                                            <?php
+                                            }
+                                            ?>
+                                        </select><br />
+                                    </div>
                                 </div>
                                 <div class="col-sm-3">
                                     <label class="control-label col-sm-auto" for="firefly">Firefly<span class="text-info">*</span></label>
-                                    <input type="radio" id="firefly" name="firefly" value="1" <?php echo set_radio('firefly', '1'); ?> /> Yes
-                                    <input type="radio" id="firefly" name="firefly" value="0" <?php echo set_radio('firefly', '0'); ?> /> No
+                                    <input type="radio" class="firefly" name="firefly" value="1" <?php echo set_radio('firefly', '1'); ?> /> Yes
+                                    <input type="radio" class="firefly" name="firefly" value="0" <?php echo set_radio('firefly', '0'); ?> /> No
+                                    <p>&nbsp;</p>
+                                    <div id="fw_details" style="display: none">
+                                        Guide: <br />
+                                        <select class="form-control select2-single" id="fw_guide" name="fw_guide" style="width: 100%">
+                                            <option value="">Select</option>
+                                            <?php 
+                                            foreach ($guides as $g) {
+                                            ?>
+                                                <option value="<?php echo $g['ag_id'] ?>" <?php echo set_select('fw_guide',$g['ag_id']) ?> ><?php echo $g['ag_name'] ?></option>
+                                            <?php
+                                            }
+                                            ?>
+                                        </select><br />
+                                        Boat: <br />
+                                        <select class="form-control select2-single" id="fw_boat" name="fw_boat" style="width: 100%">
+                                            <option value="">Select</option>
+                                            <?php 
+                                            foreach ($boats as $b) {
+                                            ?>
+                                                <option value="<?php echo $b['ab_id'] ?>" <?php echo set_select('fw_boat',$b['ab_id']) ?> ><?php echo $b['ab_name'] ?></option>
+                                            <?php
+                                            }
+                                            ?>
+                                        </select><br />
+                                    </div>
                                 </div>
                                 <div class="col-sm-3">	
                                     <label class="control-label col-sm-auto" for="island_hop">Island Hop<span class="text-info">*</span></label>
-                                    <input type="radio" id="island_hop" name="island_hop" value="1" <?php echo set_radio('island_hop', '1'); ?> /> Yes
-                                    <input type="radio" id="island_hop" name="island_hop" value="0" <?php echo set_radio('island_hop', '0'); ?> /> No
-                                    <div class="col-sm-6" id="island_hop-details" style="display:none">
-                                        <label class="control-label col-sm-2" for="boat_name">Boat name<span class="text-info">*</span></label>
-                                        <input type="text" class="form-control" name="boat_name" value="<?php echo set_value('boat_name'); ?>" />
+                                    <input type="radio" class="island_hop" name="island_hop" value="1" <?php echo set_radio('island_hop', '1'); ?> /> Yes
+                                    <input type="radio" class="island_hop" name="island_hop" value="0" <?php echo set_radio('island_hop', '0'); ?> /> No
+                                    <p>&nbsp;</p>
+                                    <div id="ih_details" style="display: none">
+                                        Guide: <br />
+                                        <select class="form-control select2-single" id="ih_guide" name="ih_guide" style="width: 100%">
+                                            <option value="">Select</option>
+                                            <?php 
+                                            foreach ($guides as $g) {
+                                            ?>
+                                                <option value="<?php echo $g['ag_id'] ?>" <?php echo set_select('ih_guide',$g['ag_id']) ?> ><?php echo $g['ag_name'] ?></option>
+                                            <?php
+                                            }
+                                            ?>
+                                        </select><br />
+                                        Boat: <br />
+                                        <select class="form-control select2-single" id="ih_boat" name="ih_boat" style="width: 100%">
+                                            <option value="">Select</option>
+                                            <?php 
+                                            foreach ($boats as $b) {
+                                            ?>
+                                                <option value="<?php echo $b['ab_id'] ?>" <?php echo set_select('ih_boat',$b['ab_id']) ?> ><?php echo $b['ab_name'] ?></option>
+                                            <?php
+                                            }
+                                            ?>
+                                        </select><br />
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="form-group">
+						<label class="control-label col-sm-2" for="visit_reason">Reason for Visit</label>
+						<div class="col-sm-10 control-value-1">	
+                            <input type="radio" id="visit_reason" name="visit_reason" value="1" <?php echo set_radio('visit_reason', '1'); ?> /> Destination Holiday &nbsp; &nbsp; 
+                            <input type="radio" id="visit_reason" name="visit_reason" value="2" <?php echo set_radio('visit_reason', '2'); ?> /> Cruise Stop-Over &nbsp; &nbsp; 
+                            <input type="radio" id="visit_reason" name="visit_reason" value="3" <?php echo set_radio('visit_reason', '3'); ?> /> Official Business &nbsp; &nbsp; 
+                            <input type="radio" id="visit_reason" name="visit_reason" value="4" <?php echo set_radio('visit_reason', '4'); ?> /> Other 
+						</div>
 					</div>
                     <div class="form-group">
 						<label class="control-label col-sm-2" for="visit_remarks">Remarks</label>
@@ -113,7 +212,8 @@
 							<!-- audit trail temp values -->
 							<input type="hidden" id="altered" name="altered" value="" />
 							<!-- audit trail temp values -->
-							<input type="hidden" name="ben_id" value="<?php echo (isset($ben_id)) ? $ben_id : set_value('ben_id') ?>" />
+                            <input type="hidden" name="visitor_id" value="<?php echo (isset($visitor_id)) ? $visitor_id : set_value('visitor_id') ?>" />
+                            <input type="hidden" name="boarding_pass" value="<?php echo $boarding_pass ?>" />
 							<input type="hidden" name="action" value="1" />
 							<button type="submit" class="btn btn-default">Submit</button>
 						</div>
@@ -129,23 +229,77 @@
 <script type="text/javascript">
 $(function() {
 	
-    $('.activity-type').on('change', function(){
-		var e_name = $(this).attr('name');
+    $('.butanding').on('change', function(){
+		
         var e_val = $(this).val();
 		//console.log(myval);
-        alert(e_val);
-		
-        switch (e_name) {
-			case 'island_hop':
-                $('#island_hop-details').toggle();
-				break;
-			default:
-                break;
-		}
+        
+        if (e_val == '1') {
+            $('#bi_details').show();
+        }
+        else{
+            $('#bi_guide').prop('selectedIndex',0);
+            $('#bi_boat').prop('selectedIndex',0);
+            $('#bi_details').hide();
+            //$.alert($('#bi_guide').val());
+        }
         
 
 	});
 
+    $('.girawan').on('change', function(){
+		
+        var e_val = $(this).val();
+		//console.log(myval);
+        
+        if (e_val == '1') {
+            $('#gt_details').show();
+        }
+        else{
+            $('#gt_guide').prop('selectedIndex',0);
+            $('#gt_boat').prop('selectedIndex',0);
+            $('#gt_details').hide();
+            //$.alert($('#gt_guide').val());
+        }
+        
+
+	});
+    
+
+    $('.firefly').on('change', function(){
+		
+        var e_val = $(this).val();
+		//console.log(myval);
+        
+        if (e_val == '1') {
+            $('#fw_details').show();
+        }
+        else{
+            $('#fw_guide').prop('selectedIndex',0);
+            $('#fw_boat').prop('selectedIndex',0);
+            $('#fw_details').hide();
+        }
+        
+
+	});
+
+
+    $('.island_hop').on('change', function(){
+		
+        var e_val = $(this).val();
+		//console.log(myval);
+        
+        if (e_val == '1') {
+            $('#ih_details').show();
+        }
+        else{
+            $('#ih_guide').prop('selectedIndex',0);;
+            $('#ih_boat').prop('selectedIndex',0);
+            $('#ih_details').hide();
+        }
+        
+
+	});
 
 });
 </script>

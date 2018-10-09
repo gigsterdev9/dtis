@@ -7,6 +7,8 @@ class Visits extends CI_Controller {
 				parent::__construct();
                 $this->load->model('visits_model');
                 $this->load->model('visitors_model');
+                $this->load->model('guides_model');
+                $this->load->model('boats_model');
 				$this->load->model('tracker_model');
 				$this->load->helper('url');
                 $this->load->helper('form');
@@ -196,13 +198,13 @@ class Visits extends CI_Controller {
 			}
             
             if ($data['visit']['butanding']) 
-                $data['visit_details']['butanding'] = $this->visits_model->get_visit_activity_details($id, 'butanding');
+                $data['vd']['butanding'] = $this->visits_model->get_visit_activity_details($id, '1');
             if ($data['visit']['girawan']) 
-                $data['visit_details']['girawan'] = $this->visits_model->get_visit_activity_details($id, 'girawan');
+                $data['vd']['girawan'] = $this->visits_model->get_visit_activity_details($id, '3');
             if ($data['visit']['firefly']) 
-                $data['visit_details']['firefly'] = $this->visits_model->get_visit_activity_details($id, 'firefly');
+                $data['vd']['firefly'] = $this->visits_model->get_visit_activity_details($id, '2');
             if ($data['visit']['island_hop']) 
-                $data['visit_details']['island_hop'] = $this->visits_model->get_visit_activity_details($id, 'island_hop');
+                $data['vd']['island_hop'] = $this->visits_model->get_visit_activity_details($id, '4');
 
             //retrieve audit trail
 			$data['tracker'] = $this->tracker_model->get_activities($id, 'visits');
@@ -227,14 +229,28 @@ class Visits extends CI_Controller {
 		
         
         public function add_exist($visitor_id = FALSE) { 
+
+            if ($visitor_id == FALSE) {
+                return 0;
+            }
         
             $this->load->helper('form');
 			$this->load->library('form_validation');
 
             $data['title'] = 'New visit';
-            $visitor_details = $this->visitors_model->get_visitor_by_id($visitor_id);
+            $vd = $this->visitors_model->get_visitor_by_id($visitor_id);
+            if ($vd == NULL) {
+                show_404();
+            }
             $data['visitor_id'] = $visitor_id;
-            $data['visitor_fullname'] = $visitor_details['fname'].' '.$visitor_details['mname'].' '.$visitor_details['lname'];
+            $data['visitor_fullname'] = $vd['fname'].' '.$vd['mname'].' '.$vd['lname'];
+            $data['guides'] = $this->guides_model->get_all_guides();
+            $data['boats'] = $this->boats_model->get_all_boats(); 
+            //echo '<pre>'; print_r($data['boats']); echo '</pre>'; 
+
+            //generate boarding pass
+            $initials = substr($vd['fname'], 0, 1) . substr($vd['mname'], 0, 1) . substr($vd['lname'], 0, 1);
+            $data['boarding_pass'] = $this->generate_boarding_pass($visitor_id, $vd['nationality'], $initials); 
             
 			//data validation
 			$this->form_validation->set_rules('visit_date','Visit Date','required');
@@ -260,14 +276,12 @@ class Visits extends CI_Controller {
                 $dupe = $this->visits_model->dupe_check($visitor_id, $visit_date, $or_no);
 
                 if (empty($dupe)) {
-                    //generate boarding pass code
-                    $boarding_pass = 'XXXX';
                     
                     //prep data array
                     $data = array(
                             'visitor_id' => $visitor_id,
                             'visit_date' => $visit_date,
-                            'boarding_pass' => $boarding_pass,
+                            'boarding_pass' => $this->input->post('boarding_pass'),
                             'or_no' => $or_no,
                             'form_signed' => $this->input->post('form_signed'),
                             'butanding' => $this->input->post('butanding'),
@@ -278,9 +292,56 @@ class Visits extends CI_Controller {
                             'trash' => 0
                             );
 
-					//execute insert
+					//insert to visit table
                     $new_visit_id = $this->visits_model->set_visit($data);
                     
+                    //insert to visit_activities table
+                    //butanding
+                    if ( ($this->input->post('bi_guide') != 0) || ($this->input->post('bi_boat') != 0) ) {
+                        $data1 = array(
+                            'visit_id' => $new_visit_id,
+                            'activity_id' => '1',
+                            'ag_id' => $this->input->post('bi_guide'),
+                            'ab_id' => $this->input->post('bi_boat'),
+                            'va_trash' => 0
+                            );
+                        $va_ids['bi'] = $this->visits_model->set_visit_activity($data1);
+                    }
+                    //girawan
+                    if ( ($this->input->post('gt_guide') != 0) || ($this->input->post('gt_boat') != 0) ) {
+                        $data2 = array(
+                            'visit_id' => $new_visit_id,
+                            'activity_id' => '3',
+                            'ag_id' => $this->input->post('gt_guide'),
+                            'ab_id' => $this->input->post('gt_boat'),
+                            'va_trash' => 0
+                            );
+                        $va_ids['gt'] = $this->visits_model->set_visit_activity($data2);
+                    }
+                    //firefly
+                    if ( ($this->input->post('fw_guide') != 0) || ($this->input->post('fw_boat') != 0) ) {
+                        $data3 = array(
+                            'visit_id' => $new_visit_id,
+                            'activity_id' => '2',
+                            'ag_id' => $this->input->post('fw_guide'),
+                            'ab_id' => $this->input->post('fw_boat'),
+                            'va_trash' => 0
+                            );
+                        $va_ids['fw'] = $this->visits_model->set_visit_activity($data3);
+                    }
+                    //island hop
+                    if ( ($this->input->post('ih_guide') != 0) || ($this->input->post('ih_boat') != 0) ) {
+                        $data4 = array(
+                            'visit_id' => $new_visit_id,
+                            'activity_id' => '4',
+                            'ag_id' => $this->input->post('ih_guide'),
+                            'ab_id' => $this->input->post('ih_boat'),
+                            'va_trash' => 0
+                            );
+                        $va_ids['ih'] = $this->visits_model->set_visit_activity($data4);
+                    }
+
+
                     //audit trail
                     $this->tracker_model->log_event('visit_id', $new_visit_id, 'created', '');
 
@@ -314,11 +375,19 @@ class Visits extends CI_Controller {
             
             $data['visit_id'] = $visit_id;
             $data['visit'] = $this->visits_model->get_visit_by_id($visit_id);
+            $data['visit']['bi'] = $this->visits_model->get_visit_activity_details($visit_id, '1'); 
+            $data['visit']['fw'] = $this->visits_model->get_visit_activity_details($visit_id, '2');
+            $data['visit']['gt'] = $this->visits_model->get_visit_activity_details($visit_id, '3');
+            $data['visit']['ih'] = $this->visits_model->get_visit_activity_details($visit_id, '4');
+
 
             $data['visitor_id'] = $data['visit']['visitor_id'];
             $data['visitor_fullname'] = $data['visit']['fname'].' '.$data['visit']['mname'].' '.$data['visit']['lname'];
             
             $visitor_id = $data['visit']['visitor_id'];
+
+            $data['guides'] = $this->guides_model->get_all_guides();
+            $data['boats'] = $this->boats_model->get_all_boats(); 
 
             //data validation
             $this->form_validation->set_rules('visit_date','Visit Date','required');
@@ -343,7 +412,9 @@ class Visits extends CI_Controller {
 				else {
 
                     //echo '<pre>'; print_r($_POST); echo '</pre>'; die();
+                    //echo '<pre>'; print_r($data); echo '</pre>'; 
 
+                    //update visits table
                     //prep data array
                     $data = array(
                         'visit_date' => $this->input->post('visit_date'),
@@ -357,10 +428,66 @@ class Visits extends CI_Controller {
                         'visit_remarks' => $this->input->post('visit_remarks'),
                         'trash' => $this->input->post('trash')
                     );
+                    $this->visits_model->update_visit($visit_id, $data);
+                    
 
-
-                    //execute data update
-					$this->visits_model->update_visit($data);
+                    //update visit activities table
+                    //butanding
+                    $data1 = array(
+                        'visit_id' => $visit_id,
+                        'activity_id' => '1',
+                        'ag_id' => $this->input->post('bi_guide'),
+                        'ab_id' => $this->input->post('bi_boat'),
+                        'va_trash' => 0
+                        );
+                    if ( ($this->input->post('bi_guide') != 0) || ($this->input->post('bi_boat') != 0) && ($data['visit']['bi']['va_id'] != NULL) ) {
+                        $va_ids['bi'] = $this->visits_model->update_visit_activity($data['visit']['bi']['va_id'], $data1);
+                    }
+                    else{
+                        $va_ids['bi'] = $this->visits_model->set_visit_activity($data1);
+                    }
+                    //girawan
+                    $data2 = array(
+                        'visit_id' => $visit_id,
+                        'activity_id' => '3',
+                        'ag_id' => $this->input->post('gt_guide'),
+                        'ab_id' => $this->input->post('gt_boat'),
+                        'va_trash' => 0
+                        );
+                    if ( ($this->input->post('gt_guide') != 0) || ($this->input->post('gt_boat') != 0) && ($data['visit']['bi']['va_id'] != NULL) ) {
+                        $va_ids['gt'] = $this->visits_model->update_visit_activity($data['visit']['gt']['va_id'], $data2);
+                    }
+                    else{
+                        $va_ids['gt'] = $this->visits_model->set_visit_activity($data2);
+                    }
+                    //firefly
+                    $data3 = array(
+                        'visit_id' => $visit_id,
+                        'activity_id' => '2',
+                        'ag_id' => $this->input->post('fw_guide'),
+                        'ab_id' => $this->input->post('fw_boat'),
+                        'va_trash' => 0
+                        );
+                    if ( ($this->input->post('fw_guide') != 0) || ($this->input->post('fw_boat') != 0) && ($data['visit']['bi']['va_id'] != NULL) ) {
+                        $va_ids['fw'] = $this->visits_model->update_visit_activity($data['visit']['fw']['va_id'], $data3);
+                    }
+                    else{
+                        $va_ids['fw'] = $this->visits_model->set_visit_activity($data3);
+                    }
+                    //island hop
+                    $data4 = array(
+                        'visit_id' => $visit_id,
+                        'activity_id' => '4',
+                        'ag_id' => $this->input->post('ih_guide'),
+                        'ab_id' => $this->input->post('ih_boat'),
+                        'va_trash' => 0
+                        );
+                    if ( ($this->input->post('ih_guide') != 0) || ($this->input->post('ih_boat') != 0) && ($data['visit']['bi']['va_id'] != NULL) ) {
+                        $va_ids['ih'] = $this->visits_model->update_visit_activity($data['visit']['ih']['va_id'], $data4);
+                    }
+                    else{
+                        $va_ids['ih'] = $this->visits_model->set_visit_activity($data4);
+                    }
                     
                     //add audit trail
                     $altered = $this->input->post('altered'); //hidden field that tracks form edits; see form
@@ -370,6 +497,10 @@ class Visits extends CI_Controller {
 
                     //retrieve updated data
                     $data['visit'] = $this->visits_model->get_visit_by_id($visit_id);
+                    $data['visit']['bi'] = $this->visits_model->get_visit_activity_details($visit_id, '1'); 
+                    $data['visit']['fw'] = $this->visits_model->get_visit_activity_details($visit_id, '2');
+                    $data['visit']['gt'] = $this->visits_model->get_visit_activity_details($visit_id, '3');
+                    $data['visit']['ih'] = $this->visits_model->get_visit_activity_details($visit_id, '4');
                     
 					if ( $this->input->post('trash') == 1) {
                         $data['alert_trash'] = 'Marked for deletion. This is your last chance to undo by unchecking the "Delete" box below and clicking submit.<br />';
@@ -408,7 +539,34 @@ class Visits extends CI_Controller {
 			$this->visits_model->trash_visit($visit_id, $ben_id);
 			redirect('beneficiaries/view/'.$ben_id);
 
-		}
+        }
+        
+        private function generate_boarding_pass($visitor_id = NULL, $nationality = NULL, $initials = NULL, $activity_count = NULL) {
+            
+            if ($visitor_id == NULL || $nationality == NULL || $initials == NULL) {
+                return 0;
+            }
+
+            //part1 - YYYYMMDD
+            $p1 = date('Ymd');
+
+            //part2 - L/F (Local or Foreign)
+            $p2 = ($nationality == 'Filipino') ? 'L' : 'F';
+
+            //part3 - activity count
+            //$p3 = $activity_count;
+
+            //part4 - 3L initials
+            $p4 = $initials;
+
+            //part5 - HHMMSS
+            $p5 = date('His');
+
+            $boarding_pass = $p1 . $p2 . $p4 . $p5;
+
+            //echo 'boarding pass: '.$boarding_pass;
+            return $boarding_pass;
+        }
 
         /* //moved this to visitors
 		public function match_find() {

@@ -320,11 +320,17 @@
 						<th width="12%">Visit Date</th>
                         <th width="15%">Visitor Name</th>
                         <th width="10%">Nationality</th>
+                        <!--
 						<th width="6%">Butanding</th>
                         <th width="6%">Girawan</th>
                         <th width="6%">Firefly</th>
                         <th width="6%">Island Hop</th>
-                        <th width="6%">Waiver</th>
+                        -->
+                        <th class="rotate-45"><div><span>Butanding Interaction</span></div></th>
+                        <th class="rotate-45"><div><span>Girawan Tour</span></div></th>
+                        <th class="rotate-45"><div><span>Firefly Watching</span></div></th>
+                        <th class="rotate-45"><div><span>Island Hopping</span></div></th>
+                        <th width="6%">Signed Waiver</th>
                         <th width="33%">Remarks</th>
 					</tr>
 				</thead>
@@ -349,11 +355,11 @@
                             <?php echo strtoupper($v['lname'].', '.$v['fname']); ?>
                             </a></td>
                         <td><?php echo $v['nationality']; ?></td>
-						<td><?php echo ($v['butanding'] == 1) ? 'Yes' : 'No'; ?></td>
-                        <td><?php echo ($v['girawan'] == 1) ? 'Yes' : 'No'; ?></td>
-                        <td><?php echo ($v['firefly'] == 1) ? 'Yes' : 'No'; ?></td>
-                        <td><?php echo ($v['island_hop'] == 1) ? 'Yes' : 'No'; ?></td>
-                        <td><?php echo ($v['form_signed'] == 1) ? 'Yes' : 'No'; ?></td>
+						<td><?php echo ($v['butanding'] == 1) ? '<i class="fas fa-check-circle green"></i>' : '<i class="fas fa-times-circle red"></i>'; ?></td>
+                        <td><?php echo ($v['girawan'] == 1) ? '<i class="fas fa-check-circle green"></i>' : '<i class="fas fa-times-circle red"></i>'; ?></td>
+                        <td><?php echo ($v['firefly'] == 1) ? '<i class="fas fa-check-circle green"></i>' : '<i class="fas fa-times-circle red"></i>'; ?></td>
+                        <td><?php echo ($v['island_hop'] == 1) ? '<i class="fas fa-check-circle green"></i>' : '<i class="fas fa-times-circle red"></i>'; ?></td>
+                        <td><?php echo ($v['form_signed'] == 1) ? '<i class="fas fa-check-circle green"></i>' : '<i class="fas fa-times-circle red"></i>'; ?></td>
                         <td><?php echo $v['visit_remarks']; ?></td>
 					</tr>
 					<?php 

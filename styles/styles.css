@@ -1,4 +1,8 @@
 body, input, select {font-family: Muli, sans-serif; padding-top: 60px; font-size: 12px }
+
+.green {color: green}
+.red {color: red} 
+
 /*h1, h2 {margin-top: 70px}*/
 h1 {font-size: 2em}
 h2 {font-size: 1.8em}
@@ -10,6 +14,7 @@ h5, .panel-heading {font-size: 1.2em}
 .col-sm-10, .col-sm-2 {padding-bottom: 10px}
 .control-label {font-size: 1.1em}
 .control-value {font-size: 1.1em; font-weight: bold; padding-bottom: 10px}
+.control-value-1 {font-size: 1.1em}
 .buffer {height: 30px}
 
 .message { font-weight: bold; text-align: center; margin-top: 20px; margin-bottom: 20px } 
@@ -32,6 +37,9 @@ input[type="button"]:hover, input[type="submit"]:hover, button:hover, .btn:hover
 .visit-history-details {font-size: 1em; padding: 10px 10px 20px 10px; border-top: 1px solid #dddddd}
 .visit-history-details h3 {font-size: 1.2em; font-weight: bold; margin-top: 10px } 
 .visit-history-details h4 {font-size: 1.1em; font-weight: bold; margin-top: 10px } 
+
+/*Visit Details*/
+.activity-details {margin-top: 10px}
 
 /*Data Mod History*/
 .mod-history {font-size: .8em; padding: 5px 5px 5px 5px}
@@ -63,6 +71,7 @@ table.mobile-view {display:none}
 .partner-entry-bar {
     border-top: 4px solid red;
 }
+
 
 /*mobile screens*/
 @media screen and (max-width: 479px) {

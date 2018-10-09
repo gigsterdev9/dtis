@@ -32,7 +32,8 @@ class visits_model extends CI_Model {
 		
 		$this->db->select("*");
         $this->db->from('visits a');
-        $this->db->join('visitors b', 'a.visitor_id = b.visitor_id');
+        $this->db->join('visitors b', 'b.visitor_id = a.visitor_id');
+        
         if ($include_trashed === TRUE) {
 			$this->db->where("a.visit_id = '$id'"); 
 		}
@@ -69,6 +70,7 @@ class visits_model extends CI_Model {
             return 0;
         }
 
+        /*
         $this->db->select('*');
         switch ($activity) {
             case 'butanding':
@@ -87,6 +89,13 @@ class visits_model extends CI_Model {
                 break;
         }
         $this->db->where("visit_id = $id");
+        */
+
+        $this->db->select("*");
+        $this->db->from('visit_activities');
+        $this->db->join('accredited_guides', 'visit_activities.ag_id = accredited_guides.ag_id');
+        $this->db->join('accredited_boats', 'visit_activities.ab_id = accredited_boats.ab_id');
+        $this->db->where("visit_id = $id and activity_id = $activity");
         $query = $this->db->get();
 
         return $query->row_array();
@@ -200,13 +209,39 @@ class visits_model extends CI_Model {
                     'trash' => 0
 			);
 		}
-		//insert new voter
+		//insert new visit
 		$this->db->insert('visits', $data);
 		
         $visit_id = $this->db->insert_id();
         
         return $visit_id; 
-	}
+    }
+    
+    public function set_visit_activity($data = NULL, $activity_id = NULL)   {
+
+        $this->load->helper('url');
+        
+        if ($activity_id == NULL) {
+            $activity_id = $this->input->post('activity_id');
+        }
+
+        if ($data == NULL) {
+			$data = array(
+                    'visit_id' => $this->input->post('visit_id'),
+                    'activity_id' => $activity_id,
+                    'ag_id' => $this->input->post('ag_id'),
+                    'ab_id' => $this->input->post('ab_id'),
+                    'va_trash' => 0
+			);
+		}
+		//insert new visit
+		$this->db->insert('visit_activities', $data);
+		
+        $va_id = $this->db->insert_id();
+        
+        return $va_id; 
+
+    }
 	
 	//check for dupes
 	public function dupe_check($visitor_id = NULL, $visit_date = NULL, $or_no = NULL) {
@@ -226,11 +261,13 @@ class visits_model extends CI_Model {
 	}
 	
 	//update visit details
-	public function update_visit($data = NULL) {
+	public function update_visit($visit_id = NULL, $data = NULL) {
 		
 		$this->load->helper('url');
-		
-        $visit_id = $this->input->post('visit_id');
+        
+        if ($visit_id == NULL) {
+            $visit_id = $this->input->post('visit_id');
+        }
         
         if ($data == NULL) {
 			$data = array(
@@ -251,6 +288,31 @@ class visits_model extends CI_Model {
 		
 		$this->db->where('visit_id', $visit_id);
         $this->db->update('visits', $data);
+        
+		return;
+    }
+    
+    public function update_visit_activity($va_id = NULL, $data = NULL) {
+		
+		$this->load->helper('url');
+		
+        if ($va_id == NULL) {
+            return 0;
+        }
+        
+        if ($data == NULL) {
+			$data = array(
+                'visit_id' => $this->input->post('visit_id'),
+                'activity_id' => $this->input->post('activity_id'),
+                'ag_id' => $this->input->post('ag_id'),
+                'ab_id' => $this->input->post('ab_id'),
+                'va_trash' => $this->input->post('trash')
+			);
+		}
+		
+		
+		$this->db->where('va_id', $va_id);
+        $this->db->update('visit_activities', $data);
         
 		return;
 	}
@@ -282,7 +344,7 @@ class visits_model extends CI_Model {
 		return;
 	}
 
-	//use in dashboard charts
+    //use in dashboard charts
 	public function get_by_servtype($type = false) {
 
 		$this->db->select('*');
