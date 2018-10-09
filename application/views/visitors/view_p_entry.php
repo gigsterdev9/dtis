@@ -2,18 +2,18 @@
 $visitor_id = sprintf("%'.05d\n", $visitor['visitor_id']);
 ?>
 <div class="container">
-	<h2><span class="glyphicon glyphicon-folder-open"></span>&nbsp; Visitor Details</h2>
+	<h2><span class="glyphicon glyphicon-folder-open"></span>&nbsp; Visitor Details (Partner Entry)</h2>
 	<h3><?php echo ($visitor['trash'] == '1') ? '<i class="fa fa-recycle"></i> ' : '<span class="glyphicon glyphicon-file"></span> ' ?>
         <?php echo strtoupper($visitor['fname'].' '.$visitor['lname']); ?> 
 	<?php if ($this->ion_auth->in_group('admin'))
 	{
 	?>
 	<small>[&nbsp;<a href="#">Add</a >&nbsp;|&nbsp;<a href="#">Remove</a>&nbsp;]</small>
-	<?php
+    <?php
 	}
 	?>
 	</h3>
-	<div class="panel panel-default">
+	<div class="panel panel-default partner-entry-bar">
 		<div class="text-right back-link"><a href="javascript:history.go(-1)">&laquo; Back</a></div>
 		<div class="panel-body">
 			<div class="row">

@@ -27,7 +27,7 @@ input[type="button"]:hover, input[type="submit"]:hover, button:hover, .btn:hover
 #search_bar {text-align: left}
 #search_in {margin-left: 85px}
 
-/*Service Availment History*/
+/*Visit History*/
 .visit-history {font-size: 1em; padding: 5px 5px 5px 5px}
 .visit-history-details {font-size: 1em; padding: 10px 10px 20px 10px; border-top: 1px solid #dddddd}
 .visit-history-details h3 {font-size: 1.2em; font-weight: bold; margin-top: 10px } 
@@ -50,7 +50,7 @@ table.mobile-view {display:none}
 .page-links a, .page-links span { padding: 0 10px 0 10px; font-weight: bold } 
 
 /*Results*/
-.show-records {min-height: 400px}
+.show-records {min-height: 200px}
 
 /*Index List*/
 .index-section-title {margin-left: 10px}
@@ -58,6 +58,11 @@ table.mobile-view {display:none}
 /* Modal Details */
 .match-found {font-size: 1em}
 .quick-view {font-size: 1.2em; color: #000000}
+
+/** Partner entries **/
+.partner-entry-bar {
+    border-top: 4px solid red;
+}
 
 /*mobile screens*/
 @media screen and (max-width: 479px) {

@@ -4,7 +4,7 @@
 	if ($this->ion_auth->in_group('admin'))
 	{
 	?>
-	<div class="container-fluid text-right"><a href="<?php echo base_url('visitors/add') ?>"><span class="glyphicon glyphicon-plus-sign"></span> New entry</a></div>
+	<div class="container-fluid text-right"><a href="<?php echo base_url('visitors/partner_add') ?>"><span class="glyphicon glyphicon-plus-sign"></span> New entry</a></div>
 	<?php
 	}
 	?>
@@ -24,7 +24,7 @@
 	</h3>
 	<div class="container-fluid message"><?php echo $p_entries['result_count'] ?> records found. </div> 
 	
-    <div class="panel panel-default">
+    <div class="panel panel-default partner-entry-bar">
 		<div class="table-responsive show-records">
 		
 			<?php if ($p_entries['result_count'] > 0) { ?>	
