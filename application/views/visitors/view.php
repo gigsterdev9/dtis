@@ -5,8 +5,7 @@ $visitor_id = sprintf("%'.05d\n", $visitor['visitor_id']);
 	<h2><span class="glyphicon glyphicon-folder-open"></span>&nbsp; Visitor Details</h2>
 	<h3><?php echo ($visitor['trash'] == '1') ? '<i class="fa fa-recycle"></i> ' : '<span class="glyphicon glyphicon-file"></span> ' ?>
         <?php echo strtoupper($visitor['fname'].' '.$visitor['lname'].' ('.$visitor['first_visit_year'].'-'.$visitor_id.')'); ?> 
-	<?php if ($this->ion_auth->in_group('admin'))
-	{
+	<?php if ($this->ion_auth->in_group('admin') || $this->ion_auth->in_group('supervisor') || $this->ion_auth->in_group('encoder')) {
 	?>
 	<small>[&nbsp;<a href="<?php echo site_url('visitors/edit/'.$visitor['visitor_id']); ?>">Edit</a>&nbsp;]</small>
 	<?php
@@ -110,7 +109,7 @@ $visitor_id = sprintf("%'.05d\n", $visitor['visitor_id']);
                         <div class="col-sm-3 control-label">Status Code</div>
                         <div class="col-sm-9 control-value">
                             <?php 
-                            switch ($visitor['status']) {
+                            switch ($visitor['status_code']) {
                                 case '0' : echo '(0) Undefined'; break;
                                 case '1' : echo '(1) Welcome'; break;
                                 case '2' : echo '(2) Conditional Entry'; break;
@@ -205,7 +204,7 @@ $visitor_id = sprintf("%'.05d\n", $visitor['visitor_id']);
 
 		<?php 
 		//show change history if admin
-		if ($this->ion_auth->in_group('admin')) {
+		if ($this->ion_auth->in_group('admin') || $this->ion_auth->in_group('supervisor')) {
 		?>
 		<div class="mod-history-details text-left">
 			<button type="button" class="btn btn-sm" data-toggle="collapse" data-target="#history">Data change log</button>

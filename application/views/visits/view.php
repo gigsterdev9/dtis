@@ -4,8 +4,7 @@
         echo ($visit['trash'] == '1') ? '<i class="fa fa-recycle"></i> ' : '<span class="glyphicon glyphicon-file"></span> ';
         echo $visit['visit_date'] .' visit of <a href="'.site_url('visitors/view/'.$visit['visitor_id']).'">'.strtoupper($visit['fname'].' '.$visit['lname']).'</a>'; 
         ?> 
-	<?php if ($this->ion_auth->in_group('admin'))
-	{
+	<?php if ($this->ion_auth->in_group('admin') || $this->ion_auth->in_group('supervisor') || $this->ion_auth->in_group('encoder')) {
 	?>
 	<small>[&nbsp;<a href="<?php echo site_url('visits/edit/'.$visit['visit_id']); ?>">Edit</a>&nbsp;]</small>
 	<?php

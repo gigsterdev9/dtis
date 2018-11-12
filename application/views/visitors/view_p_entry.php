@@ -109,18 +109,6 @@ $remove_link = base_url('visitors/remove_entry/'.$visitor['visitor_id']); //echo
 
                         <div class="col-sm-12 buffer">&nbsp;</div>
 
-                        <div class="col-sm-3 control-label">Status Code</div>
-                        <div class="col-sm-9 control-value">
-                            <?php 
-                            switch ($visitor['status']) {
-                                case '0' : echo '(0) Undefined'; break;
-                                case '1' : echo '(1) Welcome'; break;
-                                case '2' : echo '(2) Conditional Entry'; break;
-                                case '3' : echo '(3) Total Ban'; break;
-                            } 
-                            ?>
-                            &nbsp;
-                        </div>
                         <div class="col-sm-3 control-label">Remarks</div>
                         <div class="col-sm-9 control-value"><?php echo $visitor['remarks']; ?>&nbsp;</div>
                     </div>

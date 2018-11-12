@@ -1,14 +1,6 @@
 <div class="container">
 	<h2><span class="glyphicon glyphicon-folder-open"></span>&nbsp; <?php echo $title; ?></h2>
-	<?php
-	if ($this->ion_auth->in_group('admin'))
-	{
-	?>
-	<div class="container-fluid text-right"><a href="<?php echo base_url('visitors/partner_add') ?>"><span class="glyphicon glyphicon-plus-sign"></span> New entry</a></div>
-	<?php
-	}
-	?>
-    <p>&nbsp;</p>
+	<p>&nbsp;</p>
     <?php
     if (isset($alert_success)) { 
 	?>
@@ -22,72 +14,63 @@
     <h3>
 		<hr />
 	</h3>
-	<div class="container-fluid message"><?php echo $p_entries['result_count'] ?> records found. </div> 
+	<div class="container-fluid message"><?php echo $r_entries['result_count'] ?> records found. </div> 
 	
     <div class="panel panel-default partner-entry-bar">
 		<div class="table-responsive show-records">
 		
-			<?php if ($p_entries['result_count'] > 0) { ?>	
+			<?php if ($r_entries['result_count'] > 0) { ?>	
             <div class="page-links"><?php echo $links; ?></div>
             <?php
                 $attributes = array('class' => 'form-inline', 'role' => 'form', 'method' => 'POST');
-                echo form_open('visitors/partner_entries', $attributes); 
+                echo form_open('visitors/review_changes', $attributes); 
             ?>
 			<table class="table table-striped" id="main_table">
 				<thead>
 					<tr>
-                        <th width="15%">
+                        <th width="20%">
                             Full Name <a href="#" onclick="sortByFullName()"><i class="fas fa-sort"></i></a>
                         </th>
-                        <th width="2%">Gender</th>
-                        <th width="8%">Birthdate</th>
-                        <th width="8%">
-                            Nationality <a href="#" onclick="sortByNationality()"><i class="fas fa-sort"></i></a>
-                        </th>
-                        <th width="11%">Mobile No.</th>
-                        <th width="12%">Email</th>
-                        <th width="20%">Remarks</th>
-                        <th width="16%">Action</th>
+                        <th width="30%">Affected Fields</th>
+                        <th width="30%">Reason for edit</th>
+                        <th width="20%">Action</th>
 					</tr>
 				</thead>
 				<tbody>
                     <?php 
-                        foreach ($p_entries as $v): 
-						//echo '<pre>'; print_r($v); echo '</pre>';
-						if (is_array($v)) { //do not display 'result_count' 
+                        foreach ($r_entries as $v): 
+						
+                            if (is_array($v)) { 
+                            
+                                //breakdown mod fields and exclude mod_reason
+                            
+                                $v['mod_fields'] = str_replace(',mod_reason,','',$v['mod_fields']);
+                                
 					?>
 					<tr>
 						<td>
-                            <a href="<?php echo base_url('visitors/view_p_entry').'/'.$v['visitor_id']; ?>">
+                            <a href="<?php echo base_url('visitors/review_details').'/'.$v['mod_id']; ?>">
                             <span class="glyphicon glyphicon-file"></span> <?php echo strtoupper($v['lname'].', '.$v['fname']) ?>
                             </a>
 						</td>
-                        <td><?php echo strtoupper($v['gender']); ?></td>
-                        <td><?php echo $v['bdate']; ?></td>
-                        <td><?php echo $v['nationality']; ?></td>
-                        <!-- <td><?php echo ($v['diver'] == 1) ? 'Yes' : 'No'; ?></td>
-                        <td><?php echo ($v['swimmer'] == 1) ? 'Yes' : 'No'; ?></td>
-                        -->
-                        <td><?php echo $v['mobile_no'] ?></td>
-                        <td><a href="mailto:<?php echo $v['email']; ?>" target="_blank"><?php echo $v['email']; ?></a></td>
                         <td>
                             <?php 
-                            /*
-                            if (is_array($v['match_check'])) {
-                                echo 'Possible duplicate(s) found.';
-                            }
-                            */
-                            echo $v['remarks'];
+                                echo $v['mod_fields'];
                             ?>
                         </td>
                         <td>
-                            <input type="radio" name="action[<?php echo $v['visitor_id'] ?>]" value="1" /> Add
-                            <input type="radio" name="action[<?php echo $v['visitor_id'] ?>]" value="2" /> Remove
-                            <input type="radio" name="action[<?php echo $v['visitor_id'] ?>]" value="3" /> Ignore
+                            <?php 
+                            echo $v['mod_reason'];
+                            ?>
+                        </td>
+                        <td>
+                            <input type="radio" name="action[<?php echo $v['mod_id'] ?>]" value="1" /> Approve
+                            <input type="radio" name="action[<?php echo $v['mod_id'] ?>]" value="2" /> Deny
+                            <input type="radio" name="action[<?php echo $v['mod_id'] ?>]" value="3" /> Ignore
                         </td>
 					</tr>
 					<?php 
-						}
+						    }
                         endforeach;
 					?>
 				</tbody>
@@ -110,7 +93,7 @@
 		<small>
         <?php 
             $url = 'visitors/all_to_excel';
-            if ($p_entries['result_count'] > 0) echo '<a href="'.$url.'" target="_blank"><i class="fas fa-file-excel"></i> Export to Excel &raquo;</a>';	
+            if ($r_entries['result_count'] > 0) echo '<a href="'.$url.'" target="_blank"><i class="fas fa-file-excel"></i> Export to Excel &raquo;</a>';	
 		?>
 		</small>
 	</div>

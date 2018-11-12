@@ -26,7 +26,7 @@ class Visitors extends CI_Controller {
         public function index() {		
 		    //if ($_SERVER['REMOTE_ADDR'] <> '125.212.122.21') die('Undergoing maintenance.');
             
-            $allowed_groups = array('admin','encoder');
+            $allowed_groups = array('admin','supervisor','encoder');
 			if (!$this->ion_auth->in_group($allowed_groups)) {
 				show_404();
 			}
@@ -83,6 +83,15 @@ class Visitors extends CI_Controller {
 								$config['total_rows'] = $data['visitors']['result_count'];
 								$this->pagination->initialize($config);
 							$data['links'] = $this->pagination->create_links();
+                            break;
+                        case 'status_code': 
+							$status_code = $this->input->get('filter_by_status_code');
+							$data['filterval'] = array('status_code',$status_code,''); //the '' is to factor in the 3rd element introduced by the age filter
+							$page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
+							$data['visitors'] = $this->visitors_model->filter_visitors($config["per_page"], $page, 'status_code',$status_code);
+								$config['total_rows'] = $data['visitors']['result_count'];
+								$this->pagination->initialize($config);
+							$data['links'] = $this->pagination->create_links();
 							break;
 						default: 
 							break;
@@ -92,7 +101,8 @@ class Visitors extends CI_Controller {
 				elseif ($this->input->get('search_param') != NULL) {
 					
 					$search_param = $this->input->get('search_param');
-					$s_key = $this->input->get('s_key'); 
+                    //$s_key = $this->input->get('s_key'); 
+                        $s_key = array('s_name');
 					$s_fullname = FALSE;
 
 					if (strpos($search_param, ',')) {
@@ -239,8 +249,8 @@ class Visitors extends CI_Controller {
 		
         
         public function edit($id = NULL) {
-
-			if (!$this->ion_auth->in_group('admin')) {
+            
+			if (!$this->ion_auth->in_group('admin') && !$this->ion_auth->in_group('supervisor') && !$this->ion_auth->in_group('encoder')) {
 				redirect('visitors');
 			}
 			
@@ -277,36 +287,73 @@ class Visitors extends CI_Controller {
 	
 				}
 				else {
-					//execute data update
-                    $this->visitors_model->update_visitor();
-                    
-                    //audit trail
-                    $altered = $this->input->post('altered'); //hidden field that tracks form edits; see form
-                    if (strlen($altered) > 0) {
-                        $mod_details = $altered;
-                    }
-                    else{
 
-                        if ($this->input->post('trash') == 1) {
-                            $mod_details = 'entry marked as deleted';
+                    // if admin or supervisor proceed to execute 
+                    if ($this->ion_auth->in_group('admin') || $this->ion_auth->in_group('supervisor')) {
+                        //execute data update
+                        $this->visitors_model->update_visitor();
+                        
+                        //audit trail
+                        $altered = $this->input->post('altered'); //hidden field that tracks form edits; see form
+                        if (strlen($altered) > 0) {
+                            $mod_details = $altered;
+                        }
+                        else{
+
+                            if ($this->input->post('trash') == 1) {
+                                $mod_details = 'entry marked as deleted';
+                            }
+                            else {
+                                $mod_details = 'no evident changes';
+                            }
+
+                        }
+                        $this->tracker_model->log_event('visitor_id', $id, 'modified', $mod_details);
+
+                        //retrieve updated data
+                        $data['visitor'] = $this->visitors_model->get_visitor_by_id($this->input->post('id'));
+                        
+                        if ( $this->input->post('trash') == 1) {
+                            $data['alert_trash'] = 'Marked for deletion.'; //This is your last chance to undo by unchecking the "Delete this entry" box below and clicking submit.<br />';
                         }
                         else {
-                            $mod_details = 'no evident changes';
+                            $data['alert_success'] = 'Entry updated.';
                         }
 
                     }
-                    $this->tracker_model->log_event('visitor_id', $id, 'modified', $mod_details);
+                    else {
+                    // if NOT admin or supervisor proceed to submit for approval
+                       
+                        $this->visitors_model->set_visitor_datamod();
 
-					//retrieve updated data
-					$data['visitor'] = $this->visitors_model->get_visitor_by_id($this->input->post('id'));
-					
-					if ( $this->input->post('trash') == 1) {
-						$data['alert_trash'] = 'Marked for deletion.'; //This is your last chance to undo by unchecking the "Delete this entry" box below and clicking submit.<br />';
-					}
-					else {
-						$data['alert_success'] = 'Entry updated.';
-					}
-					
+                        //audit trail
+                        $altered = $this->input->post('altered'); //hidden field that tracks form edits; see form
+                        if (strlen($altered) > 0) {
+                            $mod_details = $altered . '-for review';
+                        }
+                        else{
+
+                            if ($this->input->post('trash') == 1) {
+                                $mod_details = 'entry marked as deleted. for review.';
+                            }
+                            else {
+                                $mod_details = 'no evident changes';
+                            }
+
+                        }
+                        $this->tracker_model->log_event('visitor_id', $id, 'mod for review', $mod_details);
+                        
+                        if ( $this->input->post('trash') == 1) {
+                            $data['alert_trash'] = 'Deletion submitted for review.'; 
+                        }
+                        else {
+                            $data['alert_success'] = 'Changes submitted for review.';
+                        }
+
+                        //re-retrieve data
+                        $data['visitor'] = $this->visitors_model->get_visitor_by_id($this->input->post('id'));
+                    }
+                        
 					$this->load->view('templates/header', $data);
 					$this->load->view('visitors/edit');
 					$this->load->view('templates/footer');
@@ -369,6 +416,210 @@ class Visitors extends CI_Controller {
 			
 		}
         
+        /** Entry edits by encoder */
+
+        //list down visitor entries with edits made by encoder
+        public function review_changes() {
+            
+            $allowed_groups = array('admin','supervisor');
+			if (!$this->ion_auth->in_group($allowed_groups)) {
+				show_404();
+            }
+
+			//set general pagination config
+			$config = array();
+			$config['base_url'] = base_url('visitors');
+			
+			$config['per_page'] = 100;
+			$config['uri_segment'] = 2;
+			$config['cur_tag_open'] = '<span>';
+			$config['cur_tag_close'] = '</span>';
+			$config['prev_link'] = '&laquo;';
+			$config['next_link'] = '&raquo;';
+			$config['reuse_query_string'] = TRUE; 
+            $config["num_links"] = 9;
+            
+            //batch process
+            if ($this->input->post('process_now') == 'go') {
+                
+                $result = $this->update_r_entries();
+
+                $data['alert_success'] = 'Review list processed. ' . $result['approve'] . ' approved. ' . $result['deny'] . ' denied. ' . $result['ignore'] . ' ignored.' ;
+
+                //audit trail
+                $this->tracker_model->log_event('', '', 'batch process', 'mod for review completed. '. $result['approve'] . ' approved. ' . $result['deny'] . ' denied. ' . $result['ignore'] . ' ignored.' );
+     
+            }
+            
+            
+            //implement pagination
+            $page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
+            $data['r_entries'] = $this->visitors_model->get_visitors_datamod($config["per_page"], $page);
+            $data['r_entries']['result_count'] = $this->visitors_model->for_review_count();
+                $config['total_rows'] = $data['r_entries']['result_count'];
+                $this->pagination->initialize($config);
+            $data['links'] = $this->pagination->create_links();
+            	
+            $data['title'] = 'Tourist Registry (Entries with edits for Review)';
+			//echo '<pre>'; print_r($data); echo '</pre>';
+			$this->load->view('templates/header', $data);
+			$this->load->view('visitors/review_changes', $data);
+			$this->load->view('templates/footer');
+            
+        }
+
+        //review details
+        public function review_details($id = NULL) {
+
+            $data['visitor'] = $this->visitors_model->get_visitor_datamod_by_id($id);
+            if (empty($data['visitor'])) {
+                show_404();
+            }
+            
+            
+
+            $this->load->view('templates/header', $data);
+            $this->load->view('visitors/review_details', $data);
+            $this->load->view('templates/footer');
+            
+        }
+
+        //approve the edit
+        public function approve_changes($id = NULL) {
+
+            $allowed_groups = array('admin','supervisor');
+			if (!$this->ion_auth->in_group($allowed_groups)) {
+                return 0;
+            }
+
+            //select from visitors_datamod
+            $entry = $this->visitors_model->get_visitor_datamod_by_id($id);
+
+            //update main visitors
+            $data = array(
+                'first_visit_year' => $entry['first_visit_year'],
+                'fname' => $entry['fname'],
+                'mname' => $entry['mname'],
+                'lname' => $entry['lname'],
+                'h_address' => $entry['h_address'],
+                'nationality' => $entry['nationality'],
+                'bdate' => $entry['bdate'],
+                'gender' => $entry['gender'],
+                'civil_status' => $entry['civil_status'],
+                'mobile_no' => $entry['mobile_no'],
+                'email' => $entry['email'],
+                'occupation' => $entry['occupation'],
+                'b_address' => $entry['b_address'],
+                'b_contact_no' => $entry['b_contact_no'],
+                'swimmer' => $entry['swimmer'],
+                'diver' => $entry['diver'],
+                'ice_fullname' => $entry['ice_fullname'],
+                'ice_address' => $entry['ice_address'],
+                'ice_relationship' => $entry['ice_relationship'],
+                'ice_contact_nos' => $entry['ice_contact_nos'],
+                'status_code' => $entry['status_code'], 
+                'remarks' => $entry['remarks'],
+                'trash' => 0
+            );
+            //execute update
+            $result = $this->visitors_model->update_visitor($entry['visitor_id'], $data);
+
+            //tag as checked
+            $data1 = array(
+                'checked' => '1',
+                'reviewer' => $this->ion_auth->get_user_id()
+            );
+            $this->visitors_model->update_visitor_datamod($id, $data1);
+
+            //send notice to encoder
+                //create notification table
+                //insert notification message
+                //load notification on login of encoder
+
+            //audit trail
+            $this->tracker_model->log_event('visitor_id', $entry['visitor_id'], 'modified', $entry['mod_details']);
+
+            $success_msg = 'Entry changes approved.';
+
+            return $success_msg;
+        }
+
+        //revoke the edit
+        public function deny_changes($id = NULL) {
+            $allowed_groups = array('admin','supervisor');
+			if (!$this->ion_auth->in_group($allowed_groups)) {
+				show_404();
+            }
+            
+            if ($id == NULL) {
+                return 0;
+            }
+
+            //select from visitors_datamod
+            $entry = $this->visitors_model->get_visitor_datamod_by_id($id);
+
+            //tag as checked
+            $data1 = array(
+                'trash' => '1',
+                'checked' => '1',
+                'reviewer' => $this->ion_auth->get_user_id()
+            );
+            $this->visitors_model->update_visitor_datamod($id, $data1);
+
+            //send notice to encoder
+                //create notification table
+                //insert notification message
+                //load notification on login of encoder
+
+            //audit trail
+            $this->tracker_model->log_event('visitor_id', $entry['visitor_id'], 'mod denied', $entry['mod_details']);
+
+            $success_msg = 'Entry changes denied.';
+
+            return $success_msg;
+
+        }
+
+        //batch update reviewed entries
+        public function update_r_entries() {
+            //echo '<pre>'; print_r($_POST); echo '</pre>'; die();
+            $this->load->helper('url');
+            
+            $approve_ctr = 0;
+            $deny_ctr = 0;
+            $ignore_ctr = 0;
+            foreach ($this->input->post('action') as $key => $a) {
+                //echo $key .'-'. $val.'<br />';
+                $mod_id = $key;
+
+                switch ($a) {
+                    case 1: //approve
+                        $this->approve_changes($mod_id);
+                        $approve_ctr++;
+                        break;
+
+                    case 2: //deny, mark as trash
+                        $this->deny_changes($mod_id);
+                        $deny_ctr++;
+                        break;
+                    
+                    default: //ignore for now
+                        //do nothing
+                        $ignore_ctr++;
+
+                }
+            }
+            
+            $data['proc_counts']['approve'] = $approve_ctr;
+            $data['proc_counts']['deny'] = $deny_ctr;
+            $data['proc_counts']['ignore'] = $ignore_ctr;
+
+            return $data['proc_counts'];
+        }
+
+
+
+        
         /** Partner entries */
         public function partner_entries() {		
 		    $allowed_groups = array('admin','supervisor');
@@ -394,7 +645,7 @@ class Visitors extends CI_Controller {
                 //echo '<pre>'; print_r($this->input->post()); echo '</pre>';    
                 $result = $this->update_p_entries();
 
-                $data['alert_success'] = 'Partner submitted entries processed.';
+                $data['alert_success'] = 'Partner submitted entries processed. ' . $result['additions'] . ' added. ' . $result['removals'] . ' removed. ' . $result['ignore'] . ' ignored.' ;
 
                 //audit trail
                 $this->tracker_model->log_event('', '', 'batch process', 'partner entries');
@@ -433,7 +684,7 @@ class Visitors extends CI_Controller {
             $data['visits'] = 0;
             $data['tracker'] = NULL;
             
-            //search for possible duplicates
+            //search for possible duplicates and display if any
             //$where_clause = "fname = '$fname' and lname = '$lname' and mname = '$mname' and bdate = '$bdate' and trash = 0";
             $where_clause = "fname = '".$data['visitor']['fname']."' and lname = '".$data['visitor']['lname']."' and mname = '".$data['visitor']['mname'].
                             "' and bdate = '".$data['visitor']['bdate']."' and trash = 0";
@@ -495,6 +746,7 @@ class Visitors extends CI_Controller {
             
             $add_ctr = 0;
             $trash_ctr = 0;
+            $ignore_ctr = 0;
             foreach ($this->input->post('action') as $key => $a) {
                 //echo $key .'-'. $val.'<br />';
                 $visitor_id = $key;
@@ -509,17 +761,19 @@ class Visitors extends CI_Controller {
                         $this->remove_entry($visitor_id);
                         $trash_ctr++;
                         break;
-
-                    default:
+                    
+                    default: //ignore for now
                         //do nothing
+                        $ignore_ctr++;
 
                 }
             }
             
-            $proc_counts['additions'] = $add_ctr;
-            $proc_counts['removals'] = $trash_ctr;
+            $data['proc_counts']['additions'] = $add_ctr;
+            $data['proc_counts']['removals'] = $trash_ctr;
+            $data['proc_counts']['ignore'] = $ignore_ctr;
 
-            return $proc_counts;
+            return $data['proc_counts'];
         }
 
         public function move_entry($id = NULL) {
@@ -551,7 +805,7 @@ class Visitors extends CI_Controller {
                 'ice_address' => $entry['ice_address'],
                 'ice_relationship' => $entry['ice_relationship'],
                 'ice_contact_nos' => $entry['ice_contact_nos'],
-                'status' => $entry['status'],
+                'status_code' => 1, 
                 'remarks' => $entry['remarks'].' (submitted by partner)',
                 'trash' => 0
             );

@@ -367,7 +367,11 @@ class Visits extends CI_Controller {
         
 		
 		public function edit($visit_id = NULL) {
-			
+            
+            if (!$this->ion_auth->in_group('admin') && !$this->ion_auth->in_group('supervisor') && !$this->ion_auth->in_group('encoder')) {
+				redirect('visits');
+			}
+            
 			$this->load->helper('form');
 			$this->load->library('form_validation');
 
@@ -547,23 +551,14 @@ class Visits extends CI_Controller {
                 return 0;
             }
 
-            //part1 - YYYYMMDD
-            $p1 = date('Ymd');
+            //part1 - L/F (Local or Foreign)
+            $p1 = ($nationality == 'Filipino') ? 'L' : 'F';
 
-            //part2 - L/F (Local or Foreign)
-            $p2 = ($nationality == 'Filipino') ? 'L' : 'F';
+            //part2 - microtime
+            $p2 = uniqid();
 
-            //part3 - activity count
-            //$p3 = $activity_count;
-
-            //part4 - 3L initials
-            $p4 = $initials;
-
-            //part5 - HHMMSS
-            $p5 = date('His');
-
-            $boarding_pass = $p1 . $p2 . $p4 . $p5;
-
+            $boarding_pass = strtoupper($p1 . $p2);
+            
             //echo 'boarding pass: '.$boarding_pass;
             return $boarding_pass;
         }

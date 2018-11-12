@@ -1,8 +1,8 @@
+<?php $allowed_groups = array('admin','supervisor', 'encoder'); ?>
 <div class="container">
 	<h2><span class="glyphicon glyphicon-folder-open"></span>&nbsp; <?php echo $title; ?></h2>
 	<?php
-	if ($this->ion_auth->in_group('admin'))
-	{
+	if ($this->ion_auth->in_group($allowed_groups) ) {
 	?>
 	<div class="container-fluid text-right"><a href="<?php echo base_url('visits/add') ?>"><span class="glyphicon glyphicon-plus-sign"></span> New entry</a></div>
 	<?php
@@ -276,12 +276,14 @@
                         <label class="control-label" for="title">Search</label> &nbsp; 
                         <input type="input" class="form-control" name="search_param" />
                         <input type="submit" class="form-control" value="&raquo;" />
+                        <!--
                         <br />
                         <span id="search_in">
                         Search in: 
                             <input type="checkbox" name="s_key[]" value="s_name" checked /> Name
                             <input type="checkbox" name="s_key[]" value="s_address" />Address
                         </span> 
+                        -->
                     </div>
                 <?php echo form_close();?>
                 <!-- <a href="visits/advanced">Advanced Search &raquo;</a> -->

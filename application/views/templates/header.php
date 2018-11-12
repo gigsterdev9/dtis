@@ -114,14 +114,24 @@ $restricted_groups = array('wwf','partner');
 					-->
                     <?php
                     if (!$this->ion_auth->in_group($restricted_groups)) {  
+                        if ($this->ion_auth->in_group('admin') || $this->ion_auth->in_group('supervisor')) {
                     ?>
 					<li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fas fa-address-book"></i>&nbsp; Visitors<span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="<?php echo base_url('visitors') ?>"><i class="fas fa-folder-open"></i>&nbsp; Main Registry</a></li>
                             <li><a href="<?php echo base_url('visitors/partner_entries') ?>"><i class="fas fa-folder-open"></i>&nbsp; Partner Entries</a></li>
+                            <li><a href="<?php echo base_url('visitors/review_changes') ?>"><i class="fas fa-folder-open"></i>&nbsp; Entry Edits for Review</a></li>
                         </ul>
                     </li>
+                    <?php
+                        }
+                        else{
+                    ?>
+                        <li><a href="<?php echo base_url('visitors') ?>"><i class="fas fa-address-book"></i>&nbsp; Visitors</a></li>    
+                    <?php 
+                        }
+                    ?>
 					<li><a href="<?php echo base_url('visits') ?>"><i class="fas fa-camera"></i>&nbsp; Visits</a></li>
                     <li class="dropdown">
 						<a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fas fa-ship"></i>&nbsp; Activities<span class="caret"></span></a>

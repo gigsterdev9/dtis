@@ -203,14 +203,14 @@
                     </div>
 
 					<div class="form-group">
-						<label class="control-label col-sm-2" for="status">Status Code<span class="text-info">*</span></label>
+						<label class="control-label col-sm-2" for="status_code">Status Code<span class="text-info">*</span></label>
 						<div class="col-sm-10">
-							<select class="form-control select2-single" name="status">
+							<select class="form-control select2-single" name="status_code">
 								<option value="">Select</option>
-								<option value="0" <?php if (set_value('status', $visitor['status']) == '0') echo 'selected' ?> >Undefined</option>
-								<option value="1" <?php if (set_value('status', $visitor['status']) == '1') echo 'selected' ?> >Welcome</option>
-								<option value="2" <?php if (set_value('status', $visitor['status']) == '2') echo 'selected' ?> >Conditional Entry</option>
-                                <option value="3" <?php if (set_value('status', $visitor['status']) == '3') echo 'selected' ?> >Total Ban</option>
+								<option value="0" <?php if (set_value('status_code', $visitor['status_code']) == '0') echo 'selected' ?> >Undefined</option>
+								<option value="1" <?php if (set_value('status_code', $visitor['status_code']) == '1') echo 'selected' ?> >Welcome</option>
+								<option value="2" <?php if (set_value('status_code', $visitor['status_code']) == '2') echo 'selected' ?> >Conditional Entry</option>
+                                <option value="3" <?php if (set_value('status_code', $visitor['status_code']) == '3') echo 'selected' ?> >Total Ban</option>
 							</select>
 						</div>
 					</div>
@@ -226,12 +226,29 @@
 							<input type="checkbox" id="trash" name="trash" value="1" <?php if (set_value('trash', $visitor['trash']) == '1') echo 'checked' ?> />
 						</div>
 					</div>		
-                    
+                    <?php
+                    //for encoders only, input reason for change 
+                    if ($this->ion_auth->in_group('encoder')) {
+                    ?>
+                    <div class="form-group">
+                        <div class="col-sm-12"><hr /></div>
+                        <div class="col-sm-12"><hr /></div>
+                    </div>
+                    <div class="form-group">
+						<label class="control-label col-sm-2" for="remarks">Reason for edit</label>
+						<div class="col-sm-10">
+							<textarea name="mod_reason" class="form-control" rows="5"><?php echo set_value('mod_reason'); ?></textarea>
+						</div>
+					</div>
+                    <?php
+                    }
+                    ?>
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-10">
 							<!-- audit trail temp values -->
 							<input type="hidden" id="altered" name="altered" value="" />
-							<!-- audit trail temp values -->
+                            <!-- audit trail temp values -->
+                            <input type="hidden" id="mod_fields" name="mod_fields" value="" />
 							<input type="hidden" name="action" value="1" />
 							<input type="hidden" name="visitor_id" value="<?php echo $visitor['visitor_id'] ?>" />
 							<button type="submit" class="btn btn-default">Submit</button>
@@ -253,35 +270,30 @@ $(function () {
 	$("form").submit(function(e){
 		
 		var x = '';
+        var y = '';
 		
 		//step through each input elements
-		$('#main_form *').filter(':input').each(function(){
+		$('#main_form *').filter(':input').each(function() {
 		    var f = $(this).attr('name'); 
 			var g = $(this).prop('defaultValue'); 
 			var h = $(this).val();
 			
 			
-			if (g != null && g != '0000-00-00') 
-			{
-				if (g != h) 
-				{
+			if (g != null && g != '0000-00-00') {
+				if (g != h) {
 					x += 'field: ' + f + ', old value: ' + g + ', new value: ' + h + ' | ';
+                    y += f + ',';
+
 					console.log(f + '::' + g + '::' + h + '| ');
 		    	}
 			}
 			
 		});
 		
-		//step through each select elements
-		//??
-		
-		$("#altered").val(x);
+		$("#altered").val(x); //details for audit tracking
+        $("#mod_fields").val(y); //modified fields
 		//console.log(x);
 		
-		//alert('submit intercepted');
-		//alert(x);
-        //e.preventDefault(e);
-        
     });
 
 	$('#trash').on('change', function () {

@@ -9,7 +9,8 @@
 		echo 'You are logged in as user '.$username.'.';
 		?>
     </div>
-    <?php if ($partner_entries > 0) { ?>
+    <!-- Give notice if there are partner submitted entries -->
+    <?php if ($partner_entries > 0 && ($this->ion_auth->in_group('admin') || $this->ion_auth->in_group('supervisor'))) { ?>
     <div class="alert alert-warning" id="partner-entry-notif" >
 		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 		<?php		
@@ -23,6 +24,8 @@
         <a href="<?php echo base_url('visitors/partner_entries') ?>">Click to manage entries now.</a>
     </div>
     <?php } ?>
+    <!-- Give notice if there are entry edits submitted for review -->
+    
 	<!--
 	<div class="row">
 		<div class="col-md-12">

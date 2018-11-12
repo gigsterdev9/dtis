@@ -1,8 +1,8 @@
+<?php $allowed_groups = array('admin','supervisor', 'encoder'); ?>
 <div class="container">
 	<h2><span class="glyphicon glyphicon-folder-open"></span>&nbsp; <?php echo $title; ?></h2>
 	<?php
-	if ($this->ion_auth->in_group('admin'))
-	{
+	if ($this->ion_auth->in_group($allowed_groups)) {
 	?>
 	<div class="container-fluid text-right"><a href="<?php echo base_url('visitors/add') ?>"><span class="glyphicon glyphicon-plus-sign"></span> New entry</a></div>
 	<?php
@@ -25,6 +25,7 @@
                             <option value="nationality">Nationality</option>
                             <option value="gender">Gender</option>
                             <option value="age">Age</option>
+                            <option value="status_code">Status Code</option>
                         </select>
                         <select name="filter_by_nationality" id="filter_by_nationality" class="form-control" style="display:none">
                                     <option value="">Select</option>
@@ -264,6 +265,13 @@
                             <option value="between">Between</option>
                         </select>
                         <input type="input" class="form-control" name="filter_by_age_value" id="filter_by_age_value" style="display:none" />
+                        <select name="filter_by_status_code" id="filter_by_status_code" class="form-control" style="display:none">
+                            <option value="">Select</option>
+                            <option value="0" >Undefined</option>
+							<option value="1" >Welcome</option>
+							<option value="2" >Conditional Entry</option>
+                            <option value="3" >Total Ban</option>
+                        </select>
                         <input type="submit" class="form-control" value="&raquo;" />
                     </div>
                 <?php echo form_close();?>
@@ -281,12 +289,13 @@
                         <label class="control-label" for="title">Search</label> &nbsp; 
                         <input type="input" class="form-control" name="search_param" />
                         <input type="submit" class="form-control" value="&raquo;" />
-                        <br />
+                        <!--<br />
                         <span id="search_in">
                         Search in: 
                             <input type="checkbox" name="s_key[]" value="s_name" checked /> Name
                             <input type="checkbox" name="s_key[]" value="s_address" />Address
                         </span> 
+                        -->
                     </div>
                 <?php echo form_close();?>
                 <!-- <a href="visitors/advanced">Advanced Search &raquo;</a> -->
@@ -411,6 +420,8 @@ $(function() {
 					$('#filter_by_age_operand').prop('disabled', true);
 				$('#filter_by_age_value').hide();
 					$('#filter_by_age_value').prop('disabled', true);
+                $('#filter_by_status_code').hide();
+					$('#filter_by_status_code').prop('disabled', true);
 				break;
 			case 'gender':
 				$('#filter_by_nationality').hide();
@@ -421,6 +432,8 @@ $(function() {
 					$('#filter_by_age_operand').prop('disabled', true);
 				$('#filter_by_age_value').hide();
 					$('#filter_by_age_value').prop('disabled', true);
+                $('#filter_by_status_code').hide();
+					$('#filter_by_status_code').prop('disabled', true);
 				break;
 			case 'age':
 				$('#filter_by_nationality').hide();
@@ -431,6 +444,20 @@ $(function() {
 					$('#filter_by_age_operand').prop('disabled', false);
 				$('#filter_by_age_value').show();
 					$('#filter_by_age_value').prop('disabled', false);
+                $('#filter_by_status_code').hide();
+					$('#filter_by_status_code').prop('disabled', true);
+				break;
+            case 'status_code':
+				$('#filter_by_nationality').hide();
+					$('#filter_by_nationality').prop('disabled', true);
+				$('#filter_by_gender').hide();
+					$('#filter_by_gender').prop('disabled', true);
+				$('#filter_by_age_operand').hide();
+					$('#filter_by_age_operand').prop('disabled', true);
+				$('#filter_by_age_value').hide();
+					$('#filter_by_age_value').prop('disabled', true);
+                $('#filter_by_status_code').show();
+					$('#filter_by_status_code').prop('disabled', false);
 				break;
 			default:
 			
