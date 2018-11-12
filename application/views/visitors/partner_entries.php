@@ -77,6 +77,7 @@
                                 echo 'Possible duplicate(s) found.';
                             }
                             */
+                            echo $v['remarks'];
                             ?>
                         </td>
                         <td>

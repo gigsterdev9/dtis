@@ -132,7 +132,8 @@ $remove_link = base_url('visitors/remove_entry/'.$visitor['visitor_id']); //echo
 		<div class="visit-history-details text-left">
 			<h3>Status</h3>
 			<div class="table-responsive show-records" >
-                <?php if (is_array($visitor_match)) {
+                <?php  //echo '<pre>'; print_r($visitor_match); echo '</pre>';
+                    if ($visitor_match['result_count'] > 0) {
                     echo 'Possible duplicate(s) found.';
                     foreach ($visitor_match as $v) {
                         if ($v['visitor_id'] != NULL) {
