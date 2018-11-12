@@ -14,8 +14,8 @@
 	</h3>
 	<div class="panel panel-default">
 		<div class="text-right back-link"><a href="javascript:history.go(-1)">&laquo; Back</a></div>
-		<div class="panel-body">
-			<div class="row">
+		<div class="panel-body" >
+			<div class="row" id="boarding_pass_content">
 				<?php
 				if (isset($alert_success)) 
 				{ 
@@ -124,15 +124,16 @@
 
                     <div class="row">
                         <div class="col-sm-12 control-label" style="text-align:right">
-                            <i class="fas fa-print"></i> &nbsp; <button type="button" class="btn btn-sm">Print Boarding Pass</button>
+                            <i class="fas fa-print"></i> &nbsp; <button type="button" id="btn_printpass" class="btn btn-sm">Print Boarding Pass</button>
                         </div>
                     </div>
 				</div>
 
 			</div>
 		</div>
-		
-		<?php 
+        
+        
+        <?php 
 		//show change history if admin
 		if ($this->ion_auth->in_group('admin')) {
 		?>
@@ -171,3 +172,29 @@
 
 	</div>
 </div>
+<style type="text/css">
+/*print-ready screen*/
+@media print {
+
+* {color: cyan}
+
+
+}
+</style>
+<script>
+$(function() {
+    
+    $('#btn_printpass').printPreview({
+        obj2print:'#boarding_pass_content',
+        width:'810',
+        height: '300',
+        top: 0,
+        left:'center',
+        resizable : 'no',
+        status:'no',
+        title:'Print Preview'
+	});
+
+
+});
+</script>

@@ -33,13 +33,17 @@
                 $attributes = array('class' => 'form-inline', 'role' => 'form', 'method' => 'POST');
                 echo form_open('visitors/partner_entries', $attributes); 
             ?>
-			<table class="table table-striped">
+			<table class="table table-striped" id="main_table">
 				<thead>
 					<tr>
-						<th width="15%">Full Name</th>
+                        <th width="15%">
+                            Full Name <a href="#" onclick="sortByFullName()"><i class="fas fa-sort"></i></a>
+                        </th>
                         <th width="2%">Gender</th>
                         <th width="8%">Birthdate</th>
-                        <th width="8%">Nationality</th>
+                        <th width="8%">
+                            Nationality <a href="#" onclick="sortByNationality()"><i class="fas fa-sort"></i></a>
+                        </th>
                         <th width="11%">Mobile No.</th>
                         <th width="12%">Email</th>
                         <th width="20%">Remarks</th>
@@ -89,7 +93,7 @@
             <?php
                 echo '<input type="hidden" name="process_now" value="go" />';
                 echo '<div style="text-align: center">';
-                echo '<input type="submit" id="batch_process" class="form-control" value="Batch Process &raquo;" />';
+                echo '<input type="submit" id="batch_process" class="form-control" value="Process entries &raquo;" />';
                 echo '</div>';
                 echo form_close();
             ?>
@@ -187,4 +191,27 @@ $(function () {
         
 	});
 });		
+
+//table sorting
+function sortTable(table, order, nr) {
+    var asc   = order === 'asc',
+        tbody = table.find('tbody');
+        
+        tbody.find('tr').sort(function(a, b) {
+            if (asc) {
+                return $('td:nth-child('+ nr +')', a).text().localeCompare($('td:nth-child('+ nr +')', b).text());
+            } else {
+                return $('td:nth-child('+ nr +')', b).text().localeCompare($('td:nth-child('+ nr +')', a).text());
+            }
+        }).appendTo(tbody);
+}
+
+function sortByFullName() {
+    sortTable($('#main_table'),'asc','1');  //it's the 1st column on the table
+}
+
+function sortByNationality() {
+    sortTable($('#main_table'),'asc','4');  //it's the 4th column on the table
+}
+
 </script>

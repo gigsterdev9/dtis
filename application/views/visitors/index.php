@@ -318,18 +318,24 @@
 		
 			<?php if ($visitors['result_count'] > 0) { ?>	
 			<div class="page-links"><?php echo $links; ?></div>
-			<table class="table table-striped">
+			<table class="table table-striped" id="main_table">
 				<thead>
 					<tr>
-						<th width="25%">Full Name</th>
-						<th width="2%">Age</th>
-                        <th width="4%">Gender</th>
-                        <th width="10%">Nationality</th>
+						<th width="25%">
+                            Full Name <a href="#" onclick="sortByFullName()"><i class="fas fa-sort"></i></a>
+                        </th>
+						<th width="7%">
+                            Age <a href="#" onclick="sortByAge()"><i class="fas fa-sort"></i></a>
+                        </th>
+                        <th width="7%">Gender</th>
+                        <th width="10%">
+                            Nationality <a href="#" onclick="sortByNationality()"><i class="fas fa-sort"></i></a>
+                        </th>
                         <th width="2%">Diver?</th>
                         <th width="2%">Swimmer?</th>
                         <th width="12%">Mobile No.</th>
                         <th width="13%">Email</th>
-						<th width="30%">In case of emergency</th>
+						<th width="25%">In case of emergency</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -389,6 +395,8 @@
 
 </div>
 <script>
+$(function() {
+
 	$('#filter_by').on('change', function(){
 		var myval = $(this).val();
 		//alert(myval);
@@ -439,4 +447,32 @@
 		}
 		
 	});
+
+});
+
+//table sorting
+function sortTable(table, order, nr) {
+    var asc   = order === 'asc',
+        tbody = table.find('tbody');
+        
+        tbody.find('tr').sort(function(a, b) {
+            if (asc) {
+                return $('td:nth-child('+ nr +')', a).text().localeCompare($('td:nth-child('+ nr +')', b).text());
+            } else {
+                return $('td:nth-child('+ nr +')', b).text().localeCompare($('td:nth-child('+ nr +')', a).text());
+            }
+        }).appendTo(tbody);
+}
+
+function sortByFullName() {
+    sortTable($('#main_table'),'asc','1');  //it's the 1st column on the table
+}
+
+function sortByNationality() {
+    sortTable($('#main_table'),'asc','4');  //it's the 4th column on the table
+}
+
+function sortByAge() {
+    sortTable($('#main_table'),'asc','2'); //it's the 2nd column on the table
+}
 </script>

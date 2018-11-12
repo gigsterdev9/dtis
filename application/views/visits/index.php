@@ -313,13 +313,19 @@
 		
 			<?php if ($visits['result_count'] > 0) { ?>	
 			<div class="page-links"><?php echo $links; ?></div>
-			<table class="table table-striped">
+			<table class="table table-striped" id="main_table">
 				<thead>
 					<tr>
                         <th width="2%">&nbsp;</th>
-						<th width="12%">Visit Date</th>
-                        <th width="15%">Visitor Name</th>
-                        <th width="10%">Nationality</th>
+						<th width="12%">
+                            Visit Date <a href="#" onclick="sortByDate()"><i class="fas fa-sort"></i></a>
+                        </th>
+                        <th width="15%">
+                            Visitor Name <a href="#" onclick="sortByFullName()"><i class="fas fa-sort"></i></a>
+                        </th>
+                        <th width="10%">
+                            Nationality <a href="#" onclick="sortByNationality()"><i class="fas fa-sort"></i></a>
+                        </th>
                         <!--
 						<th width="6%">Butanding</th>
                         <th width="6%">Girawan</th>
@@ -439,4 +445,31 @@ $(function() {
 
 
 });
+
+//table sorting
+function sortTable(table, order, nr) {
+    var asc   = order === 'asc',
+        tbody = table.find('tbody');
+        
+        tbody.find('tr').sort(function(a, b) {
+            if (asc) {
+                return $('td:nth-child('+ nr +')', a).text().localeCompare($('td:nth-child('+ nr +')', b).text());
+            } else {
+                return $('td:nth-child('+ nr +')', b).text().localeCompare($('td:nth-child('+ nr +')', a).text());
+            }
+        }).appendTo(tbody);
+}
+
+function sortByFullName() {
+    sortTable($('#main_table'),'asc','3');  //it's the 3rd column on the table
+}
+
+function sortByNationality() {
+    sortTable($('#main_table'),'asc','4');  //it's the 4th column on the table
+}
+
+function sortByDate() {
+    sortTable($('#main_table'),'asc','2'); //it's the 2nd column on the table
+}
+
 </script>
