@@ -57,4 +57,3 @@
             <?php include_once('templates/footer.php') ?>
         </div> 
     </div>
-    <p style="color: #FFFFFF">tester123</p>
