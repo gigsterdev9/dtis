@@ -133,6 +133,7 @@ $restricted_groups = array('wwf','partner');
                         }
                     ?>
 					<li><a href="<?php echo base_url('visits') ?>"><i class="fas fa-camera"></i>&nbsp; Visits</a></li>
+                    <!--
                     <li class="dropdown">
 						<a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fas fa-ship"></i>&nbsp; Activities<span class="caret"></span></a>
 						<ul class="dropdown-menu">
@@ -142,12 +143,15 @@ $restricted_groups = array('wwf','partner');
                             <li><a href="<?php echo base_url('activities/islandhop') ?>"><i class="fas fa-folder-open"></i>&nbsp; Island Hopping</a></li>
 						</ul>
                     </li>
+                    -->
+                    <li><a href="<?php echo base_url('boats') ?>"><i class="fas fa-ship"></i>&nbsp; Boats</a></li>
+                    <li><a href="<?php echo base_url('guides') ?>"><i class="fas fa-compass"></i>&nbsp; Guides</a></li>
                     <?php 
                     }
                     if ($this->ion_auth->in_group('admin')) {
 					?>
                         <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fas fa-camera"></i>&nbsp; PhotoID<span class="caret"></span></a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fas fa-binoculars"></i>&nbsp; PhotoID<span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="<?php echo base_url('photoid') ?>"><i class="fas fa-folder-open"></i>&nbsp; Reports</a></li>
                                 <li><a href="<?php echo base_url('photoid/latest') ?>"><i class="fas fa-folder-open"></i>&nbsp; Latest</a></li>

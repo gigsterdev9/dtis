@@ -1,6 +1,6 @@
 <?php //echo '<pre>'; print_r($_POST); echo '</pre>'; ?>
 <div class="container">
-<h2><?php echo $title; ?></h2>
+<h2><i class="fas fa-camera"></i>&nbsp; <?php echo $title; ?></h2>
 <p><a href="javascript:history.go(-1)" ><span class="glyphicon glyphicon-remove-sign"></span> Cancel</a></p>
 <div class="panel panel-default">
 	<div class="panel-body">

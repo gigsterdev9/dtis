@@ -49,8 +49,10 @@ input[type="button"]:hover, input[type="submit"]:hover, button:hover, .btn:hover
 /*Dashboard*/
 .descriptive-text, .descriptive-text p, .descriptive-text ul, .descriptive-text li {font-size: .95em}
 .descriptive-text, .descriptive-text ul {margin: 0; padding-bottom: 5px}
+.list-group-item { font-size: 11px} 
 table.desktop-view {display: block}
 table.mobile-view {display:none}
+
 
 
 /*Pagination Links*/

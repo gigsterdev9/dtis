@@ -59,7 +59,7 @@
                             <canvas id="revenueByMonth" width="400" height="200"></canvas>
                         </div>
                     </div>
-                    <small>*All values in the charts above are for demo purposes.</a>
+                    <small>*All values in the charts above are for demo purposes.</a></small>
 				</div>
 			</div>
 		</div>
@@ -331,7 +331,7 @@
 							</div>
 						</div>
 					</div>
-					<small>*All figures in the tables above are for demo purposes.</a>
+					<small>*All figures in the tables above are for demo purposes.</small>
 				</div>
 			</div>
 		</div>
@@ -340,13 +340,13 @@
 		<div class="col-md-8">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<strong><span class="glyphicon glyphicon-th-list"></span> Updates</strong>
+					<strong><span class="glyphicon glyphicon-th-list"></span> Latest Entries</strong>
 				</div>
 				
 				<div class="panel-body">
 					<div class="row">
 						<div class="col-md-6">
-							<p><strong><span class="glyphicon glyphicon-folder-open"></span>&nbsp; Latest Addition to Visitors Table</strong></p>
+							<p><strong><span class="glyphicon glyphicon-folder-open"></span>&nbsp; Visitors</strong></p>
 							<ul class="list-group">
 							<?php
                                 if ($latest_visitors == NULL)
@@ -365,7 +365,7 @@
 							</ul>
 						</div>
 						<div class="col-md-6">
-							<p><strong><span class="glyphicon glyphicon-folder-open"></span>&nbsp; Recent Visits</strong></p>
+							<p><strong><span class="glyphicon glyphicon-folder-open"></span>&nbsp; Visits</strong></p>
 							<ul class="list-group">
                                 <?php 
                                     if ($recent_visits == NULL) {
@@ -448,7 +448,7 @@
 					</table>
 				</div>
 			</div>
-			
+			<!--
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<strong><span class="glyphicon glyphicon-th-list"></span> Reminders</strong>
@@ -459,6 +459,7 @@
 					</p>
 				</div>
 			</div>
+            -->
 		</div>
 
 	</div>
@@ -646,10 +647,10 @@ $(function() {
 			}
 		}
 	});
+    
 
 });
-</script>
-<script>
+
 var ctx = document.getElementById("visitorsByMonth").getContext('2d');
 var myChart = new Chart(ctx, {
     type: 'bar',

@@ -351,7 +351,7 @@
 					<tr>
                         <td>
 							<a href="<?php echo site_url('visits/view/'.$v['visit_id']); ?>">
-								<span class="glyphicon glyphicon-file"></span> 
+								<i class="far fa-file"></i>
 							</a>
 						</td>
 						<td>
@@ -363,11 +363,11 @@
                             <?php echo strtoupper($v['lname'].', '.$v['fname']); ?>
                             </a></td>
                         <td><?php echo $v['nationality']; ?></td>
-						<td><?php echo ($v['butanding'] == 1) ? '<i class="fas fa-check-circle green"></i>' : '<i class="fas fa-times-circle red"></i>'; ?></td>
-                        <td><?php echo ($v['girawan'] == 1) ? '<i class="fas fa-check-circle green"></i>' : '<i class="fas fa-times-circle red"></i>'; ?></td>
-                        <td><?php echo ($v['firefly'] == 1) ? '<i class="fas fa-check-circle green"></i>' : '<i class="fas fa-times-circle red"></i>'; ?></td>
-                        <td><?php echo ($v['island_hop'] == 1) ? '<i class="fas fa-check-circle green"></i>' : '<i class="fas fa-times-circle red"></i>'; ?></td>
-                        <td><?php echo ($v['form_signed'] == 1) ? '<i class="fas fa-check-circle green"></i>' : '<i class="fas fa-times-circle red"></i>'; ?></td>
+						<td><?php echo ($v['butanding'] == 1) ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times"></i>'; ?></td>
+                        <td><?php echo ($v['girawan'] == 1) ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times"></i>'; ?></td>
+                        <td><?php echo ($v['firefly'] == 1) ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times"></i>'; ?></td>
+                        <td><?php echo ($v['island_hop'] == 1) ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times"></i>'; ?></td>
+                        <td><?php echo ($v['form_signed'] == 1) ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times"></i>'; ?></td>
                         <td><?php echo $v['visit_remarks']; ?></td>
 					</tr>
 					<?php 

@@ -273,7 +273,7 @@ class visits_model extends CI_Model {
 			$data = array(
                     'visitor_id' => $this->input->post('visitor_id'),
                     'visit_date' => $this->input->post('visit_date'),
-					'boarding_pass' => 'XXX',
+					//'boarding_pass' => $this->input->post('visit_date'), //lock editing of boarding pass
                     'or_no' => $this->input->post('or_no'),
                     'form_signed' => $this->input->post('form_signed'),
                     'butanding' => $this->input->post('butanding'),

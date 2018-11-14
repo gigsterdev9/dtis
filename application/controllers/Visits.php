@@ -396,7 +396,7 @@ class Visits extends CI_Controller {
             //data validation
             $this->form_validation->set_rules('visit_date','Visit Date','required');
             $this->form_validation->set_rules('or_no','OR Number','required');
-            $this->form_validation->set_rules('boarding_pass','Boarding Pass','required');
+            //$this->form_validation->set_rules('boarding_pass','Boarding Pass','required'); //lock editing of boarding pass
             $this->form_validation->set_rules('form_signed','Form signature','required');
             $this->form_validation->set_rules('butanding','Butanding','required');
             $this->form_validation->set_rules('girawan','Girawan','required');

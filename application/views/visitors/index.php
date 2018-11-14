@@ -330,21 +330,24 @@
 			<table class="table table-striped" id="main_table">
 				<thead>
 					<tr>
-						<th width="25%">
+                        <th width="2%">&nbsp;</th>
+						<th width="23%">
                             Full Name <a href="#" onclick="sortByFullName()"><i class="fas fa-sort"></i></a>
                         </th>
 						<th width="7%">
                             Age <a href="#" onclick="sortByAge()"><i class="fas fa-sort"></i></a>
                         </th>
-                        <th width="7%">Gender</th>
+                        <th width="5%">Sex</th>
                         <th width="10%">
                             Nationality <a href="#" onclick="sortByNationality()"><i class="fas fa-sort"></i></a>
                         </th>
+                        <!--
                         <th width="2%">Diver?</th>
                         <th width="2%">Swimmer?</th>
+                        -->
                         <th width="12%">Mobile No.</th>
                         <th width="13%">Email</th>
-						<th width="25%">In case of emergency</th>
+						<th width="31%">In case of emergency</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -354,16 +357,23 @@
 						if (is_array($v)) { //do not display 'result_count' 
 					?>
 					<tr>
-						<td>
+                        <td>
+                            <a href="<?php echo site_url('visitors/view/'.$v['visitor_id']); ?>">
+                            <i class="far fa-file"></i></a>
+                        </td>
+                        <td>
 							<a href="<?php echo site_url('visitors/view/'.$v['visitor_id']); ?>">
-								<span class="glyphicon glyphicon-file"></span> <?php echo strtoupper($v['lname'].', '.$v['fname']) ?>
+								<!-- <span class="glyphicon glyphicon-file"></span> -->
+                                <?php echo strtoupper($v['lname'].', '.$v['fname']) ?>
 							</a>
 						</td>
 						<td><?php echo $v['age']; ?></td>
                         <td><?php echo strtoupper($v['gender']); ?></td>
                         <td><?php echo $v['nationality']; ?></td>
+                        <!--
                         <td><?php echo ($v['diver'] == 1) ? 'Yes' : 'No'; ?></td>
                         <td><?php echo ($v['swimmer'] == 1) ? 'Yes' : 'No'; ?></td>
+                        -->
                         <td><?php echo $v['mobile_no'] ?></td>
                         <td><a href="mailto:<?php echo $v['email']; ?>" target="_blank"><?php echo $v['email']; ?></a></td>
 						<td><?php echo $v['ice_fullname'].' ('.$v['ice_relationship'].') '.$v['ice_contact_nos']; ?></td>
@@ -384,8 +394,7 @@
     <div class="container-fluid">
 		<small>
         <?php 
-            /*
-			if (isset($filterval)) { 
+            if (isset($filterval)) { 
 				$url = 'visitors/filtered_to_excel/'.$filterval[0].'/'.$filterval[1];
 			} 
 			else if (isset($searchval)) {
@@ -394,8 +403,7 @@
 			else {
 				$url = 'visitors/all_to_excel';
 			}
-            */
-            $url = 'visitors/all_to_excel';
+            //$url = 'visitors/all_to_excel';
             if ($visitors['result_count'] > 0) echo '<a href="'.$url.'" target="_blank"><i class="fas fa-file-excel"></i> Export to Excel &raquo;</a>';	
 				//echo '<a href="#">Export to Excel &raquo;</a>';	
 		?>

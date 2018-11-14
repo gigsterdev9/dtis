@@ -53,6 +53,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
+$route['boats/view/(:any)'] = 'boats/view/$1';
+$route['boats/edit/(:any)'] = 'boats/edit/$1';
+$route['boats/add'] = 'boats/add';
+$route['boats/(:any)'] = 'boats';
+$route['boats'] = 'boats';
+
+$route['guides/view/(:any)'] = 'guides/view/$1';
+$route['guides/edit/(:any)'] = 'guides/edit/$1';
+$route['guides/add'] = 'guides/add';
+$route['guides/(:any)'] = 'guides';
+$route['guides'] = 'guides';
+
 $route['visitors/view/(:any)'] = 'visitors/view/$1';
 $route['visitors/edit/(:any)'] = 'visitors/edit/$1';
 $route['visitors/add'] = 'visitors/add';
