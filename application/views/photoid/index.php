@@ -26,6 +26,7 @@
 			<table class="table table-striped">
 				<thead>
 					<tr>
+                        <th width="2%">&nbsp;</th>
 						<th width="7%">Report ID</th>
 						<th width="10%">Report Date</th>
 						<th width="10%">Season</th>
@@ -34,7 +35,7 @@
 						<th width="10%">Season Total</th>
                         <th width="10%">New Sighting</th>
                         <th width="10%">Resighting</th>
-                        <th width="23%">Remarks</th>
+                        <th width="21%">Remarks</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -43,9 +44,13 @@
 					foreach ($ws_pid as $pid) {
 					?>
 					<tr>
+                        <td>
+							<a href="<?php echo base_url('photoid/edit/'.$pid['report_id']); ?>">
+							<span class="glyphicon glyphicon-user"></span></a>
+						</td>
 						<td>
 							<a href="<?php echo base_url('photoid/edit/'.$pid['report_id']); ?>">
-							<span class="glyphicon glyphicon-user"></span> &nbsp;<?php echo $pid['report_id']; ?></a>
+							<?php echo $pid['report_id']; ?></a>
 						</td>
 						<td><?php echo $pid['report_date']; ?></td>
                         <td><?php echo $pid['season']; ?></td>

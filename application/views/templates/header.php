@@ -69,6 +69,10 @@ $restricted_groups = array('wwf','partner');
         <!-- printPreview.js -->
         <script src="<?php echo base_url('js/printPreview.js') ?>"></script>
   		
+        <!-- jquery.qrcode.js -->
+        <script src="<?php echo base_url('js/jquery.qrcode.js') ?>"></script>
+        <script src="<?php echo base_url('js/qrcode.js') ?>"></script>
+ 
 	</head>
 
 	<body>

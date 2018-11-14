@@ -415,12 +415,12 @@ class Visits extends CI_Controller {
 				}
 				else {
 
-                    //echo '<pre>'; print_r($_POST); echo '</pre>'; die();
-                    //echo '<pre>'; print_r($data); echo '</pre>'; 
+                    //echo '<pre> $_POST'; print_r($_POST); echo '</pre>'; //die();
+                    //echo '<pre> $data'; print_r($data); echo '</pre>'; //die();
 
                     //update visits table
                     //prep data array
-                    $data = array(
+                    $data0 = array(
                         'visit_date' => $this->input->post('visit_date'),
                         'boarding_pass' => $this->input->post('boarding_pass'),
                         'or_no' => $this->input->post('or_no'),
@@ -429,10 +429,11 @@ class Visits extends CI_Controller {
                         'girawan' => $this->input->post('girawan'),
                         'firefly' => $this->input->post('firefly'),
                         'island_hop' => $this->input->post('island_hop'),
+                        'visit_reason' => $this->input->post('visit_reason'),
                         'visit_remarks' => $this->input->post('visit_remarks'),
                         'trash' => $this->input->post('trash')
                     );
-                    $this->visits_model->update_visit($visit_id, $data);
+                    $this->visits_model->update_visit($visit_id, $data0);
                     
 
                     //update visit activities table

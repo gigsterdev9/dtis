@@ -14,7 +14,7 @@
 	<div class="panel panel-default">
 		<div class="text-right back-link"><a href="javascript:history.go(-1)">&laquo; Back</a></div>
 		<div class="panel-body" >
-			<div class="row" id="boarding_pass_content">
+			<div class="row" id="main_content">
 				<?php
 				if (isset($alert_success)) 
 				{ 
@@ -39,29 +39,20 @@
                         <div class="col-sm-4 control-label">Waiver form signed?</div>
                         <div class="col-sm-8 control-value"><?php echo ($visit['form_signed'] == 1) ? 'Yes' : 'No' ; ?>&nbsp;</div>
                     </div>
-                    <!--
                     <div class="row">
-                        <div class="col-sm-4 control-label">Butanding Interaction</div>
-                        <div class="col-sm-8 control-value"><?php echo ($visit['butanding'] == 1) ? 'Yes' : 'No' ; ?>&nbsp;</div>
+                        <div class="col-sm-4 control-label">Reason for visit</div>
+                        <div class="col-sm-8 control-value">
+                            <?php echo ($visit['visit_reason'] == NULL || $visit['visit_reason'] == 0) ? 'Undefined' : '' ; ?>
+                            <?php echo ($visit['visit_reason'] == 1) ? 'Destination holiday' : '' ; ?>
+                            <?php echo ($visit['visit_reason'] == 2) ? 'Cruise stop-over' : '' ; ?>
+                            <?php echo ($visit['visit_reason'] == 3) ? 'Official business' : '' ; ?>
+                            <?php echo ($visit['visit_reason'] == 4) ? 'Other' : '' ; ?>
+                        </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-4 control-label">Girawan Backyard Tour</div>
-                        <div class="col-sm-8 control-value"><?php echo ($visit['girawan'] == 1) ? 'Yes' : 'No' ; ?>&nbsp;</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-4 control-label">River Cruise and <br />Firefly Watching</div>
-                        <div class="col-sm-8 control-value"><?php echo ($visit['firefly'] == 1) ? 'Yes' : 'No' ; ?>&nbsp;<br />&nbsp;</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-4 control-label">Island Hopping</div>
-                        <div class="col-sm-8 control-value"><?php echo ($visit['island_hop'] == 1) ? 'Yes' : 'No' ; ?>&nbsp;</div>
-                    </div>
-                    -->
                     <div class="row">
                         <div class="col-sm-4 control-label">Remarks</div>
                         <div class="col-sm-8 control-value"><?php echo $visit['visit_remarks']; ?>&nbsp;</div>
                     </div>
-
 				</div>
 
 				<div class="col-sm-6">
@@ -171,29 +162,126 @@
 
 	</div>
 </div>
+
+<!-- FOR PRINTING -->
+<div id="boarding_pass_content" style="margin-top: -50px">
+    <table style="width: 100%">
+        <tr>
+            <td colspan="2">
+                <h1 style="margin: 0; padding: 0"><?php echo ($visit['boarding_pass'])? $visit['boarding_pass'] : '--' ; ?></h1>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 20px 0 0 40px" width="45%" valign="top">
+                <h2 style="margin: 0; padding: 0"><?php echo strtoupper($visit['fname'].' '.$visit['lname']); ?></h2> 
+                <br />
+                Official Receipt No. <?php echo ($visit['or_no'])? $visit['or_no'] : '--' ; ?><br />
+                <?php 
+                    $visit_date = strtotime($visit['visit_date']);
+                    echo date('m/d/Y H:i:s', $visit_date);
+                ?>
+                <div id="qrcode"></div>
+            </td>
+            <td width="55%">
+                <div style="border-left: 2px solid grey; padding-left: 20px; height: 220px">
+                <?php 
+                //Butanding Activity Details
+                if ($visit['butanding'] == 1) { 
+                ?>
+                <b>Butanding Interaction</b><br />
+                    <?php 
+                        echo 'Boat name: &nbsp;'. $vd['butanding']['ab_name']. ' ('. $vd['butanding']['ab_acc_no'] .')<br />';
+                        echo 'BIO name: &nbsp;'. $vd['butanding']['ag_name']. ' ('. $vd['butanding']['ag_acc_no'] .')<br />';
+                    ?>
+                <?php } ?>
+                
+                <?php 
+                //Girawan Activity Details
+                if ($visit['girawan'] == 1) { 
+                ?>
+                <b>Girawan Backyard Tour</b><br />
+                    <?php 
+                        echo 'Boat name: &nbsp;'. $vd['girawan']['ab_name']. ' ('. $vd['girawan']['ab_acc_no'] .')<br />';
+                        echo 'Guide name: &nbsp;'. $vd['girawan']['ag_name']. ' ('. $vd['girawan']['ag_acc_no'] .')<br />';
+                    ?>
+                <?php } ?>
+                
+                <?php 
+                //River Cruise Details
+                if ($visit['firefly'] == 1) { 
+                ?>
+                <b>River Cruise and Firefly Watching</b><br />
+                    <?php 
+                        echo 'Boat name: &nbsp;'. $vd['firefly']['ab_name']. ' ('. $vd['firefly']['ab_acc_no'] .')<br />';
+                        echo 'Guide name: &nbsp;'. $vd['firefly']['ag_name']. ' ('. $vd['firefly']['ag_acc_no'] .')<br />';
+                    ?>
+                <?php } ?>
+                
+                <?php 
+                //Island Hopping Details
+                if ($visit['island_hop'] == 1) { 
+                ?>
+                <b>Island Hopping</b><br />
+                    <?php 
+                        echo 'Boat name: &nbsp;'. $vd['island_hop']['ab_name']. ' ('. $vd['island_hop']['ab_acc_no'] .')<br />';
+                        echo 'Guide name: &nbsp;'. $vd['island_hop']['ag_name']. ' ('. $vd['island_hop']['ag_acc_no'] .')<br />';
+                    ?>
+                <?php } ?>
+
+                </div>
+            </td>
+        </tr>
+    </table>
+
+</div>
+
+<!-- ADDITIONAL STYLES, SCRIPTS, ETC. -->
+
 <style type="text/css">
+
+@media screen {
+    #boarding_pass_content {
+        display: none;
+    }
+}
+
 /*print-ready screen*/
 @media print {
-
-* {color: cyan}
-
+    
+    #boarding_pass_content {
+        background-color: red;
+    }
 
 }
 </style>
+
 <script>
-$(function() {
+    ('#qrcode').qrcode({
+		text	: "http://infragrey.com"
+	});	
+</script>
+
+<script>
     
-    $('#btn_printpass').printPreview({
-        obj2print:'#boarding_pass_content',
-        width:'810',
-        height: '300',
-        top: 0,
-        left:'center',
-        resizable : 'no',
-        status:'no',
-        title:'Print Preview'
-	});
+    $(function() {
+        
+        //generate qr code
+        //jquery('#qrcode').qrcode("this plugin is great");
 
+        //prep boarding pass for printing
+        $('#btn_printpass').printPreview({
+            obj2print:'#boarding_pass_content',
+            style: "<style>#boarding_pass_content:background:red;</style>",
+            width:'670',
+            height: '300',
+            top: 200,
+            left:'center',
+            resizable : 'no',
+            scrollbars:'no',
+            status:'no',
+            title:'Print Preview'
+        });
 
-});
+    });
+
 </script>

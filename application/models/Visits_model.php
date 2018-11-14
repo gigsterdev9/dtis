@@ -205,6 +205,7 @@ class visits_model extends CI_Model {
                     'girawan' => $this->input->post('girawan'),
                     'firefly' => $this->input->post('firefly'),
                     'island_hop' => $this->input->post('island_hop'),
+                    'visit_reason' => $this->input->post('visit_reason'),
                     'visit_remarks' => $this->input->post('visit_remarks'),
                     'trash' => 0
 			);
@@ -280,11 +281,11 @@ class visits_model extends CI_Model {
                     'girawan' => $this->input->post('girawan'),
                     'firefly' => $this->input->post('firefly'),
                     'island_hop' => $this->input->post('island_hop'),
+                    'visit_reason' => $this->input->post('visit_reason'),
                     'visit_remarks' => $this->input->post('visit_remarks'),
-                    'trash' => 0
+                    'trash' => $this->input->post('trash')
 			);
 		}
-		
 		
 		$this->db->where('visit_id', $visit_id);
         $this->db->update('visits', $data);
@@ -309,7 +310,6 @@ class visits_model extends CI_Model {
                 'va_trash' => $this->input->post('trash')
 			);
 		}
-		
 		
 		$this->db->where('va_id', $va_id);
         $this->db->update('visit_activities', $data);
