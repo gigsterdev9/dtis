@@ -54,7 +54,6 @@ class Boats extends CI_Controller {
 			
 			$this->load->helper('form');
 			$this->load->library('form_validation');
-			$this->load->helper('email'); //use to email logins
 			
 			$this->form_validation->set_rules('ab_name', 'Boat Name', 'trim|required');
 			$this->form_validation->set_rules('ab_operator', 'Operator Name', 'trim|required');
@@ -62,150 +61,121 @@ class Boats extends CI_Controller {
 			$this->form_validation->set_rules('ab_acc_yr', 'Accreditation Yr.', 'trim|required');
 			$this->form_validation->set_rules('ab_acc_expiry', 'Accreditation Expiry', 'trim|required');
 			
-
-			if ($this->form_validation->run() === FALSE)
-			{
-				$data['title'] = 'User Management - Add user';
+			if ($this->form_validation->run() === FALSE) {
+				$data['title'] = 'New boat';
 				
 				$this->load->view('templates/header', $data);
-				$this->load->view('users/add');
+				$this->load->view('boats/add');
 				$this->load->view('templates/footer');
 
 			}
-			else
-			{
-				$username = $this->input->post('username');
-				$password = $this->input->post('password');
-				$email = $this->input->post('email');
-				$firstname = $this->input->post('firstname');
-				$lastname = $this->input->post('lastname');
-				$organization = $this->input->post('organization');
-				$status = $this->input->post('user_status');
+			else {
+                
+                $ab_name = $this->input->post('ab_name');
+                $ab_operator = $this->input->post('ab_operator');
+				$ab_acc_no = $this->input->post('ab_acc_no');
+				$ab_acc_yr = $this->input->post('ab_acc_yr');
+                $ab_acc_expiry = $this->input->post('ab_acc_expiry');
+                $ab_remarks = $this->input->post('ab_remarks');
+				$ab_status = $this->input->post('ab_status');
 				
 								
-				$additional_data = array(
-								'first_name' => $firstname,
-								'last_name' => $lastname,
-								'active' => $status,
-								'company' => $organization
+				$data = array(
+                                'ab_name' => $ab_name,
+                                'ab_operator' => $ab_operator,
+								'ab_acc_no' => $ab_acc_no,
+								'ab_acc_yr' => $ab_acc_yr,
+                                'ab_acc_expiry' => $ab_acc_expiry,
+                                'ab_remarks' => $ab_remarks,
+                                'ab_status' => $ab_status
 								);
-				$group = array('2'); // Sets user to admin.
-				$this->ion_auth->register($username, $password, $email, $additional_data, $group);
+				$this->boats_model->set_boat($data);
 				
-				$data['title'] = 'User Management';
-				$data['alert_success'] = TRUE;
+				$data['title'] = 'New boat';
+				$data['alert_success'] = 'Entry added.';
 				
 				$this->load->view('templates/header', $data);
-				$this->load->view('users/add');
-				$this->load->view('templates/footer');
+				$this->load->view('boats/add');
+                $this->load->view('templates/footer');
+                
 			}
 
 
 		}
 		
 		
-		//update user data        
-		public function edit($id = NULL) 
-		{
+		//update boat data        
+		public function edit($id = NULL) {
+
+            if (empty($id)) {
+                redirect('boats');
+            }
 		
 			$this->load->helper('form');
 			$this->load->library('form_validation');
-			$this->load->helper('email'); //use to email logins
 			
-			$this->form_validation->set_rules('firstname', 'First name', 'trim|required');
-			$this->form_validation->set_rules('lastname', 'Last name', 'trim|required');
-			$this->form_validation->set_rules('organization', 'Organization/Affiliation', 'trim|required');
+			$this->form_validation->set_rules('ab_name', 'Boat Name', 'trim|required');
+			$this->form_validation->set_rules('ab_operator', 'Operator Name', 'trim|required');
+			$this->form_validation->set_rules('ab_acc_no', 'Accredited No.', 'trim|required');
+			$this->form_validation->set_rules('ab_acc_yr', 'Accreditation Yr.', 'trim|required');
+			$this->form_validation->set_rules('ab_acc_expiry', 'Accreditation Expiry', 'trim|required');
 
-			if ($this->form_validation->run() === FALSE)
-			{
-				if (empty($id))
-				{
-					redirect('users');
-				}
+			if ($this->form_validation->run() === FALSE) {
 				
-				$data['title'] = 'User Management - Edit User';
-				$data['user'] = $this->users_model->get_user_by_id($id);
-				
+				$data['id'] = $id;
+				$data['boat'] = $this->boats_model->get_boat_by_id($id);
+                $data['title'] = 'Edit boat details';
+                
 				$this->load->view('templates/header', $data);
-				$this->load->view('users/edit', $data);
+				$this->load->view('boats/edit', $data);
 				$this->load->view('templates/footer');
 
 			}
-			else
-			{
-				$password = $this->input->post('password');
-				$passconf = $this->input->post('passconf');
-				$email = $this->input->post('email');
-				$firstname = $this->input->post('firstname');
-				$lastname = $this->input->post('lastname');
-				$organization = $this->input->post('organization');
-				$status = $this->input->post('user_status');
-				$user_id = $this->input->post('user_id');
-								
-				$newdata = array(
-								'email' => $email,
-								'first_name' => $firstname,
-								'last_name' => $lastname,
-								'company' => $organization,
-								'active' => $status
-								);
-								
-				if ($password <> '') 
-				{
-					if ($password == $passconf)
-					{
-						$newdata['password'] = $password;
-						$data['alert_fail'] = FALSE;
-					}
-					else
-					{
-						$data['alert_fail'] = TRUE;
-						$data['messages'] = 'Passwords do not match';
-					}
-				}
-				else
-				{
-					$data['alert_fail'] = FALSE;
-				}
+			else {
+                
+                $ab_name = $this->input->post('ab_name');
+                $ab_operator = $this->input->post('ab_operator');
+				$ab_acc_no = $this->input->post('ab_acc_no');
+				$ab_acc_yr = $this->input->post('ab_acc_yr');
+                $ab_acc_expiry = $this->input->post('ab_acc_expiry');
+                $ab_remarks = $this->input->post('ab_remarks');
+				$ab_status = $this->input->post('ab_status');
 				
-				//echo '<pre>';
-				//echo 'POST: '; print_r($_POST);
-				//echo 'newdata: ';print_r($newdata);
-				//echo 'data: ';print_r($data);
-				//echo 'user_id: '.$user_id;
-				//echo '</pre>';
-
-				if (!$data['alert_fail']) 
-				{
-				
-					if ($this->ion_auth->update($user_id, $newdata)) 
-					{
-						unset($data);
-						$data['title'] = 'User Management - Edit User';
-						$data['alert_success'] = TRUE;
-						$data['user'] = $this->users_model->get_user_by_id($user_id);				
-					}
-					else
-					{
-						$data['messages'] = $this->ion_auth->messages();
-					}
-					
-				}
-				else
-				{
-					$data['title'] = 'User Management - Edit User';
-					$data['user'] = $this->users_model->get_user_by_id($user_id);
-					
-				}
-				//echo '<pre>'; echo 'data: ';print_r($data); echo '</pre>';
-				//die();
+								
+				$data = array(
+                            'ab_name' => $ab_name,
+                            'ab_operator' => $ab_operator,
+							'ab_acc_no' => $ab_acc_no,
+							'ab_acc_yr' => $ab_acc_yr,
+                            'ab_acc_expiry' => $ab_acc_expiry,
+                            'ab_remarks' => $ab_remarks,
+                            'ab_status' => $ab_status
+						);
+				$this->boats_model->update_boat($id, $data);
+                
+                $data['id'] = $id;
+                $data['boat'] = $this->boats_model->get_boat_by_id($id);
+				$data['title'] = 'Edit boat details';
+				$data['alert_success'] = 'Entry updated.';
 				
 				$this->load->view('templates/header', $data);
-				$this->load->view('users/edit', $data);
+				$this->load->view('boats/edit', $data);
 				$this->load->view('templates/footer');
 				
 			}
 			
-		}
+        }
+        
+
+    /** Export functions */
+
+    public function all_to_excel() {
+        //export all data to Excel file
+            $this->load->library('export');
+            $sql = $this->boats_model->get_all_boats();
+            $filename = 'DTIS_all_boats_'.date('Y-m-d-Hi');
+            $this->export->to_excel($sql, $filename); 
+            
+        }
 		
 }

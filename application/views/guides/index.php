@@ -90,7 +90,7 @@
 					?>
 					<tr>
 						<td>
-                            <i class="far fa-file"></i>
+                            <a href="<?php echo site_url('guides/edit/'.$g['ag_id']); ?>"><i class="far fa-file"></i></a>
 						</td>
 						<td>
                             <a href="<?php echo site_url('guides/edit/'.$g['ag_id']); ?>"><?php echo $g['ag_name'] ?></a>

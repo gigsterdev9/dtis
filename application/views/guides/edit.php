@@ -71,12 +71,6 @@
 					</div>
 				</div>
                 <div class="form-group">
-					<label class="control-label col-sm-2" for="ag_remarks">Remarks</label>
-					<div class="col-sm-10">
-						<textarea name="ag_remarks" class="form-control" rows="5"><?php echo set_value('ag_remarks', $guide['ag_remarks']); ?></textarea>
-					</div>
-				</div>
-				<div class="form-group">
 					<label class="control-label col-sm-2" for="ag_status">Guide Status<span class="text-info">*</span></label>
 					<div class="col-sm-10">
 						<select name="ag_status" class="form-control select2-single" >
@@ -87,6 +81,18 @@
 						</select>
 					</div>	
 				</div>
+                <div class="form-group">
+					<label class="control-label col-sm-2" for="ag_remarks">Remarks</label>
+					<div class="col-sm-10">
+						<textarea name="ag_remarks" class="form-control" rows="5"><?php echo set_value('ag_remarks', $guide['ag_remarks']); ?></textarea>
+					</div>
+				</div>
+                <div class="form-group">
+					<label class="control-label col-sm-2" for="delete">Delete</label>
+					<div class="col-sm-10">
+						<input type="checkbox" id="trash" name="ag_trash" value="1" <?php if (set_value('ag_trash', $guide['ag_trash']) == '1') echo 'checked' ?> />
+					</div>
+				</div>	
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10">
 						<button type="submit" class="btn btn-default">Submit</button>
@@ -96,3 +102,25 @@
 		</div>
 	</div>
 </div>
+<script>
+$(function () {
+	
+	$('#trash').on('change', function () {
+		$.confirm({
+			title: 'Confirm Delete',
+			content: 'Are you sure?',
+			buttons: {
+				confirm: function () {
+					//nothing
+				},
+				cancel: function () {
+					$('#trash').prop('checked', true); // Checks it
+					$('#trash').prop('checked', false); // Unchecks it
+				}
+			}
+
+		});
+	});
+
+});		
+</script>

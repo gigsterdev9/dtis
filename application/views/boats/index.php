@@ -91,9 +91,11 @@
 					?>
 					<tr>
 						<td>
-                            <i class="far fa-file"></i>
+                            <a href="<?php echo site_url('boats/edit/'.$b['ab_id']); ?>"><i class="far fa-file"></i></a>
 						</td>
-						<td><?php echo $b['ab_name'] ?></td>
+						<td>
+                            <a href="<?php echo site_url('boats/edit/'.$b['ab_id']); ?>"><?php echo $b['ab_name'] ?></a>
+                        </td>
                         <td><?php echo $b['ab_operator'] ?></td>
                         <td>
                             <?php 

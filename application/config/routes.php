@@ -56,6 +56,7 @@ $route['translate_uri_dashes'] = FALSE;
 $route['boats/view/(:any)'] = 'boats/view/$1';
 $route['boats/edit/(:any)'] = 'boats/edit/$1';
 $route['boats/add'] = 'boats/add';
+$route['boats/all_to_excel'] = 'boats/all_to_excel';
 $route['boats/(:any)'] = 'boats';
 $route['boats'] = 'boats';
 

@@ -61,8 +61,7 @@ class guides extends CI_Controller {
 			$this->form_validation->set_rules('ag_acc_expiry', 'Accreditation Expiry', 'trim|required');
 			
 
-			if ($this->form_validation->run() === FALSE)
-			{
+			if ($this->form_validation->run() === FALSE) {
 				$data['title'] = 'New guide';
 				
 				$this->load->view('templates/header', $data);
@@ -70,8 +69,7 @@ class guides extends CI_Controller {
 				$this->load->view('templates/footer');
 
 			}
-			else
-			{
+			else {
 				
 				$ag_name = $this->input->post('ag_name');
 				$ag_acc_no = $this->input->post('ag_acc_no');
@@ -91,8 +89,8 @@ class guides extends CI_Controller {
 								);
 				$this->guides_model->set_guide($data);
 				
-				$data['title'] = 'Guides';
-				$data['alert_success'] = TRUE;
+				$data['title'] = 'New guide';
+				$data['alert_success'] = 'Entry added.';
 				
 				$this->load->view('templates/header', $data);
 				$this->load->view('guides/add');
@@ -139,13 +137,13 @@ class guides extends CI_Controller {
 				$ag_status = $this->input->post('ag_status');
 								
 				$data = array(
-								'ag_name' => $ag_name,
-								'ag_acc_no' => $ag_acc_no,
-								'ag_acc_yr' => $ag_acc_yr,
-                                'ag_acc_expiry' => $ag_acc_expiry,
-                                'ag_remarks' => $ag_remarks,
-                                'ag_status' => $ag_status
-								);
+							'ag_name' => $ag_name,
+							'ag_acc_no' => $ag_acc_no,
+							'ag_acc_yr' => $ag_acc_yr,
+                            'ag_acc_expiry' => $ag_acc_expiry,
+                            'ag_remarks' => $ag_remarks,
+                            'ag_status' => $ag_status
+						);
 				$this->guides_model->update_guide($id, $data);
                 
                 $data['id'] = $id;
