@@ -420,6 +420,7 @@ $restricted_groups = array('wwf','partner');
                     <div class="col-sm-12"><hr /></div>
                 </div>
                 
+                <!--
 				<div class="form-group">
 					<label class="control-label col-sm-2" for="status">Status Code<span class="text-info">*</span></label>
 					<div class="col-sm-10">
@@ -438,7 +439,8 @@ $restricted_groups = array('wwf','partner');
 						</select>
 					</div>
 				</div>
-
+                -->
+                
                 <div class="form-group">
 					<label class="control-label col-sm-2" for="remarks">Remarks</label>
 					<div class="col-sm-10">

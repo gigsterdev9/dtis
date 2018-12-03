@@ -4,7 +4,7 @@
 	<?php
 	if ($this->ion_auth->in_group($allowed_groups)) {
 	?>
-	<div class="container-fluid text-right"><a href="<?php echo base_url('visitors/add') ?>"><span class="glyphicon glyphicon-plus-sign"></span> New entry</a></div>
+	<div class="container-fluid text-right"><a href="<?php echo base_url('visits/add') ?>"><span class="glyphicon glyphicon-plus-sign"></span> New entry</a></div>
 	<?php
 	}
 	?>
@@ -500,14 +500,14 @@ function sortTable(table, order, nr) {
 }
 
 function sortByFullName() {
-    sortTable($('#main_table'),'asc','1');  //it's the 1st column on the table
+    sortTable($('#main_table'),'asc','2');  //it's the 1st column on the table
 }
 
 function sortByNationality() {
-    sortTable($('#main_table'),'asc','4');  //it's the 4th column on the table
+    sortTable($('#main_table'),'asc','5');  //it's the 4th column on the table
 }
 
 function sortByAge() {
-    sortTable($('#main_table'),'asc','2'); //it's the 2nd column on the table
+    sortTable($('#main_table'),'asc','3'); //it's the 2nd column on the table
 }
 </script>

@@ -46,20 +46,21 @@ class Visits extends CI_Controller {
 			$config['reuse_query_string'] = TRUE; 
 			$config["num_links"] = 9;
 
-				if ($this->input->post('filter_by') != NULL) {
+				if ($this->input->get('filter_by') != NULL) { 
 
 					$page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
-					$filter_by = $this->input->post('filter_by');
+					$filter_by = $this->input->get('filter_by');
 					switch ($filter_by) {
                         case 'nationality':
-						    $nationality = $this->input->get('filter_by_nationality');
+                            $nationality = $this->input->get('filter_by_nationality');
 							$data['filterval'] = array('nationality',$nationality,''); //the '' is to factor in the 3rd element introduced by the age filter
 							$page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
 							$data['visits'] = $this->visits_model->filter_visits($config["per_page"], $page, 'nationality',$nationality);
 								$config['total_rows'] = $data['visits']['result_count'];
 								$this->pagination->initialize($config);
-							$data['links'] = $this->pagination->create_links();
-							break;
+                            $data['links'] = $this->pagination->create_links();
+                            break;
+                            
 						case 'date':
                             $date_operand = $this->input->get('filter_by_date_operand');
                             $date_value = $this->input->get('filter_by_date_value');
@@ -70,23 +71,18 @@ class Visits extends CI_Controller {
                                 break;
                             }
 
-                            $data['filterval'] = array('date',$date_operand, $date_value);
+                            $data['filterval'] = array('visit date',$date_operand, $date_value);
                             $page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
-                            $data['visits'] = $this->visits_model->filter_visits($config["per_page"], $page, 'age',$date_value, $date_operand);
+                            $data['visits'] = $this->visits_model->filter_visits($config["per_page"], $page, 'visit_date',$date_value, $date_operand);
                                 $config['total_rows'] = $data['visits']['result_count'];
                                 $this->pagination->initialize($config);
                             $data['links'] = $this->pagination->create_links();
                             break;
-						default: 
+                        
+                        default: 
 							break;
 
 					}
-					$r_count = (!empty($data['r_visits'])) ? count($data['r_visits']) : 0;
-					
-						$config['total_rows'] = $r_count;
-						$this->pagination->initialize($config);
-					$data['links'] = $this->pagination->create_links();
-					$data['total_result_count'] = $r_count + $n_count;
 
 				}
 				elseif ($this->input->get('search_param') != NULL) {
@@ -288,6 +284,8 @@ class Visits extends CI_Controller {
                             'girawan' => $this->input->post('girawan'),
                             'firefly' => $this->input->post('firefly'),
                             'island_hop' => $this->input->post('island_hop'),
+                            'visit_reason' => $this->input->post('visit_reason'),
+                            'overnight_stay' => $this->input->post('overnight_stay'),
                             'visit_remarks' => $this->input->post('visit_remarks'),
                             'trash' => 0
                             );
@@ -346,7 +344,8 @@ class Visits extends CI_Controller {
                     $this->tracker_model->log_event('visit_id', $new_visit_id, 'created', '');
 
                     $data['title'] = 'New entry';
-					$data['alert_success'] = 'Entry successful.';
+                    $data['alert_success'] = 'Entry successful.';
+                    $data['new_visit_id'] = $new_visit_id;
 					
 					$this->load->view('templates/header', $data);
 					$this->load->view('visits/add_exist');
@@ -430,6 +429,7 @@ class Visits extends CI_Controller {
                         'firefly' => $this->input->post('firefly'),
                         'island_hop' => $this->input->post('island_hop'),
                         'visit_reason' => $this->input->post('visit_reason'),
+                        'overnight_stay' => $this->input->post('overnight_stay'),
                         'visit_remarks' => $this->input->post('visit_remarks'),
                         'trash' => $this->input->post('trash')
                     );

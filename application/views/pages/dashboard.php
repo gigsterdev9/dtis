@@ -26,21 +26,11 @@
     <?php } ?>
     <!-- Give notice if there are entry edits submitted for review -->
     
-	<!--
+    <?php 
+    $allowed_groups = array('admin','supervisor'); 
+    if ($this->ion_auth->in_group($allowed_groups)) {
+    ?>
 	<div class="row">
-		<div class="col-md-12">
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<strong><span class="glyphicon glyphicon-alert"></span> Reminders</strong>
-				</div>
-				<div class="panel-body">
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla magna neque, suscipit et dolor nec, mollis accumsan neque. Nunc maximus interdum efficitur. Vivamus maximus imperdiet odio, eget pulvinar lacus. Integer enim leo, varius ac laoreet vel, bibendum id velit. Praesent varius porta commodo. Aenean tortor libero, tincidunt eget magna vel, rutrum faucibus lectus. Vestibulum sed justo a neque pulvinar dapibus. Aliquam diam tortor, consectetur sit amet varius sed, posuere vel magna.
-				</div>
-			</div>
-		</div>
-	</div>
-	-->
-    <div class="row">
 	    <div class="col-md-12">
 			<div class="panel panel-default">
 				<div class="panel-heading">
@@ -336,6 +326,17 @@
 			</div>
 		</div>
 	</div>
+    
+    <?php
+    } //end: section exclusive for allowed groups
+
+    if ($this->ion_auth->in_group('encoder')) {
+    ?>
+        <div class="container-fluid text-right"><a href="<?php echo base_url('visits/add') ?>"><span class="glyphicon glyphicon-plus-sign"></span> New entry</a></div><br />
+    <?php 
+    }
+    ?>
+
     <div class="row">
 		<div class="col-md-8">
 			<div class="panel panel-default">
@@ -448,25 +449,13 @@
 					</table>
 				</div>
 			</div>
-			<!--
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<strong><span class="glyphicon glyphicon-th-list"></span> Reminders</strong>
-				</div>
-				<div class="panel-body">
-					<p>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eget mauris eu urna congue tempus. Aliquam erat volutpat. Sed hendrerit posuere felis, eu tempus sem euismod ac. Phasellus dapibus ipsum erat, vitae consequat arcu tempus sed. Etiam eget dictum arcu. Nunc sed odio eget metus tristique pharetra eget a ex. Fusce euismod nec urna consectetur scelerisque. Etiam cursus eros non dui facilisis, sagittis sagittis odio placerat. Aliquam sed auctor orci. Vestibulum vel mi vitae metus ultricies mollis.
-					</p>
-				</div>
-			</div>
-            -->
 		</div>
 
 	</div>
 	
 	<div class="alert alert-danger" id="base-url-notif" >
 		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-		<strong>Alert!</strong> Set base url. | Remove PW assist.
+		<strong>Alert!</strong> Set base url. 
 	</div>
 	
 </div>

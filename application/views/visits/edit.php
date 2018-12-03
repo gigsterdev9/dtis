@@ -64,10 +64,15 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-sm-2" for="form_signed">Form Signed<span class="text-info">*</span></label>
-						<div class="col-sm-10 control-value-1">	
+						<label class="control-label col-sm-2" for="form_signed" style="margin-top: -5px">Form Signed<span class="text-info">*</span></label>
+						<div class="col-sm-4 control-value-1">	
                             <input type="radio" id="form_signed" name="form_signed" value="1" <?php echo set_radio('form_signed', '1'); echo ($visit['form_signed'] == 1) ? 'checked' : '' ; ?> /> Yes
                             <input type="radio" id="form_signed" name="form_signed" value="0" <?php echo set_radio('form_signed', '0'); echo ($visit['form_signed'] == 0) ? 'checked' : '' ;?> /> No
+						</div>
+                        <label class="control-label col-sm-2" for="overnight_stay" style="margin-top: -5px">Overnight Stay<span class="text-info">*</span></label>
+						<div class="col-sm-4 control-value-1">	
+                            <input type="radio" id="overnight_stay" name="overnight_stay" value="1" <?php echo set_radio('overnight_stay', '1'); echo ($visit['overnight_stay'] == 1) ? 'checked' : '' ; ?> /> Yes
+                            <input type="radio" id="overnight_stay" name="overnight_stay" value="0" <?php echo set_radio('overnight_stay', '0'); echo ($visit['overnight_stay'] == 0) ? 'checked' : '' ;?> /> No
 						</div>
 					</div>
                     <div class="form-group">

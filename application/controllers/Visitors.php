@@ -622,7 +622,7 @@ class Visitors extends CI_Controller {
         
         /** Partner entries */
         public function partner_entries() {		
-		    $allowed_groups = array('admin','supervisor');
+		    $allowed_groups = array('admin','supervisor','encoder');
 			if (!$this->ion_auth->in_group($allowed_groups)) {
 				show_404();
 			}

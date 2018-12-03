@@ -40,6 +40,10 @@
                         <div class="col-sm-8 control-value"><?php echo ($visit['form_signed'] == 1) ? 'Yes' : 'No' ; ?>&nbsp;</div>
                     </div>
                     <div class="row">
+                        <div class="col-sm-4 control-label">Staying overnight?</div>
+                        <div class="col-sm-8 control-value"><?php echo ($visit['overnight_stay'] == 1) ? 'Yes' : 'No' ; ?>&nbsp;</div>
+                    </div>
+                    <div class="row">
                         <div class="col-sm-4 control-label">Reason for visit</div>
                         <div class="col-sm-8 control-value">
                             <?php echo ($visit['visit_reason'] == NULL || $visit['visit_reason'] == 0) ? 'Undefined' : '' ; ?>

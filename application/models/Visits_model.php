@@ -103,55 +103,72 @@ class visits_model extends CI_Model {
     }
 
 
-	public function filter_visits($filter_param1 = FALSE, $filter_param2 = FALSE, $limit = 0, $start = 0) {
+	public function filter_visits($limit, $start, $filter_param1 = FALSE, $filter_param2 = FALSE, $filter_operand = FALSE) {
 		
 		if ($filter_param1 === FALSE) {
 			return 0;
 		}
-		
-		$this->db->select("*, floor((DATEDIFF(CURRENT_DATE, STR_TO_DATE(rvoters.dob, '%Y-%m-%d'))/365)) as age");
-		$this->db->from('visits');
-		$this->db->join('beneficiaries', 'beneficiaries.ben_id = visits.ben_id');
-		$this->db->join('rvoters', 'beneficiaries.id_no_comelec = rvoters.id_no_comelec');
-		//$this->db->where("$filter_param1 = '$filter_param2' and beneficiaries.trash = 0");
-		$this->db->limit($limit, $start);
-		$query = $this->db->get();		
-		$result1 =  $query->result_array();
-		
-		//echo $this->db->last_query(); die();
+        
+        $this->db->select("*");
+        $this->db->from('visits a');
+        $this->db->join('visitors b', 'a.visitor_id = b.visitor_id');
+        if ($filter_operand != FALSE) {
+            switch ($filter_operand) {
+                case 'before':
+                    $this->db->where("$filter_param1 < '$filter_param2' and a.trash = 0 and b.trash =0");
+                    break;
+                case 'after':
+                    $this->db->where("$filter_param1 > '$filter_param2' and a.trash = 0 and b.trash =0");
+                    break;
+                case 'between':
+                    //$this->db->where("$filter_param1 between '$filter_param2' and a.trash = 0 and b.trash =0");
+                    break;
+                default:
+                    $this->db->where("$filter_param1 = '$filter_param2' and a.trash = 0 and b.trash =0");
+                    
+            }
 
-		foreach ($result1 as $r) {
-			$ben_id = $r['ben_id'];
-			$this->db->select('*');
-			$this->db->from('visits');
-			$this->db->where("ben_id = '$ben_id'");
-			$this->db->limit(1);
-			$result2 = $this->db->get();
-			
-			if ($result2->num_rows() == 1) {
-				$rs[] = array_merge($r, $result2->row_array());
-			}
-		}
+        }
+        else{
+            $this->db->where("$filter_param1 = '$filter_param2' and a.trash = 0 and b.trash =0");
+        }
 
-		if (isset($rs)) {
-			
-			foreach($rs as $r) {
-				
-				if ($r != '') {
-	
-					$x = $this->visits_model->get_beneficiary_by_id($r['req_ben_id']);
-						$r['req_fname'] = $x['fname'];
-						$r['req_mname'] = $x['mname'];
-						$r['req_lname'] = $x['lname'];
-				}
-				$r_visits[] = $r;
-			}
-			return $r_visits; 
-		}
-		else{
-			return 0;
-		}
+        $query = $this->db->get();
+		$result_count = $query->num_rows();
 		
+		$this->db->select("*");
+        $this->db->from('visits a');
+        $this->db->join('visitors b', 'a.visitor_id = b.visitor_id');
+        if ($filter_operand != FALSE) {
+            switch ($filter_operand) {
+                case 'before':
+                    $this->db->where("$filter_param1 < '$filter_param2' and a.trash = 0 and b.trash =0");
+                    break;
+                case 'after':
+                    $this->db->where("$filter_param1 > '$filter_param2' and a.trash = 0 and b.trash =0");
+                    break;
+                case 'between':
+                    //$this->db->where("$filter_param1 between '$filter_param2' and a.trash = 0 and b.trash =0");
+                    break;
+                default:
+                    $this->db->where("$filter_param1 = '$filter_param2' and a.trash = 0 and b.trash =0");
+                    
+            }
+
+        }
+        else{
+            $this->db->where("$filter_param1 = '$filter_param2' and a.trash = 0 and b.trash =0");
+        }
+        $this->db->limit($limit, $start);
+		$this->db->order_by('lname', 'ASC');
+        $query = $this->db->get();
+        
+        //echo $this->db->last_query();
+        $result_array = $query->result_array();
+		$result_array['result_count'] = $result_count;
+
+        return $result_array;
+        
 	}
 
 	public function search_visits($limit, $start, $where_clause = FALSE) { 
@@ -206,6 +223,7 @@ class visits_model extends CI_Model {
                     'firefly' => $this->input->post('firefly'),
                     'island_hop' => $this->input->post('island_hop'),
                     'visit_reason' => $this->input->post('visit_reason'),
+                    'overnight_stay' => $this->input->post('overnight_stay'),
                     'visit_remarks' => $this->input->post('visit_remarks'),
                     'trash' => 0
 			);
@@ -282,6 +300,7 @@ class visits_model extends CI_Model {
                     'firefly' => $this->input->post('firefly'),
                     'island_hop' => $this->input->post('island_hop'),
                     'visit_reason' => $this->input->post('visit_reason'),
+                    'overnight_stay' => $this->input->post('overnight_stay'),
                     'visit_remarks' => $this->input->post('visit_remarks'),
                     'trash' => $this->input->post('trash')
 			);

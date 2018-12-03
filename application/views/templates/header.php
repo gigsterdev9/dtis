@@ -130,9 +130,15 @@ $restricted_groups = array('wwf','partner');
                     </li>
                     <?php
                         }
-                        else{
+                        else{ //encoders
                     ?>
-                        <li><a href="<?php echo base_url('visitors') ?>"><i class="fas fa-address-book"></i>&nbsp; Visitors</a></li>    
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fas fa-address-book"></i>&nbsp; Visitors<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="<?php echo base_url('visitors') ?>"><i class="fas fa-folder-open"></i>&nbsp; Main Registry</a></li>
+                            <li><a href="<?php echo base_url('visitors/partner_entries') ?>"><i class="fas fa-folder-open"></i>&nbsp; Partner Entries</a></li>
+                        </ul>
+                    </li>
                     <?php 
                         }
                     ?>
@@ -161,7 +167,13 @@ $restricted_groups = array('wwf','partner');
                                 <li><a href="<?php echo base_url('photoid/latest') ?>"><i class="fas fa-folder-open"></i>&nbsp; Latest</a></li>
                             </ul>
                         </li>
-						<li><a href="<?php echo base_url('users') ?>"><i class="fas fa-users"></i>&nbsp; Users</a></li>
+						<li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fas fa-server"></i>&nbsp; System<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="<?php echo base_url('users') ?>"><i class="fas fa-users"></i>&nbsp; Users</a></li>
+                                <li><a href="<?php echo base_url('settings') ?>"><i class="fas fa-cog"></i>&nbsp; Settings</a></li>
+                            </ul>
+                        </li>
                         <!--<li><a href="<?php echo base_url('users') ?>"><span class="glyphicon glyphicon-eye-open"></span> Audit Trail</a></li>-->
 					<?php
                     }

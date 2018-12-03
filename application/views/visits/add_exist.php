@@ -15,7 +15,9 @@
 		?>
 			<div class="alert alert-success">
 				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-				<?php echo $alert_success ?> <a href="<?php echo base_url('visitors/view/'.$visitor_id) ?>">Return to visit details.</a>
+				<?php echo $alert_success ?> 
+                | <a href="<?php echo base_url('visits/view/'.$new_visit_id) ?>">Review visit details.</a>
+                | <a href="<?php echo base_url('visitors/view/'.$visitor_id) ?>">Return to visitor details.</a>
 			</div>
 		<?php
 		}
@@ -58,10 +60,15 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-sm-2" for="form_signed">Form Signed<span class="text-info">*</span></label>
-						<div class="col-sm-10 control-value-1">	
+						<label class="control-label col-sm-2" for="form_signed" style="margin-top: -5px">Form Signed<span class="text-info">*</span></label>
+						<div class="col-sm-4 control-value-1">	
                             <input type="radio" id="form_signed" name="form_signed" value="1" <?php echo set_radio('form_signed', '1'); ?> /> Yes
                             <input type="radio" id="form_signed" name="form_signed" value="0" <?php echo set_radio('form_signed', '0'); ?> /> No
+						</div>
+                        <label class="control-label col-sm-2" for="overnight_stay" style="margin-top: -5px">Overnight Stay<span class="text-info">*</span></label>
+						<div class="col-sm-4 control-value-1">	
+                            <input type="radio" id="overnight_stay" name="overnight_stay" value="1" <?php echo set_radio('overnight_stay', '1'); ?> /> Yes
+                            <input type="radio" id="overnight_stay" name="overnight_stay" value="0" <?php echo set_radio('overnight_stay', '0'); ?> /> No
 						</div>
 					</div>
                     <div class="form-group">

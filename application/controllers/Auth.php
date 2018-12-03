@@ -76,6 +76,9 @@ class Auth extends CI_Controller {
                 if ($this->ion_auth->in_group('partner')) {
                     redirect('/visitors/partner_add', 'refresh');
                 }
+                else if ($this->ion_auth->in_group('encoder')) {
+                    redirect('/visits/add', 'refresh');
+                }
                 else{
                     redirect('/', 'refresh');
                 }

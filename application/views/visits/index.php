@@ -322,10 +322,10 @@
 						<th width="12%">
                             Visit Date <a href="#" onclick="sortByDate()"><i class="fas fa-sort"></i></a>
                         </th>
-                        <th width="15%">
+                        <th width="20%">
                             Visitor Name <a href="#" onclick="sortByFullName()"><i class="fas fa-sort"></i></a>
                         </th>
-                        <th width="10%">
+                        <th width="15%">
                             Nationality <a href="#" onclick="sortByNationality()"><i class="fas fa-sort"></i></a>
                         </th>
                         <!--
@@ -338,8 +338,9 @@
                         <th class="rotate-45"><div><span>Girawan Tour</span></div></th>
                         <th class="rotate-45"><div><span>Firefly Watching</span></div></th>
                         <th class="rotate-45"><div><span>Island Hopping</span></div></th>
-                        <th width="6%">Signed Waiver</th>
-                        <th width="33%">Remarks</th>
+                        <th class="rotate-45"><div><span>Signed Waiver</span></div></th>
+                        <th class="rotate-45"><div><span>Staying Overnight</span></div></th>
+                        <!-- <th width="33%">Remarks</th> -->
 					</tr>
 				</thead>
 				<tbody>
@@ -368,7 +369,8 @@
                         <td><?php echo ($v['firefly'] == 1) ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times"></i>'; ?></td>
                         <td><?php echo ($v['island_hop'] == 1) ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times"></i>'; ?></td>
                         <td><?php echo ($v['form_signed'] == 1) ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times"></i>'; ?></td>
-                        <td><?php echo $v['visit_remarks']; ?></td>
+                        <td><?php echo ($v['overnight_stay'] == 1) ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times"></i>'; ?></td>
+                        <!--<td><?php echo $v['visit_remarks']; ?></td>-->
 					</tr>
 					<?php 
 						}
