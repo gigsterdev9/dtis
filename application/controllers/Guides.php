@@ -49,54 +49,53 @@ class guides extends CI_Controller {
 		    
         }
         
-		//add accredited boat
+		//add accredited guide
 		public function add() {
 			
 			$this->load->helper('form');
 			$this->load->library('form_validation');
-			$this->load->helper('email'); //use to email logins
 			
-			$this->form_validation->set_rules('ab_name', 'Boat Name', 'trim|required');
-			$this->form_validation->set_rules('ab_operator', 'Operator Name', 'trim|required');
-			$this->form_validation->set_rules('ab_acc_no', 'Accredited No.', 'trim|required');
-			$this->form_validation->set_rules('ab_acc_yr', 'Accreditation Yr.', 'trim|required');
-			$this->form_validation->set_rules('ab_acc_expiry', 'Accreditation Expiry', 'trim|required');
+			$this->form_validation->set_rules('ag_name', 'Guide Name', 'trim|required');
+			$this->form_validation->set_rules('ag_acc_no', 'Accreditation No.', 'trim|required');
+			$this->form_validation->set_rules('ag_acc_yr', 'Accreditation Yr.', 'trim|required');
+			$this->form_validation->set_rules('ag_acc_expiry', 'Accreditation Expiry', 'trim|required');
 			
 
 			if ($this->form_validation->run() === FALSE)
 			{
-				$data['title'] = 'User Management - Add user';
+				$data['title'] = 'New guide';
 				
 				$this->load->view('templates/header', $data);
-				$this->load->view('users/add');
+				$this->load->view('guides/add');
 				$this->load->view('templates/footer');
 
 			}
 			else
 			{
-				$username = $this->input->post('username');
-				$password = $this->input->post('password');
-				$email = $this->input->post('email');
-				$firstname = $this->input->post('firstname');
-				$lastname = $this->input->post('lastname');
-				$organization = $this->input->post('organization');
-				$status = $this->input->post('user_status');
+				
+				$ag_name = $this->input->post('ag_name');
+				$ag_acc_no = $this->input->post('ag_acc_no');
+				$ag_acc_yr = $this->input->post('ag_acc_yr');
+                $ag_acc_expiry = $this->input->post('ag_acc_expiry');
+                $ag_remarks = $this->input->post('ag_remarks');
+				$ag_status = $this->input->post('ag_status');
 				
 								
-				$additional_data = array(
-								'first_name' => $firstname,
-								'last_name' => $lastname,
-								'active' => $status,
-								'company' => $organization
+				$data = array(
+								'ag_name' => $ag_name,
+								'ag_acc_no' => $ag_acc_no,
+								'ag_acc_yr' => $ag_acc_yr,
+                                'ag_acc_expiry' => $ag_acc_expiry,
+                                'ag_remarks' => $ag_remarks,
+                                'ag_status' => $ag_status
 								);
-				$group = array('2'); // Sets user to admin.
-				$this->ion_auth->register($username, $password, $email, $additional_data, $group);
+				$this->guides_model->set_guide($data);
 				
-				$data['title'] = 'User Management';
+				$data['title'] = 'Guides';
 				$data['alert_success'] = TRUE;
 				
 				$this->load->view('templates/header', $data);
-				$this->load->view('users/add');
+				$this->load->view('guides/add');
 				$this->load->view('templates/footer');
 			}
 
@@ -105,107 +104,74 @@ class guides extends CI_Controller {
 		
 		
 		//update user data        
-		public function edit($id = NULL) 
-		{
-		
-			$this->load->helper('form');
+		public function edit($id = NULL) {
+
+            if (empty($id)) {
+                redirect('guides');
+            }
+
+            $this->load->helper('form');
 			$this->load->library('form_validation');
-			$this->load->helper('email'); //use to email logins
-			
-			$this->form_validation->set_rules('firstname', 'First name', 'trim|required');
-			$this->form_validation->set_rules('lastname', 'Last name', 'trim|required');
-			$this->form_validation->set_rules('organization', 'Organization/Affiliation', 'trim|required');
+            
+            $this->form_validation->set_rules('ag_name', 'Guide Name', 'trim|required');
+			$this->form_validation->set_rules('ag_acc_no', 'Accreditation No.', 'trim|required');
+			$this->form_validation->set_rules('ag_acc_yr', 'Accreditation Yr.', 'trim|required');
+			$this->form_validation->set_rules('ag_acc_expiry', 'Accreditation Expiry', 'trim|required');
 
-			if ($this->form_validation->run() === FALSE)
-			{
-				if (empty($id))
-				{
-					redirect('users');
-				}
+			if ($this->form_validation->run() === FALSE) {
 				
-				$data['title'] = 'User Management - Edit User';
-				$data['user'] = $this->users_model->get_user_by_id($id);
+                $data['id'] = $id;
+                $data['guide'] = $this->guides_model->get_guide_by_id($id);
+				$data['title'] = 'Edit guide details';
 				
 				$this->load->view('templates/header', $data);
-				$this->load->view('users/edit', $data);
+				$this->load->view('guides/edit', $data);
 				$this->load->view('templates/footer');
 
 			}
-			else
-			{
-				$password = $this->input->post('password');
-				$passconf = $this->input->post('passconf');
-				$email = $this->input->post('email');
-				$firstname = $this->input->post('firstname');
-				$lastname = $this->input->post('lastname');
-				$organization = $this->input->post('organization');
-				$status = $this->input->post('user_status');
-				$user_id = $this->input->post('user_id');
+			else {
+                
+                $ag_name = $this->input->post('ag_name');
+				$ag_acc_no = $this->input->post('ag_acc_no');
+				$ag_acc_yr = $this->input->post('ag_acc_yr');
+                $ag_acc_expiry = $this->input->post('ag_acc_expiry');
+                $ag_remarks = $this->input->post('ag_remarks');
+				$ag_status = $this->input->post('ag_status');
 								
-				$newdata = array(
-								'email' => $email,
-								'first_name' => $firstname,
-								'last_name' => $lastname,
-								'company' => $organization,
-								'active' => $status
+				$data = array(
+								'ag_name' => $ag_name,
+								'ag_acc_no' => $ag_acc_no,
+								'ag_acc_yr' => $ag_acc_yr,
+                                'ag_acc_expiry' => $ag_acc_expiry,
+                                'ag_remarks' => $ag_remarks,
+                                'ag_status' => $ag_status
 								);
-								
-				if ($password <> '') 
-				{
-					if ($password == $passconf)
-					{
-						$newdata['password'] = $password;
-						$data['alert_fail'] = FALSE;
-					}
-					else
-					{
-						$data['alert_fail'] = TRUE;
-						$data['messages'] = 'Passwords do not match';
-					}
-				}
-				else
-				{
-					$data['alert_fail'] = FALSE;
-				}
-				
-				//echo '<pre>';
-				//echo 'POST: '; print_r($_POST);
-				//echo 'newdata: ';print_r($newdata);
-				//echo 'data: ';print_r($data);
-				//echo 'user_id: '.$user_id;
-				//echo '</pre>';
-
-				if (!$data['alert_fail']) 
-				{
-				
-					if ($this->ion_auth->update($user_id, $newdata)) 
-					{
-						unset($data);
-						$data['title'] = 'User Management - Edit User';
-						$data['alert_success'] = TRUE;
-						$data['user'] = $this->users_model->get_user_by_id($user_id);				
-					}
-					else
-					{
-						$data['messages'] = $this->ion_auth->messages();
-					}
-					
-				}
-				else
-				{
-					$data['title'] = 'User Management - Edit User';
-					$data['user'] = $this->users_model->get_user_by_id($user_id);
-					
-				}
-				//echo '<pre>'; echo 'data: ';print_r($data); echo '</pre>';
-				//die();
-				
+				$this->guides_model->update_guide($id, $data);
+                
+                $data['id'] = $id;
+                $data['guide'] = $this->guides_model->get_guide_by_id($id);
+				$data['title'] = 'Edit guide details';
+                $data['alert_success'] = 'Entry updated.';
+                
 				$this->load->view('templates/header', $data);
-				$this->load->view('users/edit', $data);
+				$this->load->view('guides/edit', $data);
 				$this->load->view('templates/footer');
 				
 			}
 			
-		}
+        }
+        
+
+    /** Export functions */
+
+		public function all_to_excel() {
+            //export all data to Excel file
+                $this->load->library('export');
+                $sql = $this->guides_model->get_all_guides();
+                $filename = 'DTIS_all_guides_'.date('Y-m-d-Hi');
+                $this->export->to_excel($sql, $filename); 
+                
+            }
+
 		
 }

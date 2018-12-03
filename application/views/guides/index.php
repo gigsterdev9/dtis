@@ -74,11 +74,12 @@
 				<thead>
 					<tr>
 						<th width="2%">&nbsp;</th>
-						<th width="23%">Guide Name</th>
-                        <th width="20%">Accreditation Number</th>
-						<th width="15%">Accreditation Year</th>
-                        <th width="15%">Expiry Year</th>
-                        <th width="25%">Remarks</th>
+						<th width="20%">Guide Name</th>
+                        <th width="10%">Status</th>
+                        <th width="18%">Accreditation Number</th>
+						<th width="10%">Accreditation Year</th>
+                        <th width="10%">Expiry Year</th>
+                        <th width="30%">Remarks</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -91,7 +92,19 @@
 						<td>
                             <i class="far fa-file"></i>
 						</td>
-						<td><?php echo $g['ag_name'] ?></td>
+						<td>
+                            <a href="<?php echo site_url('guides/edit/'.$g['ag_id']); ?>"><?php echo $g['ag_name'] ?></a>
+                        </td>
+                        <td>
+                            <?php 
+                            switch ($g['ag_status']) {
+                                case 1: echo 'Active'; break;
+                                case 2: echo 'Suspended'; break;
+                                case 3: echo 'Terminated'; break;
+                                default: echo 'Undefined';
+                            }
+                            ?>
+                        </td>
                         <td><?php echo $g['ag_acc_no'] ?></td>
                         <td><?php echo $g['ag_acc_yr'] ?></td>
                         <td><?php echo $g['ag_acc_expiry'] ?></td>
@@ -113,17 +126,6 @@
     <div class="container-fluid">
 		<small>
         <?php 
-            /*
-			if (isset($filterval)) { 
-				$url = 'guides/filtered_to_excel/'.$filterval[0].'/'.$filterval[1];
-			} 
-			else if (isset($searchval)) {
-				$url = 'guides/results_to_excel/'.$searchval;
-			}
-			else {
-				$url = 'guides/all_to_excel';
-			}
-            */
             $url = 'guides/all_to_excel';
             if ($guides['result_count'] > 0) echo '<a href="'.$url.'" target="_blank"><i class="fas fa-file-excel"></i> Export to Excel &raquo;</a>';	
 				//echo '<a href="#">Export to Excel &raquo;</a>';	

@@ -240,8 +240,8 @@ class Visits extends CI_Controller {
             }
             $data['visitor_id'] = $visitor_id;
             $data['visitor_fullname'] = $vd['fname'].' '.$vd['mname'].' '.$vd['lname'];
-            $data['guides'] = $this->guides_model->get_all_guides();
-            $data['boats'] = $this->boats_model->get_all_boats(); 
+            $data['guides'] = $this->guides_model->get_active_guides();
+            $data['boats'] = $this->boats_model->get_active_boats(); 
             //echo '<pre>'; print_r($data['boats']); echo '</pre>'; 
 
             //generate boarding pass

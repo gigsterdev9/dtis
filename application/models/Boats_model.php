@@ -22,6 +22,19 @@ class boats_model extends CI_Model {
 
 		return $query->result_array();
 
+    }
+    
+    public function get_active_boats($limit = 0, $start = 0) {
+		
+		$this->db->select("*");
+		$this->db->from('accredited_boats');
+		$this->db->where('ab_status = 1 and ab_trash = 0');
+		$this->db->order_by('ab_id', 'ASC');
+		$this->db->limit($limit, $start);
+		$query = $this->db->get();
+
+		return $query->result_array();
+
 	}
 
 	public function get_boat_by_id($id = FALSE, $include_trashed = TRUE) {
@@ -50,6 +63,7 @@ class boats_model extends CI_Model {
 			$data = array(
                     'ab_name' => $this->input->post('ab_name'),
                     'ab_operator' => $this->input->post('ab_operator'),
+                    'ab_status' => $this->input->post('ab_status'),
                     'ab_acc_no' => $this->input->post('ab_acc_no'),
                     'ab_acc_yr' => $this->input->post('ab_acc_yr'),
                     'ab_acc_expiry' => $this->input->post('ab_acc_expiry'),
@@ -76,6 +90,7 @@ class boats_model extends CI_Model {
             $data = array(
                 'ab_name' => $this->input->post('ab_name'),
                 'ab_operator' => $this->input->post('ab_operator'),
+                'ab_status' => $this->input->post('ab_status'),
                 'ab_acc_no' => $this->input->post('ab_acc_no'),
                 'ab_acc_yr' => $this->input->post('ab_acc_yr'),
                 'ab_acc_expiry' => $this->input->post('ab_acc_expiry'),

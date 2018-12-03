@@ -62,6 +62,7 @@ $route['boats'] = 'boats';
 $route['guides/view/(:any)'] = 'guides/view/$1';
 $route['guides/edit/(:any)'] = 'guides/edit/$1';
 $route['guides/add'] = 'guides/add';
+$route['guides/all_to_excel'] = 'guides/all_to_excel';
 $route['guides/(:any)'] = 'guides';
 $route['guides'] = 'guides';
 

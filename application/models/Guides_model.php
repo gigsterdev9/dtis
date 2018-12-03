@@ -24,6 +24,19 @@ class guides_model extends CI_Model {
 
 	}
 
+    public function get_active_guides($limit = 0, $start = 0) {
+		
+		$this->db->select("*");
+		$this->db->from('accredited_guides');
+		$this->db->where('ag_status = 1 and ag_trash = 0');
+		$this->db->order_by('ag_id', 'ASC');
+		$this->db->limit($limit, $start);
+		$query = $this->db->get();
+
+		return $query->result_array();
+
+	}
+
 	public function get_guide_by_id($id = FALSE, $include_trashed = TRUE) {
 		if ($id === FALSE) {
 			return 0;
@@ -49,6 +62,7 @@ class guides_model extends CI_Model {
 		if ($data == NULL) {
 			$data = array(
                     'ag_name' => $this->input->post('ag_name'),
+                    'ag_status' => $this->input->post('ag_status'),
                     'ag_acc_no' => $this->input->post('ag_acc_no'),
                     'ag_acc_yr' => $this->input->post('ag_acc_yr'),
                     'ag_acc_expiry' => $this->input->post('ag_acc_expiry'),
@@ -74,6 +88,7 @@ class guides_model extends CI_Model {
         if ($data == NULL) {
             $data = array(
                 'ag_name' => $this->input->post('ag_name'),
+                'ag_status' => $this->input->post('ag_status'),
                 'ag_acc_no' => $this->input->post('ag_acc_no'),
                 'ag_acc_yr' => $this->input->post('ag_acc_yr'),
                 'ag_acc_expiry' => $this->input->post('ag_acc_expiry'),

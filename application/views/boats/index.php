@@ -74,12 +74,13 @@
 				<thead>
 					<tr>
 						<th width="2%">&nbsp;</th>
-						<th width="18%">Boat Name</th>
+						<th width="12%">Boat Name</th>
                         <th width="15%">Operator</th>
+                        <th width="8%">Status</th>
                         <th width="16%">Accreditation Number</th>
 						<th width="12%">Accreditation Year</th>
                         <th width="12%">Expiry Year</th>
-                        <th width="25%">Remarks</th>
+                        <th width="23%">Remarks</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -94,6 +95,16 @@
 						</td>
 						<td><?php echo $b['ab_name'] ?></td>
                         <td><?php echo $b['ab_operator'] ?></td>
+                        <td>
+                            <?php 
+                            switch ($b['ab_status']) {
+                                case 1: echo 'Active'; break;
+                                case 2: echo 'Suspended'; break;
+                                case 3: echo 'Terminated'; break;
+                                default: echo 'Undefined';
+                            }
+                            ?>
+                        </td>
                         <td><?php echo $b['ab_acc_no'] ?></td>
                         <td><?php echo $b['ab_acc_yr'] ?></td>
                         <td><?php echo $b['ab_acc_expiry'] ?></td>
