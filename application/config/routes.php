@@ -107,5 +107,7 @@ $route['users'] = 'users/index';
 $route['users/add'] = 'users/add';
 $route['users/mod'] = 'users/mod';
 
+$route['api/visitors'] = 'api/visitors';
+
 $route['(:any)'] = 'pages/view/$1';
 $route['default_controller'] = 'pages/view';

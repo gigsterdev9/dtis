@@ -486,6 +486,21 @@ class visitors_model extends CI_Model {
         //echo $this->db->last_query(); die();
         
 		return;
-	}
+    }
+    
+
+    //API-related query
+    public function api_get_visitors() {
+		
+		$this->db->select("concat(lname, ' ', fname) as fullname, nationality, floor((DATEDIFF(CURRENT_DATE, STR_TO_DATE(bdate, '%Y-%m-%d'))/365)) as age");
+		$this->db->from('visitors');
+		$this->db->where('trash = 0');
+		$this->db->order_by('fullname', 'asc');
+		$query = $this->db->get();
+
+		return $query->result_array();
+
+    }
+
 
 }
