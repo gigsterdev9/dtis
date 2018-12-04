@@ -103,11 +103,14 @@ $route['photoid'] = 'photoid';
 $route['login'] = 'auth/login';
 $route['logout'] = 'auth/logout';
 
-$route['users'] = 'users/index';
 $route['users/add'] = 'users/add';
 $route['users/mod'] = 'users/mod';
+$route['users'] = 'users';
 
-$route['api/visitors'] = 'api/visitors';
+$route['settings/edit/(:any)'] = 'settings/edit/$1';
+$route['settings'] = 'settings';
+
+$route['api/visitors/(:any)'] = 'api/visitors/$1';
 
 $route['(:any)'] = 'pages/view/$1';
 $route['default_controller'] = 'pages/view';
